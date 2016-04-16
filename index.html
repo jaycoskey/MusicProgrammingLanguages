@@ -58,6 +58,22 @@
 			<a href="#/title">&#x25c1;</a>
 			Introduction
 			<a href="#/euterpea">&#x25b7;</a>
+		</h2>
+		<div style="text-align: left;">
+		<blockquote>
+		"To play the wrong note is insignificant; to play without passion is inexcusable."
+		- Beethoven
+		</blockquote>
+		<ul>
+			<li> Music is universal and ancient:
+			humans were carving flutes from bone
+			<a href="http://www.nytimes.com/2016/02/09/science/new-ways-into-the-brains-music-room.html">
+			+40K years ago
+			</a>.
+			<li> Music has deep internal structures, and the psychology of music
+				is not fully understood.
+		</ul>
+		</div>
 		<aside class="notes"/>
 	</section>
 
@@ -163,6 +179,18 @@
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		<ul>
+			<li> Euterpea is not strictly speaking a music programming language.
+			<li> It's a Haskell library that's a good starting point for better
+					understanding the domain of tonal and full-spectrum music.
+			<li> Euterpea (and a related library and PDF called
+				The Haskell School of Music) was written by the late Paul Hudak,
+				together with
+					Hai ("Paul") Liu,
+					Eric Cheng,
+					Donya Quick, and
+					Daniel Winograd-Cort.
+			<li> It's now maintained by the last two, Quick and Winograd-Cort.
 		</div>
 		<aside class="notes"/>
 	</section>
@@ -198,37 +226,41 @@
 		</aside>
 	</section>
 
-	<section id="euterpea_representingmusic">
+	<section id="euterpea_model">
 		<h3>Euterpea &mdash; Modeling (Tonal) Music</h3>
 		<div style="text-align: left;">
 		At the heart of Euterpea's representation of music is the following Primitive:
-		<pre style="font-size: 32px; white-space: pre-line;">
+		<pre style="font-size: 32px;">
 		data Primitive = Note Dur Pitch
-				| Rest Dur
+			       | Rest Dur
 		</pre>
-		<p>
 		Type "Music" consists of Primitive events glued together
 			sequentially (w/ operator :+:)
 			or in parallel (with operator :=:),
 			or tagged with some contextual control information.
-		<pre style="font-size: 32px; white-space: pre-line;">
-		data Music a = Prim (Primitive a)         -- primitive value
-				| Music a :+: Music a      -- sequential composition
-				| Music a :=: Music a      -- parallel composition
-				| Modify Control (Music a) -- modifier
+		<pre style="font-size: 32px;">
+data Music a = Prim (Primitive a)       -- primitive value
+	     | Music a :+: Music a      -- sequential composition
+	     | Music a :=: Music a      -- parallel composition
+	     | Modify Control (Music a) -- modifier
 		</pre>
-		So the different constructors of Music are Prim, (:+:), (:=:), and Modify. 
+		So the different constructors of Music are Prim, (:+:), (:=:),
+		and Modify. 
 
-		A function "play" converts Music to a list of MEvents,
-		and sends them to MIDI output one-by-one, as time advances.
+		A function "play" uses defaults to perform some conversions:
+		<pre style="font-size: 32px; white-space: pre-line;">
+			Music ==> to Music1 (non-parameterized) ==> [MEvent] ==> [MidiMessage]
+		</pre>
+		The final MidiMessage list is then sent to a MIDI output.
 		</div>
-		<aside class="notes"/>
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="euterpea_frerejacques">
 	<h3>Euterpea &mdash; Fr&#x00c8;re Jacques</h3>
 		<div style="text-align: left;">
-			To play a few simple notes:
+			To play one or a few simple notes:
 			<pre style="font-size: 32px;">
 	import Euterpea
 	c :: Octave -> Dur -> Music Pitch
@@ -256,7 +288,7 @@
 		</aside>
 	</section>
 
-	<section id="euterpea_creatingPerformance">
+	<section id="euterpea_performance">
 		<h3>Euterpea &mdash; Creating a Performance</h3>
 		<div style="text-align: left;">
 		If we replace play with a more explicit version
@@ -279,6 +311,8 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			 -- , notatePlayer :: NotateFun -- Removed.
 			 }
 		</pre>
+		The PMap ("Player Map") mentioned above tells Euterpea which Player to use
+		for which instrument.
 		</div>
 		<aside class="notes">
 			<pre style="font-size: 32px; white-space: pre-line;"
@@ -297,12 +331,15 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 		</aside>
 	</section>
 
-	<section id="euterpea_simplePhraseAttribute">
+	<section id="euterpea_phraseAttribute">
 		<h3>Euterpea &mdash; A Simple Phrase Attribute</h3>
 		<div style="text-align: left;">
 		Let's look at a function to implement the core part
 			of one of the simplest phrase attributes, Crescendo,
 		which causes the volume of notes to grow over the lifetime of a phrase.
+		The function defined below modifies the volume of each note
+		(MEvent, actually) in a Performance, based on the timing of the note
+		within the performance
 		<pre style="font-size: 32px; " font-family="family-name:cursive;">
 myPasHandler :: PhraseAttribute -> Performance -> Performance
 myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
@@ -321,6 +358,7 @@ myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
 		}
 	boostVolsBy :: Rational -> [MEvent] -> [MEvent]
 	boostVolsBy x pf = map boostMEventVol pf
+
 myPasHandler pa                    pf = defPasHandler pa pf
 		</pre>
 		<aside class="notes">
@@ -386,6 +424,33 @@ s5 = constA 1000 >>> vibrato 5 20
 		<aside class="notes">
 		</aside>
 	</section>
+
+	<section id="euterpea_other">
+		<h3>Euterpea &mdash; Other Info</h3>
+		<div style="text-align: left;">
+		<ul>
+			<li> Chapter 17 of the PDF book Haskell School of Music introduces
+				Arrow-based Functional Reactive Programming (FRP) via the library
+				FRP.UISF.
+			<ul>
+				<li> A good place to learn more about it is
+				Daniel Winograd-Cort's
+				<a href="https://github.com/dwincort/UISF/tree/master/FRP/UISF/Examples">
+				UISF Examples
+				</a> on github.
+			</ul>
+			<li> Many other music programming languages have interfaces in Haskell,
+				so there can be communication between them and Euterpea.
+			<li> The
+				<a href="http://music-suite.github.io/docs/api/">
+				Haskell Music Suite
+				</a>
+				is based on Euterpea.
+				It's pretty slick.
+				It has a "back end" that supports printing tonal music via LilyPond,
+					but does not support soundscapes.
+		</ul>
+		<pre style="font-size: 32px; " font-family="family-name:cursive;">
 </section>
 
 <section id="section_csound">
@@ -396,6 +461,16 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/section_chuck">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		</div>
+		<aside class="notes"/>
+	</section>
+	
+	<section id="csound_other">
+		<h3>Csound &mdash; Other info</h3>
+		<div style="text-align: left;">
+		<ul>
+		<li> <a href="http://blue.kunstmusik.com/">Blue</a>
+			is a composition environment for Csound.
 		</div>
 		<aside class="notes"/>
 	</section>
@@ -475,7 +550,7 @@ s5 = constA 1000 >>> vibrato 5 20
 		<aside class="notes"/>
 	</section>
 
-	<section id="chuck_instrumentModeling">
+	<section id="chuck_instrument">
 		<h3>ChucK &mdash; Instrument Modeling</h3>
 		<div style="text-align: left;">
 		But wait, there's more!  ChucK doesn't just dutifully chuck data around.
@@ -504,9 +579,10 @@ s5 = constA 1000 >>> vibrato 5 20
 		<aside class="notes"/>
 	</section>
 
-	<section id="chuck_TheGoodAndTheBad">
-		<h3>ChucK &mdash; The Good &amp; The Bad</h3>
+	<section id="chuck_other">
+		<h3>ChucK &mdash; Other info</h3>
 		<div style="text-align: left;">
+		The Good &amp; The Bad
 			<ul>
 			<li> What ChucK does well: Signal processing and musical instrument acoustic modeling.
 			<li> What ChucK doesn’t do as well: Programmatic expressiveness and musical expressiveness.
@@ -524,6 +600,42 @@ s5 = constA 1000 >>> vibrato 5 20
 							fundamental language limitations.
 				</ul>
 			</ul>
+		</div>
+		<aside class="notes"/>
+	</section>
+</section>
+
+<section id="section_overtone">
+	<section id="overtone">
+		<h2 style="background-color: #d0d0ff;">
+			<a href="#/section_chuck">&#x25c1;</a>
+			Overtone and Leipzig
+			<a href="#/section_puredata">&#x25b7;</a>
+		</h2>
+		<div style="text-align: left;">
+		Overtone is a lisp-like language that controls different oscillators.
+		
+		Here are some exerpts from the song "Tuesday", which can be found
+		<a href="https://www.snip2code.com/Snippet/176938/Tuesday---written-with-Overtone-and-Leip">
+		here
+		</a>:
+		<pre style="font-size: 32px;">
+(definst metallia [freq 440 dur 1 volume 1.0]
+    (-> (sin-osc freq (sin-osc 1))
+	(+ (sin-osc (* 1/2 freq) (sin-osc 1/3)))
+	(clip2 (mul-add (saw 1/4) 0.2 0.7))
+	(* (env-gen (adsr 0.03 0.6 0.3) (line:kr 1 0 dur) :action FREE))
+	(* 1/4 volume)))
+
+(defn minor [chord] (update-in chord [:iii] (scale/from -1/2)))
+
+(def melody
+    (->>
+	(phrase [2/3 13/3 5/3 9/3 1/3 2/3 13/3 2/3 13/3]
+		[  1    2   1   0   0   1    2   3    0])
+	(where :pitch scale/raise)
+	(where :part (is :melody))))
+		</pre>
 		</div>
 		<aside class="notes"/>
 	</section>
@@ -696,8 +808,31 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		<p> Music:
+		<ul>
+			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040"
+				The Jazz Theory Book
+				</a>, by Mark Levine
+			<li> The
+				<a href="http://en.wikipedia.org/wiki/Amen_break">
+					Amen Break
+				</a>
+			<li> Sheet music: General
+				(<a href="http://imslp.org/wiki/">
+					International Music Score Library Project
+				</a>)
+				and <a href="http://www.bandmusicpdf.org/">
+					Band music
+				</a>
+			<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
+					Visualization of music by Bach and others
+				</a>
 		</p>
-		<p> Music Programming Languages:
+		<p> Music Programming:
+		<ul>
+			<li> <a href="http://www.mat.ucsb.edu/res_proj7.php">
+				Sonification of the cosmic microwave background
+				</a>
+		</ul>
 		</p>
 		<p> Colophon:
 			<br>- <a href="https://github.com/hakimel/reveal.js">reveal.js source code &amp; documentation</a>
@@ -733,6 +868,43 @@ s5 = constA 1000 >>> vibrato 5 20
 </script>
 </body>
 </html>
+
+<!-- Euterpea notes:
+			<pre sytle="font-size: 32px;">
+			playA :: (ToMusic1 a, Control.DeepSeq.NFData a)
+					=> PMap Note1 -> Context Note1 -> Music a -> IO ()
+					(This calls playC)
+			playC :: (ToMusic1 a, Control.DeepSeq.NFData a)
+					=> PlayParams -> Music a -> IO ()
+					(This calls playStrict or playInf)
+			playStrict :: (ToMusic1 a, NFData a)
+					=> PlayParams -> Music a -> IO ()
+			playStrict p m = m `deepseq`
+				let x = toMidi (perfAlg p $ toMusic1 m)
+				in x `deepseq` playM' (devID p) x
+					(So this calls toMusic1, toMidi, and playM')
+			toMusic1 :: Music a -> Music1
+				has instances for: Pitch, (Pitch, Volume), Note1, AbsPitch
+			toMidi:: [MEvent] -> Midi
+			toMidi = toMidiUPM defUpm
+			toMidiUPM :: UserPatchMap -> [MEvent] -> Midi
+			playM' :: Maybe OutputDeviceID -> Midi -> IO ()
+					(This calls playMidi)
+			data Midi = Midi { fileType :: FileType}
+							 , timeDiv :: TimeDiv
+							 , tracks :: [Track Ticks]
+							 }
+			playMidi :: OutputDeviceID -> Midi -> IO ()
+			type MidiEvent = (Time, MidiMessage)
+			data MidiMessage = ANote { channel :: !Channel
+									 , key :: !Key
+									 , velocity :: !Velocity
+									 , duration :: !Time
+									 }
+							 | Std Message
+			type MidiEvent = (Time, MidiMessage)
+			</pre>
+-->
 
 <!-- reveal.js notes:
 	Setting up reveal.js:
