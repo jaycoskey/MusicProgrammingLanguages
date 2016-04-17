@@ -65,7 +65,7 @@
 		- Beethoven
 		<br/><br/>
 		<div style="text-align: left;">
-		Music runs long and deep through the human psyche:
+		<b>Music runs long and deep through the human psyche:</b>
 		<ul>
 			<li> Music is universal and ancient:
 			humans were carving flutes from bone
@@ -78,14 +78,14 @@
 				and opera music can bring people to tears.
 		</ul>
 		<br/><br/>
-		Music software provides an alternative to traditional music training:
+		<b>Music software provides an alternative to traditional music training:</b>
 		<ul>
 			<li> Traditional training (performance/composition) can take over a decade for mastery.
 			<li> Can this be shortened if software is used as the instrument?
 			<li> Is the maximum fluency achievable greater with software as the instrument?
 		</ul>
 		<br/><br/>
-		Music software can do some things formerly done only by humans:
+		<b>Music software can do some things formerly done only by humans:</b>
 		<ul>
 			<li> Software can detect similarities within a piece and within a corpus.
 			<li> Feature extraction and machine learning can
@@ -107,7 +107,7 @@
 	<section id="intro_tonal">
 		<h3>Introduction &mdash; Tonal Music</h3>
 		<div style="text-align: left;">
-		Examples of tonal music: "Greensleeves", "Mary Had a Little Lamb"
+		Tonal music examples: "Greensleeves", "Mary Had a Little Lamb"
 		<ul>
 			<li> Acoustics, instruments, composition, play/record, visualization, psychology
 			<li> Time domain: Rhythm
@@ -128,7 +128,7 @@
 	<section id="intro_soundscapes">
 		<h3>Introduction &mdash; Soundscapes</h3>
 		<div style="text-align: left;">
-		Examples of soundscapes: The THX Sound Effect
+		Soundscape examples: The THX Sound Effect
 		("<a href="https://www.youtube.com/watch?v=M3lO9Dt3kjA">Deep Sound</a>"), or the
 		<a href="https://www.youtube.com/watch?v=-0tPBQddeJs">Futurama Theme</a>
 		<ul>
@@ -146,6 +146,10 @@
 		<ul>
 			<li> Joke: Seven years after Jim Backus invented Fortran, he was stranded with
 				six other castaways on Gilligan's Island.
+			<li> The Futurama Theme is based on a trippy 1967 song called
+				<a href="https://www.youtube.com/watch?v=AOqfWj0HqNE">
+				Psyché Rock
+				</a> by Pierre Henry.
 		</ul>
 		</aside>
 	</section>
@@ -413,7 +417,6 @@ myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
 	propTime t = (t - t0) / perfDur
 	propVolDelta :: PTime -> Rational
 	propVolDelta t = x * (propTime t)
-	-- inRange mn mx x = min mx $ max mn x
 	newVol t v = round((1 + (propVolDelta t)) * (fromIntegral v))
 	boostMEventVol (e@MEvent {eTime = t, eVol = v})
 		= e { eVol = trace ("Vol=" ++ show (newVol t v))
