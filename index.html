@@ -83,7 +83,6 @@
 			<li> Traditional training (performance/composition) can take over a decade for mastery.
 			<li> Can this be shortened if software is used as the instrument?
 			<li> Is the maximum fluency achievable greater with software as the instrument?
-			</ul>
 		</ul>
 		<br/><br/>
 		Music software can do some things formerly done only by humans:
@@ -123,7 +122,7 @@
 			<li> Tools: Scorewriters (e.g., MuseScore, Finale, Sibelius)
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="intro_soundscapes">
@@ -163,7 +162,7 @@
 			<li> Song search (incl. search by humming), song recommendations
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="intro_languages">
@@ -191,7 +190,7 @@
 			</ul>
 		<ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -203,8 +202,35 @@
 			<a href="#/section_euterpea">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		Some simple music programming languages don't support variables or loops,
+			so they can't support any of the more complex use cases.
+		<br/><br/>
+		But they can be good for representing scores in song databases.  Here's a brief taste.
+		<ul>
+			<li> ABC notation (v2.1 - Dec 2011) is a concise, popular, and well-supported
+				<pre style="font-size: 32px; white-space: pre-line;">
+				T:Mary had a little lamb
+				M:C		% meter
+				L:1/4   % basic note length
+				K:F		% key
+				AGFG|AAA2|GGG2|AAA2|
+				AGFG|AAAA|GGAG|F4|]
+				</pre>
+			<li> LilyPond is useful for printing scores.
+				<pre style="font-size: 32px; white-space: pre-line;">
+				song = \relative c' {
+					\clef treble
+					\key c \major
+					\time 4/4
+					e4 d c d e e e2 d4 d d2 e4 e e2
+					e4 d c d e e e c d d e d c2 r2
+				}
+				\score { \new Staff \song }
+				</pre>
+			<li> MusicTeX is also available to add scores into TeX documents.
+		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -212,12 +238,12 @@
 	<section id="euterpea">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_transcription">&#x25c1;</a>
-			Euterpea
+			Euterpea2
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		<ul>
-			<li> Euterpea is not strictly speaking a music programming language.
+			<li> Euterpea (v2) is not strictly speaking a music programming language.
 			<li> It's a Haskell library that's a good starting point for better
 					understanding the domain of tonal and full-spectrum music.
 			<li> Euterpea (and a related library and PDF called
@@ -229,7 +255,7 @@
 					Daniel Winograd-Cort.
 			<li> It's now maintained by the last two, Quick and Winograd-Cort.
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="euterpea_geting_started">
@@ -402,8 +428,8 @@ myPasHandler pa                    pf = defPasHandler pa pf
 		</aside>
 	</section>
 
-	<section id="euterpea_soundscape1">
-		<h3>Euterpea &mdash; Creating Other Sounds (1/2)</h3>
+	<section id="euterpea_soundscape">
+		<h3>Euterpea &mdash; Creating Other Sounds</h3>
 		<div style="text-align: left;">
 		Euterpea also supports more general sound creation using Arrows (see Control.Arrow).
 		<pre style="font-size: 32px; " font-family="family-name:cursive;">
@@ -412,35 +438,10 @@ myPasHandler pa                    pf = defPasHandler pa pf
 z <- sigFunc -< (x, y)		    -- Signal function
 		</pre>
 		<pre style="font-size: 32px; " font-family="family-name:cursive;">
-{-# LANGUAGE Arrows +-}
+{-# LANGUAGE Arrows #-}
 module Euterpea.Examples.SigFuns where
 import Euterpea
 import Control.Arrow ((>>>),(<<<),arr)
-
-s1 :: Clock c => SigFun c () Double
-s1 = proc () -> do
-       s <- oscFixed 440 -< ()
-       outA -< s
-
-tab1 :: Table
-tab1 = tableSinesN 4096 [1]
-s2 :: Clock c => SigFun c () Double
-s2 = proc () -> do
-       osc tab1 0 -< 440
-		</pre>
-		<aside class="notes">
-		</aside>
-	</section>
-
-	<section id="euterpea_soundscape1">
-		<h3>Euterpea &mdash; Creating Other Sounds (2/2)</h3>
-		<div style="text-align: left;">
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
-tab2 = tableSinesN 4096 [1.0, 0.5, 0.33]
-s3 :: Clock c => SigFun c () Double
-s3 = proc () -> do
-       osc tab2 0 -< 440
-
 
 s4 :: Clock c => SigFun c () Double
 s4 = proc () -> do
@@ -455,11 +456,56 @@ vibrato vfrq dep = proc afrq -> do
   vib  <- osc tab1  0 -< vfrq
   aud  <- osc tab2  0 -< afrq + vib * dep
   outA -< aud
+
 s5 :: AudSF () Double
 s5 = constA 1000 >>> vibrato 5 20
 		</pre>
-		<aside class="notes">
-		</aside>
+		<aside class="notes" />
+	</section>
+
+	<section id="euterpea_codingStandards">
+	<h3>Euterpea &mdash; Some music coding standards</h3>
+		<div style="text-align: left;">
+		<ol>
+		<li> <b>Represent compositions as concatenations of smaller sub-compositions ("pieces")
+				in a regular way, such as by instrument and measure(s).</b>
+			<ul>
+				<li> Consider naming the pieces to reflect the structure of this decomposition.
+				<ul>
+					<li> E.g., sonata_violin_1_4 could contain measures 1 through 4.
+				</ul>
+				<li> If a piece contains multiple measures, consider putting each measure
+					on a separate line.
+				<li> Identify and extract duplicated subexpressions and other structures.
+				<ul>
+					<li> If the subexpression is associated with particular lyrics
+						consider using the lyrics in the name of the variable.
+				</ul>
+
+				<li> Identify nearly-duplicated subexpressions, and use functions
+					to extract the similarity.
+			</ul>
+		<br/>
+		<li> <b>Perform validation tests:</b>
+			<ul>
+				<li> Validate that all pieces have the expected duration.
+				<li> Validate that all expected instruments are present.
+			</ul>
+		<br/>
+		<li> <b>Perform live testing:</b>
+			<ul>
+				<li> Listening to compositions will help detect some issues.
+				<li> Play melodies in parallel to detect differences/intervals.
+			</ul>
+		<br/>
+		<li> <b>Derive metrics to be used in testing:</b>
+			<ul>
+				<li> Just as images can be associated with color histograms,
+					short segments of music can be associated (via FFTs) with frequency histograms.
+			</ul>
+		</ol>
+		</div>
+		<aside class="notes" />
 	</section>
 
 	<section id="euterpea_other">
@@ -487,7 +533,9 @@ s5 = constA 1000 >>> vibrato 5 20
 				It has a "back end" that supports printing tonal music via LilyPond,
 					but does not support soundscapes.
 		</ul>
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		</div>
+		<aside class="notes" />
+	</section>
 </section>
 
 <section id="section_csound">
@@ -499,17 +547,18 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
-	
+
 	<section id="csound_other">
 		<h3>Csound &mdash; Other info</h3>
 		<div style="text-align: left;">
 		<ul>
 		<li> <a href="http://blue.kunstmusik.com/">Blue</a>
 			is a composition environment for Csound.
+		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -522,7 +571,7 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="chuck_hellosinewave">
@@ -545,27 +594,26 @@ s5 = constA 1000 >>> vibrato 5 20
 			<li> Sending a duration to "now" causes time to advance, which streams output to the dac, which creates sound.
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="chuck_moreinfo">
 		<h3>ChucK &mdash; More Info</h3>
-		</h2>
 		<div style="text-align: left;">
 		<ul>
 			<li> Musical notes can be referenced by their MIDI Note Numbers, and converted to actual frequencies by Std.mtof().
 			<li> A 3-note chord can be represented by an array of SinOsc objects: SinOsc chord[3];
 			<li> ChucK uses the whimsical terms "shreds" and "spork" for processes and forks.
-				<ul>
+			<ul>
 				<li> Scripted and compiled plug-ins are called Chugens and ChuGins.
-				</ul>
+			</ul>
 			<li> To emulate rests, have time advance in a scope without audio streams.  Add notes in function calls.
 			<li> Different instruments can be represented via different "shreds".  Events are used to communicate between shreds.
 			<li> For stereo, dac has fields called .left and .right.  For quadraphonic sound, use the .chan field.
 			<li> ChucK can be run in what I'll call "performance mode", where a script can be updated as it's running.
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="chuck_echo">
@@ -584,7 +632,7 @@ s5 = constA 1000 >>> vibrato 5 20
 	while (true) 1::second => now;
 		</pre>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="chuck_instrument">
@@ -612,8 +660,9 @@ s5 = constA 1000 >>> vibrato 5 20
 			<li> Note the feedback line that connects plucked to itself.
 					This reflects how the action of a plucked string is dependent
 					on its action at previous moments in time.
+		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="chuck_other">
@@ -638,7 +687,7 @@ s5 = constA 1000 >>> vibrato 5 20
 				</ul>
 			</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -674,7 +723,7 @@ s5 = constA 1000 >>> vibrato 5 20
 	(where :part (is :melody))))
 		</pre>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -687,7 +736,7 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -700,7 +749,7 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="supercollider_language">
@@ -730,7 +779,7 @@ s5 = constA 1000 >>> vibrato 5 20
 	};
 	factorial.(5).postln;
 		</pre>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="supercollider_basics">
@@ -781,7 +830,7 @@ s5 = constA 1000 >>> vibrato 5 20
 			<li> Latch, which wraps another signal with an all-or-nothing filter.
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 
 	<section id="supercollider_complex">
@@ -831,8 +880,9 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		TODO: Add content
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -844,9 +894,10 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/title">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		<p> Music Theory
-		<ul>
-			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040"
+		<ol>
+		<li> Music Theory
+		  <ul>
+			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
 				The Jazz Theory Book
 				</a>, by Mark Levine
 			<li> Sheet music: 
@@ -862,19 +913,21 @@ s5 = constA 1000 >>> vibrato 5 20
 			<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
 					Visualization of music by Bach and others
 				</a>
-		</p>
-		<p> Music Programming:
-		<ul>
+		  </ul>
+		<li> Music Programming:
+		  <ul>
 			<li> <a href="http://www.mat.ucsb.edu/res_proj7.php">
 				Sonification of the cosmic microwave background
 				</a>
-		</ul>
-		</p>
-		<p> Colophon:
-			<br>- <a href="https://github.com/hakimel/reveal.js">reveal.js source code &amp; documentation</a>
-		</p>
+		  </ul>
+		<li> Colophon:
+		  <ul>
+			<li> <a href="https://github.com/hakimel/reveal.js">
+				reveal.js source code &amp; documentation
+				</a>
+		  </ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes" />
 	</section>
 </section>
 
