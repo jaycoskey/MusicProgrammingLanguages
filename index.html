@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 	<link rel="stylesheet" href="css/reveal.css">
-	<link rel="stylesheet" href="css/beige.css" id="theme">
+	<link rel="stylesheet" href="css/white.css" id="theme">
 
 	<!-- Code syntax highlighting -->
 	<link rel="stylesheet" href="css/zenburn.css">
@@ -59,59 +59,96 @@
 			Introduction
 			<a href="#/euterpea">&#x25b7;</a>
 		</h2>
-		<div style="text-align: left;">
-		<blockquote>
+		<em>
 		"To play the wrong note is insignificant; to play without passion is inexcusable."
+		</em>
 		- Beethoven
-		</blockquote>
+		<br/><br/>
+		<div style="text-align: left;">
+		Music runs long and deep through the human psyche:
 		<ul>
 			<li> Music is universal and ancient:
 			humans were carving flutes from bone
-			<a href="http://www.nytimes.com/2016/02/09/science/new-ways-into-the-brains-music-room.html">
-			+40K years ago
+			<a href="http://news.nationalgeographic.com/news/2009/06/090624-bone-flute-oldest-instrument.html">
+			40K years ago
 			</a>.
 			<li> Music has deep internal structures, and the psychology of music
 				is not fully understood.
+			<li> Movie music can turn a mediocre film into a great one,
+				and opera music can bring people to tears.
 		</ul>
-		</div>
-		<aside class="notes"/>
-	</section>
-
-	<section id="intro_domain">
-		<h3>The Domain of Music</h3>
-		<div style="text-align: left;">
+		<br/><br/>
+		Music software provides an alternative to traditional music training:
 		<ul>
-			<li> Tonal Music vs. Soundscapes
-				<ul>
-					<li> For example: "Greensleeves", or "Mary Had a Little Lamb"
-				</ul>
-			<li> Some Dimensions of Tonal Music
-				<ul>
-					<li> The THX Sound Effect, "Deep Sound"
-				</ul>
-			<li> Music Data Mining
+			<li> Traditional training (performance/composition) can take over a decade for mastery.
+			<li> Can this be shortened if software is used as the instrument?
+			<li> Is the maximum fluency achievable greater with software as the instrument?
+			</ul>
+		</ul>
+		<br/><br/>
+		Music software can do some things formerly done only by humans:
+		<ul>
+			<li> Software can detect similarities within a piece and within a corpus.
+			<li> Feature extraction and machine learning can
+				&mdash; with appropriate data &mdash;
+				do a fair job at recognition of attributes such as instruments,
+				genre, and mood.
+			<li> Software can compose original music, with limited success.
+			</ul>
 		</ul>
 		</div>
-		<aside class="notes"/>
+		<aside class="notes">
+			Example: The
+				<a href="http://en.wikipedia.org/wiki/Amen_break">
+					Amen Break
+				</a>
+		</aside>
 	</section>
 
-	<section id="intro_dimensions">
-		<h3>Some Dimensions of Tonal Music</h3>
+	<section id="intro_tonal">
+		<h3>Introduction &mdash; Tonal Music</h3>
 		<div style="text-align: left;">
+		Examples of tonal music: "Greensleeves", "Mary Had a Little Lamb"
 		<ul>
 			<li> Acoustics, instruments, composition, play/record, visualization, psychology
-			<li> Melodic music
+			<li> Time domain: Rhythm
+			<li> Freq domain: Temperament, scales, keys, chords
+			<li> Time & Freq: Melodies, chord progressions, texture
+			<li> Sheet music: Traditional western notation, and others lesser known
 			<ul>
-				<li> Time: Rhythm
-				<li> Freq: Choice of temperament, scales, keys, chords, melodies
-				<li> Human-readable formats: Traditional, extreme, national, etc.
-				<li> Computer formats: ABC, LilyPond, MusicXML, MIDI, etc. (incl. lyrics)
-				<li> Tools: Scorewriters (e.g., MuseScore, Finale, Sibelius)
+				<li> Scores, staves, measures, notes, accidentals, 
+				<li>
 			</ul>
-			<li> Soundscapes sound & Digital Audio Workstations (DAWs) 
+			<li> Computer formats: MIDI, MusicXML, ABC, LilyPond, MusicTeX, etc.
+			<li> Tools: Scorewriters (e.g., MuseScore, Finale, Sibelius)
 		</ul>
 		</div>
 		<aside class="notes"/>
+	</section>
+
+	<section id="intro_soundscapes">
+		<h3>Introduction &mdash; Soundscapes</h3>
+		<div style="text-align: left;">
+		Examples of soundscapes: The THX Sound Effect
+		("<a href="https://www.youtube.com/watch?v=M3lO9Dt3kjA">Deep Sound</a>"), or the
+		<a href="https://www.youtube.com/watch?v=-0tPBQddeJs">Futurama Theme</a>
+		<ul>
+			<li> Soundscapes are more amorphous than tonal music.
+			<li> Most digital audio workstations (DAWs) are written in C++.
+			<li> At a low level, sound can be represented by arrays of numbers,
+				and the domain-specific language (DSL) for arrays of numbers
+				has already been written: Fortran, back in 1957 by J. Backus,
+				famous for Backus-Naur Form (BNF).
+			<li> Tools: DAWs, FFTs
+			<li> Most of this talk will focus on tonal music.
+		</ul>
+		</div>
+		<aside class="notes">
+		<ul>
+			<li> Joke: Seven years after Jim Backus invented Fortran, he was stranded with
+				six other castaways on Gilligan's Island.
+		</ul>
+		</aside>
 	</section>
 
 	<section id="intro_music_data_mining">
@@ -807,21 +844,20 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/title">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		<p> Music:
+		<p> Music Theory
 		<ul>
 			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040"
 				The Jazz Theory Book
 				</a>, by Mark Levine
-			<li> The
-				<a href="http://en.wikipedia.org/wiki/Amen_break">
-					Amen Break
-				</a>
-			<li> Sheet music: General
-				(<a href="http://imslp.org/wiki/">
-					International Music Score Library Project
-				</a>)
-				and <a href="http://www.bandmusicpdf.org/">
+			<li> Sheet music: 
+				<a href="http://www.bandmusicpdf.org/">
 					Band music
+				</a>,
+				<a href="http://imslp.org/wiki/">
+					International Music Score Library Project
+				</a>,
+				<a href="http://www.gutenberg.org/browse/categories/4">
+					Project Gutenberg
 				</a>
 			<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
 					Visualization of music by Bach and others
