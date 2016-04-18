@@ -423,7 +423,7 @@ infixr 7 .*.
 beats2m :: PercussionSound -> Beats -> Music Pitch
 beats2m percInstr [] = rest 0
 beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
-    = beat1 :+: (bs2m percInstr beats)
+    = beat1 :+: (beats2m percInstr beats)
         where b0 = Modify (Instrument Percussion) $ perc percInstr d
               beat1 = case (h,a) of
                         (0, _) -> rest d
@@ -435,7 +435,7 @@ ens   = [Beat { bDur = en,  bVol = 0, bAcc = 0 }]
 enb   = [Beat { bDur = en,  bVol = 1, bAcc = 0 }]
 snb   = [Beat { bDur = sn,  bVol = 1, bAcc = 0 }]
 instrB = AcousticBassDrum
-amen1b = bs2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
+amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 			</pre>
 		</div>
 	</section>
