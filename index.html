@@ -201,6 +201,7 @@
 		<br/><br/>
 		So what?  Any of these should be judged on their usefulness, not in answering the questions
 		that they pose, but in answering questions outside of their scope.
+		Don't forget the human listener.  And don't mistake pattern for passion.
 		</div>
 		<aside class="notes">
 			<ul>
@@ -396,6 +397,47 @@ data Music a = Prim (Primitive a)       -- primitive value
 		<aside class="notes">
 			Converting Frère Jacques to a round is left as an exercise.
 		</aside>
+	</section>
+
+	<section id="euterpea_percussion">
+	<h3>Euterpea &mdash; Percussion</h3>
+		<div style="text-align: left;">
+			Percussion is different in notation, in MIDI, &amp; Euterpea.
+			Here is a famous solo, the "Amen Break":
+			<div style="text-align: center;">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
+				align="center"
+				border="1"
+				width="50%"/>
+			</div>
+			On the so-called "percussion staff", lines represent different
+			instruments, rather than pitches.
+			<pre style="font-size: 28px;">
+data Beat = Beat { bDur :: Dur, bHeard :: Int, bAcc :: Int }
+type Beats = [Beat]
+infixr 6 .+.
+infixr 7 .*.
+(.*.) n   bs  = concat $ replicate n bs
+(.+.) bs1 bs2 = bs1 ++ bs2
+
+beats2m :: PercussionSound -> Beats -> Music Pitch
+beats2m percInstr [] = rest 0
+beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
+    = beat1 :+: (bs2m percInstr beats)
+        where b0 = Modify (Instrument Percussion) $ perc percInstr d
+              beat1 = case (h,a) of
+                        (0, _) -> rest d
+                        (1, 0) -> b0
+                        (1, 1) -> Modify (Phrase [Dyn (Accent 1.5)]) b0
+
+qns   = [Beat { bDur = qn,  bVol = 0, bAcc = 0 }]
+ens   = [Beat { bDur = en,  bVol = 0, bAcc = 0 }]
+enb   = [Beat { bDur = en,  bVol = 1, bAcc = 0 }]
+snb   = [Beat { bDur = sn,  bVol = 1, bAcc = 0 }]
+instrB = AcousticBassDrum
+amen1b = bs2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
+			</pre>
+		</div>
 	</section>
 
 	<section id="euterpea_performance">
