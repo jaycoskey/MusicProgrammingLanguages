@@ -883,9 +883,99 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		TODO: Add content
+		Strasheela is a music program language that lets the user describe constraints
+		(rhythmic, melodic, and harmonic) on a music composition
+		(and "containers" defined therein),
+		and then Strasheela finds one or more compositions that satisfies these constraints,
+		presuming that they are satisfiable.
+		<br/><br/>
+		The output format can be chosen to be compatible with
+		LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
+		<br/><br/>
+		Strasheela was writting by Torsten Anders, and implemented in the constraint-based
+		programming language Oz (and it's implementation, Mozart).  The name "Strasheela"
+		is a play on the term "Oz": it's the name of the Scarecrow in the Russian version
+		of The Wizard of Oz.
 		</div>
-		<aside class="notes" />
+		<aside class="notes" >
+		Score constructors, score accessors, score transformers.
+		Predefined constraints.
+		Has a data type called finite domain (FD) integers.
+		</aside>
+	</section>
+
+	<section id="strasheela_constraints">
+		<h3>Strasheela &mdash; Constraints</h3>
+		<div style="text-align: left;">
+			Here is an example from a
+			<a href="http://cmr.soc.plymouth.ac.uk/tanders/publications/TorstenAnders-MOZ2004.pdf">
+			2004 paper
+			</a>
+			of a constraint in Strasheela called RestrictMelodicInterval
+			that requires that consecutive notes be separated by no more than a
+			perfect fifth (which equals 7 semitones).
+			<pre style="font-size: 32px;">
+proc {RestrictMelodicInterval Note1}
+    Note2 = {Note1 getTimeAspectPredecessor($)}
+in
+    7 >=: {FD.distance {Note1 getPitch($)} {Note2 getPitch($)}}
+end
+			</pre>
+			and here is this rule being applied:
+			<pre style="font-size: 32px;">
+{MyScore
+    forAll(RestrictMelodicInterval
+	test:fun {$ X}
+	    {X isNote($)} andthen
+	    {X hasTimeAspectPredecessor($)}
+    end)}
+}
+			</pre>
+			A typical Strasheela program can use hundreds of constraints and 
+			constrained variables.  The order in which the constraits are applied
+			matters, with the order typically being
+			Timing &rArr; Melodic &rArr; Harmonic.
+			A user starting out should gradually increase the number of constraints
+			to determine their impact on program execution time.
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="strasheela_canons">
+		<h3>Strasheela &mdash; Canons</h3>
+		<div style="text-align: left;">
+			In music, a <em>canon</em> is a piece of music in which two or more voices
+			play the same music, starting at different times.  Classic examples include
+			"Row, Row, Row Your Boat" and "Frère Jacques".  If there are other voices
+			that do not share in the repetition, then it's called an
+			"<em>accompanied canon</em>".
+			<pre style="font-size: 32px;">
+			</pre>
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="strasheela_moreInfo">
+		<h3>Strasheela &mdash; More Info</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Oz &amp; Efficiency of search.
+				<li> Constraint Leniency
+				<li> Limitations
+				<ul>
+					<li> Strasheela does not readily support microtonal music.
+						(The pitches would best be represented by fractions or real numbers,
+						by Oz uses integer arithmetic.)
+				</ul>
+				<li> Strasheela was a dissertation project.  Development basically ended in 2012.
+			</ul>
+			<pre style="font-size: 32px;">
+			</pre>
+		</div>
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
