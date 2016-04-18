@@ -466,6 +466,38 @@ myPasHandler pa                    pf = defPasHandler pa pf
 		</aside>
 	</section>
 
+	<section id="euterpea_ragtimify">
+		<h3>Euterpea &mdash; The "Ragtimify" Use Case</h3>
+		<div style="text-align: left;">
+		Ragtime pieces often have a baseline that alternates between chords and
+		notes or pairs.  This gives the ragtime piece it's characteristic pulse.
+			<div style="text-align: center;">
+			<img src="http://ragpiano.com/misc/somesyn.gif"
+				align="center"
+				border="1"
+				width="75%"/>
+			</div>
+		Suppose have a piece of music with chords in its baseline,
+		and you want to have a Player output a ragtime version.
+		Or you want to write a function that takes a Music argument
+		and outputs a ragtime version.
+		You have to first identify these chords.
+		You might hope to just search for the Chord objects....
+		<br/><br/>
+		But if your music is written in Euterpea, there are no "Chord" objects.
+		Because of how Music is defined, the chords are not explicitly
+		recorded as such.
+		Instead, they're recorded as something like
+		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		(note1 :=: (note2 :=: (note3 :=: note4)
+		</pre>
+		So one drawback of the simplicity of the internal representation used
+		is that extracting structure from the piece later becomes challenging.
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
 	<section id="euterpea_soundscape">
 		<h3>Euterpea &mdash; Creating Other Sounds</h3>
 		<div style="text-align: left;">
@@ -918,19 +950,26 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Strasheela is a music program language that lets the user describe constraints
+		Strasheela is a music programming language that lets the user describe constraints
 		(rhythmic, melodic, and harmonic) on a music composition
 		(and "containers" defined therein),
 		and then Strasheela finds one or more compositions that satisfies these constraints,
 		presuming that they are satisfiable.
 		<br/><br/>
-		The output format can be chosen to be compatible with
+		After calling 
+		<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
+		Score.makeScore
+		</a>,
+		the output can be rendered with a choice of formats, including
 		LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
 		<br/><br/>
-		Strasheela was writting by Torsten Anders, and implemented in the constraint-based
-		programming language Oz (and it's implementation, Mozart).  The name "Strasheela"
-		is a play on the term "Oz": it's the name of the Scarecrow in the Russian version
-		of The Wizard of Oz.
+		Strasheela was writting by Torsten Anders for his dissertation,
+		and was last modified in 2012. 
+		It's implemented in the constraint-based programming language, Oz,
+		which is similar to Prolog.
+		(The theme of "Oz" provides the name "Strasheela"
+		&mdash;
+		it's the name of the Scarecrow in the Russian version of The Wizard of Oz.)
 		</div>
 		<aside class="notes" >
 		Score constructors, score accessors, score transformers.
@@ -985,8 +1024,13 @@ end
 			"Row, Row, Row Your Boat" and "Frère Jacques".  If there are other voices
 			that do not share in the repetition, then it's called an
 			"<em>accompanied canon</em>".
-			<pre style="font-size: 32px;">
-			</pre>
+			<br/><br/>
+			Here's a short canon found in a few seconds by Strasheela
+			(from sourceforge.net)
+			[<a href="http://strasheela.sourceforge.net/strasheela/examples/Output/03-FloridCounterpoint-Canon.mp3">play</a>]:
+			<img src="http://strasheela.sourceforge.net/strasheela/examples/Output/03-FloridCounterpoint-Canon.preview.png"
+				border="1"
+				width="100%"/>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1004,7 +1048,6 @@ end
 						(The pitches would best be represented by fractions or real numbers,
 						by Oz uses integer arithmetic.)
 				</ul>
-				<li> Strasheela was a dissertation project.  Development basically ended in 2012.
 			</ul>
 			<pre style="font-size: 32px;">
 			</pre>
@@ -1028,6 +1071,10 @@ end
 			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
 				The Jazz Theory Book
 				</a>, by Mark Levine
+			<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
+				Ragtimify
+				</a>
+				a book on converting scores to Ragtime
 			<li> Sheet music: 
 				<a href="http://www.bandmusicpdf.org/">
 					Band music
