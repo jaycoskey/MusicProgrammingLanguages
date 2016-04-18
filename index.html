@@ -430,10 +430,10 @@ beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
                         (1, 0) -> b0
                         (1, 1) -> Modify (Phrase [Dyn (Accent 1.5)]) b0
 
-qns   = [Beat { bDur = qn,  bVol = 0, bAcc = 0 }]
-ens   = [Beat { bDur = en,  bVol = 0, bAcc = 0 }]
-enb   = [Beat { bDur = en,  bVol = 1, bAcc = 0 }]
-snb   = [Beat { bDur = sn,  bVol = 1, bAcc = 0 }]
+qns   = [Beat { bDur = qn,  bHeard = 0, bAcc = 0 }]
+ens   = [Beat { bDur = en,  bHeard = 0, bAcc = 0 }]
+enb   = [Beat { bDur = en,  bHeard = 1, bAcc = 0 }]
+snb   = [Beat { bDur = sn,  bHeard = 1, bAcc = 0 }]
 instrB = AcousticBassDrum
 amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 			</pre>
