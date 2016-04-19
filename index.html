@@ -402,16 +402,18 @@ data Music a = Prim (Primitive a)       -- primitive value
 	<section id="euterpea_percussion">
 	<h3>Euterpea &mdash; Percussion</h3>
 		<div style="text-align: left;">
-			Percussion is different in notation, in MIDI, &amp; Euterpea.
-			Here is a famous solo, the "Amen Break":
+			Percussion notation is different in scores, in MIDI, &amp; in Euterpea.
+			Here is a famous solo, the
+			<a href="https://upload.wikimedia.org/wikipedia/en/8/80/The_Amen_Break%2C_in_context.ogg">
+			"Amen Break"</a>,
+			using the percussion staff, where different lines represent 
+			instruments, not pitches.
 			<div style="text-align: center;">
 			<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
 				align="center"
 				border="1"
 				width="50%"/>
 			</div>
-			On the so-called "percussion staff", lines represent different
-			instruments, rather than pitches.
 			<pre style="font-size: 28px;">
 data Beat = Beat { bDur :: Dur, bHeard :: Int, bAcc :: Int }
 type Beats = [Beat]
@@ -438,6 +440,16 @@ instrB = AcousticBassDrum
 amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 			</pre>
 		</div>
+		<aside class="notes">
+			In addition to the percussion staff, above, drum tablature is sometimes used:
+			<pre style="font-size: 28px;">
+C |----------------|----------------|----------------|----------X-----|
+R |x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-X-x-x-|x-x-x-x-x---x-x-|
+S |----o--o-o--o--o|----o--o-o--o--o|----o--o-o----o-|-o--o--o-o----o-|
+B |o-o-------oo----|o-o-------oo----|o-o-------o-----|--oo------o-----|
+  |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |
+			</pre>
+		</aside>
 	</section>
 
 	<section id="euterpea_performance">
@@ -538,7 +550,7 @@ myPasHandler pa                    pf = defPasHandler pa pf
 		recorded as such.
 		Instead, they're recorded as something like
 		<pre style="font-size: 32px; " font-family="family-name:cursive;">
-		(note1 :=: (note2 :=: (note3 :=: note4)
+		(note1 :=: (note2 :=: (note3 :=: note4)))
 		</pre>
 		So one drawback of the simplicity of the internal representation used
 		is that extracting structure from the piece later becomes challenging.
@@ -550,7 +562,8 @@ myPasHandler pa                    pf = defPasHandler pa pf
 	<section id="euterpea_soundscape">
 		<h3>Euterpea &mdash; Creating Other Sounds</h3>
 		<div style="text-align: left;">
-		Euterpea also supports more general sound creation using Arrows (see Control.Arrow).
+		Advanced: Euterpea also supports more general sound creation using Arrows
+		(see Control.Arrow).
 		<pre style="font-size: 32px; " font-family="family-name:cursive;">
 (>>>) :: SF a b -> SF b c -> SF a c -- Left-to-right composition
 (<<<) :: SF b c -> SF a b -> SF a c -- Right-to-left composition
@@ -593,16 +606,15 @@ s5 = constA 1000 >>> vibrato 5 20
 				<ul>
 					<li> E.g., sonata_violin_1_4 could contain measures 1 through 4.
 				</ul>
-				<li> If a piece contains multiple measures, consider putting each measure
+				<li> If a value contains multiple measures, consider putting each measure
 					on a separate line.
 				<li> Identify and extract duplicated subexpressions and other structures.
 				<ul>
 					<li> If the subexpression is associated with particular lyrics
-						consider using the lyrics in the name of the variable.
+						consider using the lyrics in the name of the value.
 				</ul>
-
 				<li> Identify nearly-duplicated subexpressions, and use functions
-					to extract the similarity.
+					to extract the commonality.
 			</ul>
 		<br/>
 		<li> <b>Perform validation tests:</b>
@@ -1165,8 +1177,15 @@ end
 		controls: true,
 		progress: true,
 		history: true,
-		center: false,
+		center: true,
 		transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+		// JMC
+		width: 1600,
+		height: 1000,
+		margin: 0.05,
+		rollingLinks: true,
+		slideNumber: true,
 
 		// Optional reveal.js plugins
 		dependencies: [

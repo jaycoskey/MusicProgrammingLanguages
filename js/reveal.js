@@ -38,11 +38,11 @@
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
-			width: 1600,  // JMC: Was 960
-			height: 1000, // JMC: Was 700
+			width: 960,
+			height: 700,
 
 			// Factor of the display size that should remain empty around the content
-			margin: 0.05,  // JMC: Was 0.1
+			margin: 0.1,
 
 			// Bounds for smallest/largest possible scale to apply to content
 			minScale: 0.2,
@@ -55,7 +55,7 @@
 			progress: true,
 
 			// Display the page number of the current slide
-			slideNumber: true,  // JMC: Was false
+			slideNumber: false,
 
 			// Push each slide change to the browser history
 			history: false,
@@ -113,7 +113,7 @@
 			mouseWheel: false,
 
 			// Apply a 3D roll to links on hover
-			rollingLinks: true,  // JMC: Was false
+			rollingLinks: false,
 
 			// Hides the address bar on mobile devices
 			hideAddressBar: true,
@@ -1607,7 +1607,7 @@
 				else {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '50%';
-					dom.slides.style.top = '50%';
+					dom.slides.style.top = '30%';  /* JMC: Lowered to raise content.  Was 50% */
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
 					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
@@ -1694,7 +1694,7 @@
 
 			// Presentation size
 			presentationWidth: presentationWidth || dom.wrapper.offsetWidth,
-			presentationHeight: presentationHeight || dom.wrapper.offsetHeight
+			presentationHeight: presentationHeight ||  dom.wrapper.offsetHeight
 		};
 
 		// Reduce available space by margin
