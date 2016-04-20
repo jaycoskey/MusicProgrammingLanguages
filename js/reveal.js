@@ -1607,7 +1607,7 @@
 				else {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '50%';
-					dom.slides.style.top = '30%';  /* JMC: Lowered to raise content.  Was 50% */
+					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
 					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
@@ -1632,7 +1632,7 @@
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = 0; /* Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px'; */
 					}
 				}
 				else {
