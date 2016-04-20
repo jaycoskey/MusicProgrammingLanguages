@@ -402,12 +402,12 @@ data Music a = Prim (Primitive a)       -- primitive value
 	<section id="euterpea_percussion">
 	<h3>Euterpea &mdash; Percussion</h3>
 		<div style="text-align: left;">
-			Percussion notation is different in scores, in MIDI, &amp; in Euterpea.
-			Here is a famous solo, the
-			<a href="https://upload.wikimedia.org/wikipedia/en/8/80/The_Amen_Break%2C_in_context.ogg">
-			"Amen Break"</a>,
-			using the percussion staff, where different lines represent 
-			instruments, not pitches.
+			Percussion notation is different in scores, in MIDI, &amp; Euterpea.
+			Here is a famous drum solo, the Amen Break
+			(<a href="https://upload.wikimedia.org/wikipedia/en/8/80/The_Amen_Break%2C_in_context.ogg">
+			play</a>),
+			in percussion staff notation.
+			Here different lines represent instruments, not pitches.
 			<div style="text-align: center;">
 			<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
 				align="center"
@@ -425,18 +425,16 @@ infixr 7 .*.
 beats2m :: PercussionSound -> Beats -> Music Pitch
 beats2m percInstr [] = rest 0
 beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
-    = beat1 :+: (beats2m percInstr beats)
-        where b0 = Modify (Instrument Percussion) $ perc percInstr d
-              beat1 = case (h,a) of
-                        (0, _) -> rest d
-                        (1, 0) -> b0
-                        (1, 1) -> Modify (Phrase [Dyn (Accent 1.5)]) b0
-
-qns   = [Beat { bDur = qn,  bHeard = 0, bAcc = 0 }] -- 1/4  note of silence
-ens   = [Beat { bDur = en,  bHeard = 0, bAcc = 0 }] -- 1/8  note of silence
-enb   = [Beat { bDur = en,  bHeard = 1, bAcc = 0 }] -- 1/8  note beat
-snb   = [Beat { bDur = sn,  bHeard = 1, bAcc = 0 }] -- 1/16 note of silence
+    = m0 :+: (beats2m percInstr beats)
+        where m  = Modify (Instrument Percussion) $ perc percInstr d
+              m0 = case (h,a) of
+                        (0, _) -> rest d  -- Silent "beat"
+                        (1, 0) -> m       -- Unaccented beat
+                        (1, 1) -> Modify (Phrase [Dyn (Accent 1.5)]) m
 instrB = AcousticBassDrum
+mkBeat d h a = [Beat { bDur = d, bHeard = h, bAcc = a }]
+qns = mkBeat qn 0 0; ens =  mkBeat en 0 0; enb = mkBeat en 1 0; snb = mkBeat sn 1 0
+-- amen1b represents one instrument (Bass Drum) in the first measure.
 amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 			</pre>
 		</div>
@@ -531,8 +529,10 @@ myPasHandler pa                    pf = defPasHandler pa pf
 	<section id="euterpea_ragtimify">
 		<h3>Euterpea &mdash; The "Ragtimify" Use Case</h3>
 		<div style="text-align: left;">
-		Ragtime pieces often have a baseline that alternates between chords and
-		notes or pairs.  This gives the ragtime piece it's characteristic pulse.
+		Ragtime pieces (think of "The Entertainer"
+		<a href="https://www.youtube.com/watch?v=uaU4Yg6IffQ">[play]</a>)
+		often have a baseline that alternates between chords and notes or pairs.
+		This gives the ragtime piece it's characteristic pulse.
 			<div style="text-align: center;">
 			<img src="http://ragpiano.com/misc/somesyn.gif"
 				align="center"
@@ -582,16 +582,76 @@ s4 = proc () -> do
        f2  <- oscFixed 1320  -< ()
        outA -< (f0 + 0.5*f1 + 0.33*f2) / 1.83
 
-vibrato ::   Clock c =>
-             Double -> Double -> SigFun c Double Double
+vibrato :: Clock c => Double -> Double -> SigFun c Double Double
 vibrato vfrq dep = proc afrq -> do
   vib  <- osc tab1  0 -< vfrq
   aud  <- osc tab2  0 -< afrq + vib * dep
   outA -< aud
 
+-- type AudSF a b = SigFun AudRate a b
 s5 :: AudSF () Double
 s5 = constA 1000 >>> vibrato 5 20
 		</pre>
+		<aside class="notes" />
+	</section>
+
+	<section id="euterpea_instruments1">
+		<h3>Euterpea &mdash; Custom Instruments (1/2)</h3>
+		<div style="text-align: left;">
+			<pre style="font-size: 32px;" font-family="family-name:cursive;">
+data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
+		     | BrightAcousticPiano
+		     | ...
+		     | Custom String
+		     deriving (Show, Eq, Ord)
+			</pre>
+			This can be used as follows (see Chapter 19 of HSoM)
+			<pre style="font-size: 32px;" font-family="family-name:cursive;">
+    myMandolinName :: InstrumentName -- Or myFlugelhorn or myUkulele
+    myMandolinName = Custom "My Mandolin"
+    type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a
+			</pre>
+			This is commonly used with the type variable a being
+			"<font color="#0000ff">Instr (AudSF () Double)</font>".
+			The list of parameters ([Double], above) are handled as determined by the instrument designer.
+		</div>
+		<aside class="notes" />
+	</section>
+
+	<section id="euterpea_instruments2">
+		<h3>Euterpea &mdash; Custom Instruments (2/2)</h3>
+		<div style="text-align: left;">
+			Let's use the vibrato function defined earlier as a starting point.  (See Fig. 19.4 in HSoM.)
+			<ul>
+				<li>Step #1: Convert a signal function into an instance of type Instr.
+					For example, using <em>vibrato</em>,
+					<pre style="font-size: 32px;" font-family="family-name:cursive;">
+myMandolin :: Instr (AudSF () Double)
+-- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
+myMandolin dur ap vol [vfrq, dep] =
+    proc () -> do
+	vib <- osc tab1 () -< vfrq
+	aud <- osc tab2 () -< apToHz ap + vib * dep
+	outA -< aud		</pre>
+				<li>Step #2: Connect the instrument name to the instrument definition.
+					<pre style="font-size: 32px; white-space: pre-line;" font-family="family-name:cursive;">
+					type InstrMap a = [(InstrumentName, Instr a)]
+					myInstrMap :: InstrMap (AudSF () Double)
+					myInstrMap = [(myMandolinName, myMandolin)]
+					</pre>
+				<li>Step #3: Use the Euterpea function <em>renderSF</em>
+					<pre style="font-size: 32px;" font-family="family-name:cursive;">
+renderSF :: (Performable a, AudioSample b, Clock c)
+	=> Music a -> InstrMap (SigFun p () b)
+	    -> (Double, SigFun p () b)	</pre>
+				<li>Finally:
+					<pre style="font-size: 32px; white-space: pre-line;" font-family="family-name:cursive;">
+					mandolinMelody = instrument myMandolinName $ <font color="#0000ff" weight="bold">...music...</font>
+					(dur, sigFun) = renderSF mandolinMelody myInstrMap
+					main = outFile "mandolinMelody.wav" dur sigFun
+					</pre>
+			</ul>
+		</div>
 		<aside class="notes" />
 	</section>
 
@@ -610,8 +670,8 @@ s5 = constA 1000 >>> vibrato 5 20
 					on a separate line.
 				<li> Identify and extract duplicated subexpressions and other structures.
 				<ul>
-					<li> If the subexpression is associated with particular lyrics
-						consider using the lyrics in the name of the value.
+					<li> If lyrics are tied to the subexpression,
+						consider using them in the name of the subexpression.
 				</ul>
 				<li> Identify nearly-duplicated subexpressions, and use functions
 					to extract the commonality.
@@ -626,7 +686,7 @@ s5 = constA 1000 >>> vibrato 5 20
 		<li> <b>Perform live testing:</b>
 			<ul>
 				<li> Listening to compositions will help detect some issues.
-				<li> Play melodies in parallel to detect differences/intervals.
+				<li> Play melodies in parallel to detect differences/intervals.  (XOR possible?)
 			</ul>
 		<br/>
 		<li> <b>Derive metrics to be used in testing:</b>
