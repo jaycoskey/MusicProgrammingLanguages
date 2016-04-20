@@ -1012,10 +1012,17 @@ s5 = constA 1000 >>> vibrato 5 20
 		</h2>
 		<div style="text-align: left;">
 		Strasheela is a music programming language that lets the user describe constraints
-		(rhythmic, melodic, and harmonic) on a music composition
-		(and "containers" defined therein),
-		and then Strasheela finds one or more compositions that satisfies these constraints,
+		(e.g., rhythmic, melodic, and harmonic) on a music composition
+		via user-defined "containers".
+		Strasheela then finds one or more compositions that satisfies these constraints,
 		presuming that they are satisfiable.
+		<br/><br/>
+		Strasheela was writting by Torsten Anders for his dissertation,
+		but hasn't seen significant developmenbt since 2012. 
+		It's implemented in the constraint-based programming language, Oz,
+		which is similar to Prolog.
+		(The theme of "Oz" provides the name "Strasheela" &mdash;
+		it's the name of the Scarecrow in the Russian version of The Wizard of Oz.)
 		<br/><br/>
 		After calling 
 		<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
@@ -1023,19 +1030,14 @@ s5 = constA 1000 >>> vibrato 5 20
 		</a>,
 		the output can be rendered with a choice of formats, including
 		LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
-		<br/><br/>
-		Strasheela was writting by Torsten Anders for his dissertation,
-		and was last modified in 2012. 
-		It's implemented in the constraint-based programming language, Oz,
-		which is similar to Prolog.
-		(The theme of "Oz" provides the name "Strasheela"
-		&mdash;
-		it's the name of the Scarecrow in the Russian version of The Wizard of Oz.)
 		</div>
 		<aside class="notes" >
-		Score constructors, score accessors, score transformers.
-		Predefined constraints.
-		Has a data type called finite domain (FD) integers.
+			<ul>
+				<li> Score constructors, score accessors, score transformers.
+				<li> Predefined constraints.
+				<li> Has a data type called finite domain (FD) integers.
+				<li> Hasn't been worked on since 2012 &mdash; You could say there's a resource constraint.
+			</ul>
 		</aside>
 	</section>
 
@@ -1046,9 +1048,9 @@ s5 = constA 1000 >>> vibrato 5 20
 			<a href="http://cmr.soc.plymouth.ac.uk/tanders/publications/TorstenAnders-MOZ2004.pdf">
 			2004 paper
 			</a>
-			of a constraint in Strasheela called RestrictMelodicInterval
-			that requires that consecutive notes be separated by no more than a
-			perfect fifth (which equals 7 semitones).
+			of a constraint in Strasheela called RestrictMelodicInterval.
+			It requires consecutive notes to be separated by at most a
+			perfect fifth (i.e., 7 semitones).
 			<pre style="font-size: 32px;">
 proc {RestrictMelodicInterval Note1}
     Note2 = {Note1 getTimeAspectPredecessor($)}
@@ -1066,11 +1068,10 @@ end
     end)}
 }
 			</pre>
-			A typical Strasheela program can use hundreds of constraints and 
-			constrained variables.  The order in which the constraits are applied
-			matters, with the order typically being
+			A typical Strasheela program can use hundreds of variables and constraints.
+			The order of application of the constraits does matter.  The order is usually
 			Timing &rArr; Melodic &rArr; Harmonic.
-			A user starting out should gradually increase the number of constraints
+			A novice user should gradually increase the number of constraints
 			to determine their impact on program execution time.
 		</div>
 		<aside class="notes">
@@ -1085,11 +1086,12 @@ end
 			"Row, Row, Row Your Boat" and "Frère Jacques".  If there are other voices
 			that do not share in the repetition, then it's called an
 			"<em>accompanied canon</em>".
+			Appropriate constraints can be used to ensure that the time-shifted copies
+			of the theme sound harmonious when played together.
 			<br/><br/>
-			Here's a short canon found in a few seconds by Strasheela
-			(from sourceforge.net)
-			[<a href="http://strasheela.sourceforge.net/strasheela/examples/Output/03-FloridCounterpoint-Canon.mp3">play</a>]:
-			<img src="http://strasheela.sourceforge.net/strasheela/examples/Output/03-FloridCounterpoint-Canon.preview.png"
+			Here's a short canon found in a few seconds by Strasheela.
+			[<a href="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.mp3">play</a>]:
+			<img src="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.preview.png"
 				border="1"
 				width="100%"/>
 		</div>
@@ -1097,21 +1099,55 @@ end
 		</aside>
 	</section>
 
-	<section id="strasheela_moreInfo">
-		<h3>Strasheela &mdash; More Info</h3>
+	<section id="strasheela_flexibility">
+		<h3>Strasheela &mdash; Flexibility</h3>
 		<div style="text-align: left;">
+			Finding solutions to a system of constraints is a standard computer programming problem.
+			The challenge facing Anders in the creation of Strasheela was to provide the user
+			flexibility while at the same time making efficient use of computer resources.
+			<br/><br/>
+			Flexibility:
 			<ul>
-				<li> Oz &amp; Efficiency of search.
-				<li> Constraint Leniency
-				<li> Limitations
-				<ul>
-					<li> Strasheela does not readily support microtonal music.
-						(The pitches would best be represented by fractions or real numbers,
-						by Oz uses integer arithmetic.)
-				</ul>
+				<li> Strasheela has many pre-defined pattern constraints.
+					An example of a simple numerical constraint would be to ensure
+					that the largest number in a list appears only once,
+					or that all items in a list are distinct from each other.
+				<li> The user can apply their own Lindenmayer system (i.e., generative grammar).
+				<li> Constraints can be applied to containers, which can be nested hierarchically.
+					So you can have a one-measure container nested inside a three-measure container
+					inside a five-measure container.
+					And these can all have different constaints applied to them.
+					You can group together different voices playing concurrently,
+					or put a constraint on different repetitions of a single voice.
+					(However, the nesting of score containers must be fully determined
+					before the search for a constraint satisfaction solution begins.)
+				<li> Constraints can be made into "soft constraints" that are more like preferences.
+					The user can specify priority between rules, and can even specify
+					that a given constraint not be violated more than a pre-chosen number of times.
+					(For example, you might allow only a few intervals between consecutive notes exceed one octave.)
 			</ul>
-			<pre style="font-size: 32px;">
-			</pre>
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="strasheela_efficiency">
+		<h3>Strasheela &mdash; Efficiency</h3>
+		<div style="text-align: left;">
+			Efficiency:
+			<ul>
+				<li> Strasheela allows the user to define what search strategy is used,
+					according to the constraint problem.
+					A well-chosen "distribution" strategy can allow for work on one sub-problem
+					to be shut down once parameters have been found that are good enough,
+					thereby allowing the program to continue applying resources
+					where they are most effective.
+				<li> An effort is made to to determine early on that no solutions will be found
+					in a particular domain, rather than searching through that domain and coming up empty.
+					(In more formal terms, constraint propagators are used to prune the search space.)
+				<li> Strasheela allows for the use of a memory-saving technique called adaptive recomputation.
+					Unfortunately, there's not a good explanation of this approach outside the source code.
+			</ul>
 		</div>
 		<aside class="notes">
 		</aside>
