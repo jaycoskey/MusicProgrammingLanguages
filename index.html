@@ -215,7 +215,10 @@ reveal.js tips:
 			<li> Visualization
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+			Key-finding algorithms (CBMS profile, Beyesian profile, and Krumhansl's profile)
+				https://musescore.org/en/node/16444
+		</aside>
 	</section>
 
 	<section id="intro_math">
@@ -240,9 +243,10 @@ reveal.js tips:
 			</ul>
 		</ul>
 		<br/><br/>
-		So what?  Any of these should be judged on their usefulness, not in answering the questions
-		that they pose, but in answering questions outside of their scope.
-		Don't forget the human listener.  And don't mistake pattern for passion.
+		So what?  Any of these should be judged on their usefulness:
+		Not in answering the questions that they pose,
+		but in answering questions outside of their scope.
+		Don't forget the human listener, and don't mistake pattern for passion.
 		</div>
 		<aside class="notes">
 			<ul>
@@ -981,42 +985,6 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 	</section>
 </section>
 
-<section id="section_overtone">
-	<section id="overtone">
-		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_chuck">&#x25c1;</a>
-			Overtone and Leipzig
-			<a href="#/section_puredata">&#x25b7;</a>
-		</h2>
-		<div style="text-align: left;">
-		Overtone is a lisp-like language that controls different oscillators.
-		
-		Here are some exerpts from the song "Tuesday", which can be found
-		<a href="https://www.snip2code.com/Snippet/176938/Tuesday---written-with-Overtone-and-Leip">
-		here
-		</a>:
-		<pre style="font-size: 32px;">
-(definst metallia [freq 440 dur 1 volume 1.0]
-    (-> (sin-osc freq (sin-osc 1))
-	(+ (sin-osc (* 1/2 freq) (sin-osc 1/3)))
-	(clip2 (mul-add (saw 1/4) 0.2 0.7))
-	(* (env-gen (adsr 0.03 0.6 0.3) (line:kr 1 0 dur) :action FREE))
-	(* 1/4 volume)))
-
-(defn minor [chord] (update-in chord [:iii] (scale/from -1/2)))
-
-(def melody
-    (->>
-	(phrase [2/3 13/3 5/3 9/3 1/3 2/3 13/3 2/3 13/3]
-		[  1    2   1   0   0   1    2   3    0])
-	(where :pitch scale/raise)
-	(where :part (is :melody))))
-		</pre>
-		</div>
-		<aside class="notes" />
-	</section>
-</section>
-
 <section id="section_puredata">
 	<section id="puredata">
 		<h2 style="background-color: #d0d0ff;">
@@ -1055,10 +1023,9 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 	15.squared           // Evaluates to 225.
 	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
 	5 pow: 8             // Same as 5.pow(8) 
-	10.do({ "Hello world".postln })    // Writes to the "Post" pane.
-		</pre>
-		Caution: Binary operators are evaluated in strict left-to-right order,
-			so 1 + 3 * 5 evaluates to 20, rather than 16.
+	10.do({ "Hello world".postln })    // Writes to the "Post" pane.</pre>
+		Caution: Binary operators are always evaluated in left-to-right order,
+			so 1 + 3 * 5 yields 20, not 16.
 		<br/><br/>
 		Here is a brief code snippet that prints out the value of 5! ("five factorial"):
 		<pre style="font-size: 32px;">
@@ -1067,8 +1034,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		n do: { | i | result = result * (i + 1) };
 		result;
 	};
-	factorial.(5).postln;
-		</pre>
+	factorial.(5).postln;</pre>
 		<aside class="notes" />
 	</section>
 
@@ -1078,8 +1044,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		SuperCollider has a client-server design, like IPython/Jupyter.
 		The client's interpreter starts automatically.  A local audio server can be started with the command
 		<pre style="font-size: 32px;">
-		s.boot
-		</pre>
+		s.boot</pre>
 		where the variable "s" is reserved to represent the server.
 		Client-server synchronization is achieved via communication message tags
 			with the intended time of execution in NTP (Network Time Protocol) format.
@@ -1101,24 +1066,25 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<div style="text-align: left;">
 		A (non-terminating) sine wave at 440 Hz can be played at half-volume with
 		<pre style="font-size: 32px; white-space: pre-line;">
-		{ SinOsc.ar(440, phase: 0, mul: 0.5, add: 0) }.play;  // using keyword args
+		{ SinOsc.ar(440, phase: 0, mul: 0.5, add: 0) }.play;  // Keyword args</pre>
 		or
-		{ SinOsc.ar(440, 0, 0.5, 0) }.play;  // using positional args
+		<pre style="font-size: 32px; white-space: pre-line;">
+		{ SinOsc.ar(440, 0, 0.5, 0) }.play;  // Positional args</pre>
 		or just
-		{ SinOsc.ar(440) }.play;  // omitting arguments with default values
-		</pre>
+		<pre style="font-size: 32px; white-space: pre-line;">
+		{ SinOsc.ar(440) }.play;  // Omitting arguments with default values</pre>
 		where "ar" is the "audio rate" constructor of the SinOsc class.
 		The sine wave can be stopped with Ctrl-<period>.
 		All the parameters above can be omitted, which will cause default values to be used.
 		An important class to become familiar with is UGen, the abstract superclass of all "unit generators".
-		These are classes that represent signals.  Examples include:
-		<ul>
+		These unit generators represent signals.  Predefined examples include:
+		<ul><ul>
 			<li> Impulse, a class that represents a simple sound;
 			<li> LFSaw, a class that represents a low-frequency sawtooth oscillator (cf. SinOsc);
 			<li> PMOsc, a class that represents a phase modulation oscillator (cf. SinOsc);
 			<li> EnvGen, which wraps another signal with an "envelope";
 			<li> Latch, which wraps another signal with an all-or-nothing filter.
-		</ul>
+		</ul></ul>
 		</div>
 		<aside class="notes" />
 	</section>
@@ -1159,6 +1125,48 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		SuperCollider has a bunch of basic types (Integer, Float, Char, String, Symbol,
 			Point, Array, Event, Function)
 		</aside>
+	</section>
+
+	<section id="supercollider_overtone">
+		<h3>SuperCollider &mdash; Overtone and Leipzig</h3>
+		<div style="text-align: left;">
+			<a href="http://overtone.github.io/">Overtone</a> is a Clojure-based language
+			wrapping SuperCollider,
+			<a href="https://github.com/ctford/leipzig">Leipzig</a>
+			is a composition lib used with Overtone, and 
+			<a href="https://github.com/ctford/leipzig-template/tree/master/src/leiningen">Leiningen</a>
+			is a Leipzig template library.
+			Below is code from a song called 
+			<a href="https://www.snip2code.com/Snippet/176938/Tuesday---written-with-Overtone-and-Leip">
+			"Tuesday"</a>.
+			<pre style="font-size: 32px;">
+(definst metallia [freq 440 dur 1 volume 1.0]
+    (-> (sin-osc freq (sin-osc 1))
+	(+ (sin-osc (* 1/2 freq) (sin-osc 1/3)))
+	(clip2 (mul-add (saw 1/4) 0.2 0.7))
+	(* (env-gen (adsr 0.03 0.6 0.3) (line:kr 1 0 dur) :action FREE))
+	(* 1/4 volume)))
+
+(defn minor [chord] (update-in chord [:iii] (scale/from -1/2)))
+
+(def melody
+    (->>
+	(phrase [2/3 13/3 5/3 9/3 1/3 2/3 13/3 2/3 13/3]
+		[  1    2   1   0   0   1    2   3    0])
+	(where :pitch scale/raise)
+	(where :part (is :melody))))</pre>
+			<p>
+				See <a href="https://github.com/overtone/overtone/tree/master/src/overtone/examples">Overtone examples</a>
+				for more sample code.
+				Note the three distinct functions above:
+			</p>
+			<ul><ul>
+				<li> def &mdash; What you'd expect.  The operator "->>" is a Clojure macro.
+				<li> defn &mdash; Same as def, but this adds metadata to the defined var.
+				<li> definst &mdash; Defines an instrument.
+			</ul></ul>
+		</div>
+		<aside class="notes" />
 	</section>
 </section>
 
@@ -1321,50 +1329,46 @@ end
 			<a href="#/appendix">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		<ol>
-		<li> Music Theory
-		  <ul>
-			<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
-				The Jazz Theory Book
-				</a>, by Mark Levine
-			<li> Chord identification: 
-			<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
-				Ragtimify
-				</a>
-				a book on converting scores to Ragtime
-			<li> Sheet music: 
-				<a href="http://www.bandmusicpdf.org/">
-					Band music
-				</a>,
-				<a href="http://imslp.org/wiki/">
-					International Music Score Library Project
-				</a>,
-				<a href="http://www.gutenberg.org/browse/categories/4">
-					Project Gutenberg
-				</a>
-			<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
+		<p><b>Music &amp; Music Theory</b></p>
+			<ul>
+				<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
+					The Jazz Theory Book
+					</a>, by Mark Levine
+				<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
+					Ragtimify</a>: a book on converting scores to Ragtime
+				<li> Song databases: 
+					<a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
+						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
+						| <a href="http://www.bandmusicpdf.org/">Band music</a>
+						| <a href="http://imslp.org/wiki/">International Music Score Library Project</a>
+						| <a href="http://www.gutenberg.org/browse/categories/4">Project Gutenberg</a>
+				<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
 					Visualization of music by Bach and others
-				</a>
-		  </ul>
-		<br/>
-		<li> Music Programming:
-		  <ul>
-			<li> <a href="http://www.mat.ucsb.edu/res_proj7.php">
-				Sonification of the cosmic microwave background
-				</a>
-		  </ul>
-		<li> reveal.js, used to create this deck:
-		  <ul>
-			<li> <a href="https://github.com/hakimel/reveal.js">
-				reveal.js source code &amp; documentation
-				</a>
-		  </ul>
+					</a>
+			</ul>
+		<p><b>Music Programming &amp; Analysis</b></p>
+			<ul>
+				<li> Cheatsheets:
+					<a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
+				<li> <a href="http://www.musicainformatica.org/topics/music-n.php">History</a>
+					of the Music-N family of music programming languages
+				<li> <a href="http://www.link.cs.cmu.edu/melisma/">The Melisma Music Analyzer</a>
+				<li> <a href="http://soareschen.github.io/harmtrace-slides/#1">Functional
+					Modelling of Musical Harmony</a>
+				<li> <a href="http://theses.gla.ac.uk/2353/">Analysis
+					of musical structures using monadic parser combinators</a>
+			</ul>
+		<p><b>Colophon</b></p>
+			<ul>
+				<li> <a href="https://github.com/hakimel/reveal.js">Documentation on reveal.js</a>,
+					used to create this deck.
+			</ul>
 		</div>
 		<aside class="notes">
-		<ul>
-			<li>If you want to attempt to modify the vertical placement of slides on the web page,
-				take a look at the layout() function in reveal.js.
-		</ul>
+			<ul>
+				<li> <a href="http://www.mat.ucsb.edu/res_proj7.php">Sonification
+					of the cosmic microwave background</a>
+			</ul>
 		</aside>
 	</section>
 </section>
@@ -1382,27 +1386,31 @@ end
 	</section>
 
 	<section id="appendix_advice">
-		<h3>Appendix &mdash; Advice</h3>
+		<h3>Appendix A &mdash; Advice</h3>
 		<div style="text-align: left;">
 		<ul>
 			<li> Be cautious about volume: 
 				Programs that don't explicitly set volume might by default
 				play at the loudest possible volume.
-			<li> The numbering of pitches starts at C in each octave, not A.
+			<li> Note that pitch numbering starts at C in each octave, not A.
 				<ul>
-					<li> So the pitch one semitone below (C, 4) is not (B, 4), but (B, 3).
+					<li> For example, the pitch one semitone below C4 is not B4, but B3.
 				</ul>
 			<li> The MIDI file format has fixed-range values.
 				For example, MIDI notes range from 0 to 127, which can fit in 7 bits.
 				If, say, as the result of a transposition, a note is given a value above 127,
 				it will be truncated, and result in a lower pitch than expected.
+			<li> This presentation was made using reveal.js.
+				If you want to attempt to modify the vertical placement of slides
+				on a reveal.js presentation, take a look at the layout() function in reveal.js.
+		</ul>
 		</ul>
 		</div>
 		<aside class="notes" />
 	</section>
 	
 	<section id="appendix_choosing">
-		<h3>Appendix &mdash; Choosing a Music Programming Language</h3>
+		<h3>Appendix C &mdash; Choosing a Music Programming Language</h3>
 		<div style="text-align: left;">
 		If you just want to compose music, an app (e.g., Opusmodus, TODO) might make more sense
 		than a music programming language.
@@ -1425,7 +1433,12 @@ end
 				</td>
 			</tr>
 			<tr><td>Csound</td>
-				<td>Inherited legacy code?</td>
+				<td>
+					<ul>
+						<li> Compiler-level compatibility, due to being written in C
+						<li> Inherited legacy code?
+					</ul>
+				</td>
 			</tr>
 			<tr><td>Chuck</td>
 				<td>
@@ -1456,7 +1469,7 @@ end
 	</section>
 
 	<section id="appendix_ecosystems">
-		<h3>Appendix &mdash; Ecosystems</h3>
+		<h3>Appendix E &mdash; Ecosystems</h3>
 		<div style="text-align: left;">
 		<ul>
 			<li> Java
