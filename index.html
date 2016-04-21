@@ -94,7 +94,6 @@ reveal.js tips:
 				do a fair job at recognition of attributes such as instruments,
 				genre, and mood.
 			<li> Software can compose original music, with limited success.
-			</ul>
 		</ul>
 		</div>
 		<aside class="notes">
@@ -162,7 +161,8 @@ reveal.js tips:
 		as well as sharing musical information across applications.
 		So by necessity, it's the "kitchen sink" of sheet music file formats. 
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="intro_soundscapes">
@@ -255,16 +255,16 @@ reveal.js tips:
 				"a locally Euclidian metrization of a k-fold contravariant Riemannian tensor field".
 				That's a different Riemann than Hugo Riemann.
 			</ul>
-		<aside>
+		</aside>
 	</section>
 
 	<section id="intro_languages">
-		<h3>Introduction &mdash; Music Programming Languages</h3>
+		<h3>Introduction &mdash; Music Programming Languages (MPLs)</h3>
 		<div style="text-align: left; font-size: 28px;">
 		<ul>
 			<li> There are
 				<a href="https://en.wikipedia.org/wiki/List_of_audio_programming_languages">20+</a>
-				high-level music programming languages.
+				high-level MPLs.
 			<li> If you include transcription-oriented ones (think HTML, but for music),
 				then it's more like
 				<a href="http://nosuch.com/plum/cgi/showlist.cgi?sort=name&concise=yes">100+</a>.
@@ -314,9 +314,10 @@ reveal.js tips:
 					</td>
 			</tr>
 			</table>
-		<ul>
+		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -328,7 +329,7 @@ reveal.js tips:
 			<a href="#/section_euterpea">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Some simple music programming languages don't support variables or loops,
+		Some simple MPLs don't support variables or loops,
 			so they can't support any of the more complex use cases.
 		<br/><br/>
 		But they can be good for representing scores in song databases.  Here's a brief taste.
@@ -359,9 +360,9 @@ reveal.js tips:
 		<aside class="notes">
 		TODO: Alda
 		piano: o3
-		g8 a b > c d e f+ g | a b > c d e f+ g4
-		g8 f+ e d c < b a g | f+ e d c < b a g4
-		<< g1/>g/>g/b/>d/g
+		g8 a b &gt; c d e f+ g | a b &gt; c d e f+ g4
+		g8 f+ e d c &lt; b a g | f+ e d c &lt; b a g4
+		&lt;&lt; g1/&gt;g/&gt;g/b/&gt;d/g
 		</aside>
 	</section>
 </section>
@@ -375,9 +376,13 @@ reveal.js tips:
 		</h2>
 		<div style="text-align: left;">
 		<ul>
-			<li> Euterpea (v2) is not strictly speaking a music programming language.
-			<li> It's a Haskell library that's a good starting point for better
-					understanding the domain of tonal and full-spectrum music.
+			<li> Euterpea (v2) is a music DSL embedded in the Haskell programming language.
+			<li> It's first on the list of languages because:
+				<ul>
+					<li> (a) it supports tonal and full-spectrum music, and
+					<li> (b) the similicity of its representation of music will help us focus on the
+						domain of music itself.
+				</ul>
 			<li> Euterpea (and a related library and PDF called
 				The Haskell School of Music) was written by the late Paul Hudak,
 				together with
@@ -386,8 +391,10 @@ reveal.js tips:
 					Donya Quick, and
 					Daniel Winograd-Cort.
 			<li> It's now maintained by the last two, Quick and Winograd-Cort.
+		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="euterpea_geting_started">
@@ -464,7 +471,7 @@ data Music a = Prim (Primitive a)       -- primitive value
 			</pre>
 			Here is a slightly more complex: a basic version of Frère Jacques (from HSoM).
 
-			<pre style="font-size: 32px; white-space: pre-line;" font-family="family-name:cursive;">
+			<pre style="font-size: 32px; white-space: pre-line;">
 			twice m = m :+: m
 			fj1, fj2, fj3, fj4, fjNotes, fj :: Music Pitch
 			fj1 = c 4 qn :+: d 4 qn :+: e 4 qn :+: c 4 qn
@@ -497,7 +504,8 @@ data Music a = Prim (Primitive a)       -- primitive value
 			<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
 				align="center"
 				border="1"
-				width="50%"/>
+				width="50%"
+				alt="Percussion staff for the Amen Break"/>
 			</div>
 			<pre style="font-size: 28px;">
 data Beat = Beat { bDur :: Dur, bHeard :: Int, bAcc :: Int }
@@ -524,19 +532,19 @@ amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 			</pre>
 		</div>
 		<aside class="notes">
-		<ul>
+		    <ul>
 			<li> In addition to the percussion staff, above, drum tablature is sometimes used:
 				<pre style="font-size: 28px; white-space: pre-line;">
 					C |----------------|----------------|----------------|----------X-----|
 					R |x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-X-x-x-|x-x-x-x-x---x-x-|
 					S |----o--o-o--o--o|----o--o-o--o--o|----o--o-o----o-|-o--o--o-o----o-|
 					B |o-o-------oo----|o-o-------oo----|o-o-------o-----|--oo------o-----|
-					->|1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |
-			</pre>
+					->|1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |1 + 2 + 3 + 4 + |</pre>
 			<li> If polyrhythms are to be added somewhere, here's a
 				<a href="https://ask.audio/articles/music-theory-4-jazz-techniques-for-electronic-composers/p3#article">
 					nice image
 				</a>
+		    </ul>
 		</aside>
 	</section>
 
@@ -544,7 +552,7 @@ amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 		<h3>Euterpea &mdash; Creating a Performance</h3>
 		<div style="text-align: left;">
 		If we replace play with the more explicit version
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		<pre style="font-size: 32px;">
 playA :: (ToMusic1 a, Control.DeepSeq.NFData a)
 		=> PMap Note1 -> Context Note1 -> Music a -> IO()
 		</pre>
@@ -567,7 +575,7 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 		for which instrument.
 		</div>
 		<aside class="notes">
-			<pre style="font-size: 32px; white-space: pre-line;"
+			<pre style="font-size: 32px; white-space: pre-line;">
 			type Performance = [ Event ]
 			data MEvent = MEvent { eTime, eInstr, ePitch, eDur, eVol, eParams :: [ Double ] }
 							deriving (Show, Eq, Ord)
@@ -579,7 +587,7 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			type PMap a = PlayerName -> Player a
 			There is a similar map for channels:
 			type ChannelMap = [ (InstrumentName, Channel) ]
-			type ChannelMapFun = InstrumentName -> ChannelMap -> (Channel, ChannelMap)
+			type ChannelMapFun = InstrumentName -> ChannelMap -> (Channel, ChannelMap)</pre>
 		</aside>
 	</section>
 
@@ -592,7 +600,7 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 		The function defined below modifies the volume of each note
 		(MEvent, actually) in a Performance, based on the timing of the note
 		within the performance
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		<pre style="font-size: 32px;">
 myPasHandler :: PhraseAttribute -> Performance -> Performance
 myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
     where t0 = eTime (head performance)
@@ -610,8 +618,8 @@ myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
 	boostVolsBy :: Rational -> [MEvent] -> [MEvent]
 	boostVolsBy x pf = map boostMEventVol pf
 
-myPasHandler pa                    pf = defPasHandler pa pf
-		</pre>
+myPasHandler pa                    pf = defPasHandler pa pf</pre>
+		</div>
 		<aside class="notes">
 		</aside>
 	</section>
@@ -627,7 +635,8 @@ myPasHandler pa                    pf = defPasHandler pa pf
 			<img src="http://ragpiano.com/misc/somesyn.gif"
 				align="center"
 				border="1"
-				width="75%"/>
+				width="75%"
+				alt="Score of ragtime music sample"/>
 			</div>
 		Suppose have a piece of music with chords in its baseline,
 		and you want to have a Player output a ragtime version.
@@ -639,7 +648,7 @@ myPasHandler pa                    pf = defPasHandler pa pf
 		Because of how Music is defined, the chords are not explicitly
 		recorded as such.
 		Instead, they're recorded as something like
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		<pre style="font-size: 32px;">
 		(note1 :=: (note2 :=: (note3 :=: note4)))
 		</pre>
 		So one drawback of the simplicity of the internal representation used
@@ -654,42 +663,43 @@ myPasHandler pa                    pf = defPasHandler pa pf
 		<div style="text-align: left;">
 		Advanced: Euterpea also supports more general sound creation using Arrows
 		(see Control.Arrow).
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
-(>>>) :: SF a b -> SF b c -> SF a c -- Left-to-right composition
-(<<<) :: SF b c -> SF a b -> SF a c -- Right-to-left composition
-z <- sigFunc -< (x, y)		    -- Signal function
+		<pre style="font-size: 32px;">
+(&gt;&gt;&gt;) :: SF a b -> SF b c -> SF a c -- Left-to-right composition
+(&lt;&lt;&lt;) :: SF b c -> SF a b -> SF a c -- Right-to-left composition
+z &lt;- sigFunc -&lt; (x, y)		    -- Signal function
 		</pre>
-		<pre style="font-size: 32px; " font-family="family-name:cursive;">
+		<pre style="font-size: 32px;">
 {-# LANGUAGE Arrows #-}
 module Euterpea.Examples.SigFuns where
 import Euterpea
-import Control.Arrow ((>>>),(<<<),arr)
+import Control.Arrow ((&gt;&gt;&gt;),(&lt;&lt;&lt;),arr)
 
-s4 :: Clock c => SigFun c () Double
-s4 = proc () -> do
-       f0  <- oscFixed 440   -< ()
-       f1  <- oscFixed 880   -< ()
-       f2  <- oscFixed 1320  -< ()
-       outA -< (f0 + 0.5*f1 + 0.33*f2) / 1.83
+s4 :: Clock c =&gt; SigFun c () Double
+s4 = proc () -&gt; do
+       f0  &lt;- oscFixed 440   -&lt; ()
+       f1  &lt;- oscFixed 880   -&lt; ()
+       f2  &lt;- oscFixed 1320  -&lt; ()
+       outA -&lt; (f0 + 0.5*f1 + 0.33*f2) / 1.83
 
-vibrato :: Clock c => Double -> Double -> SigFun c Double Double
-vibrato vfrq dep = proc afrq -> do
-  vib  <- osc tab1  0 -< vfrq
-  aud  <- osc tab2  0 -< afrq + vib * dep
-  outA -< aud
+vibrato :: Clock c =&gt; Double -&gt; Double -&gt; SigFun c Double Double
+vibrato vfrq dep = proc afrq -&gt; do
+  vib  &lt;- osc tab1  0 -&lt; vfrq
+  aud  &lt;- osc tab2  0 -&lt; afrq + vib * dep
+  outA -&lt; aud
 
 -- type AudSF a b = SigFun AudRate a b
 s5 :: AudSF () Double
-s5 = constA 1000 >>> vibrato 5 20
+s5 = constA 1000 &gt;&gt;&gt; vibrato 5 20
 		</pre>
+		</div>
 		<aside class="notes">
 		<ul>
 			<li> Arrows are like Monads, but they parameterize both input and (output) value.
 			<li> proc is used to define an Arrow just like lambda defines a function.
 			<li> do within an Arrow provides Arrow-related syntactic sugar,
 				just like do within a Monad provides Monad-related syntactic sugar.
-			<li> The operator (-<) can be pronounced "(first order) arrow tail".
-			<li> There's another operator, (-<<), or "(higher order) arrow tail".
+			<li> The operator (-&lt;) can be pronounced "(first order) arrow tail".
+			<li> There's another operator, (-&lt;&lt;), or "(higher order) arrow tail".
 		</ul>
 		</aside>
 	</section>
@@ -697,7 +707,7 @@ s5 = constA 1000 >>> vibrato 5 20
 	<section id="euterpea_instruments1">
 		<h3>Euterpea &mdash; Custom Instruments (1/2)</h3>
 		<div style="text-align: left;">
-			<pre style="font-size: 32px;" font-family="family-name:cursive;">
+			<pre style="font-size: 32px;">
 data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 		     | BrightAcousticPiano
 		     | ...
@@ -705,7 +715,7 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 		     deriving (Show, Eq, Ord)
 			</pre>
 			This can be used as follows (see Chapter 19 of HSoM)
-			<pre style="font-size: 32px;" font-family="family-name:cursive;">
+			<pre style="font-size: 32px;">
     myMandolinName :: InstrumentName -- Or myFlugelhorn or myUkulele
     myMandolinName = Custom "My Mandolin"
     type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a
@@ -714,7 +724,8 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 			"<font color="#0000ff">Instr (AudSF () Double)</font>".
 			The list of parameters ([Double], above) are handled as determined by the instrument designer.
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="euterpea_instruments2">
@@ -724,34 +735,35 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 			<ul>
 				<li>Step #1: Convert a signal function into an instance of type Instr.
 					For example, using <em>vibrato</em>,
-					<pre style="font-size: 32px;" font-family="family-name:cursive;">
+					<pre style="font-size: 32px;">
 myMandolin :: Instr (AudSF () Double)
--- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
+-- Dur -&gt; AbsPitch -&gt; Volume -&gt; [Double] -&gt; (AudSF () Double)
 myMandolin dur ap vol [vfrq, dep] =
-    proc () -> do
-	vib <- osc tab1 () -< vfrq
-	aud <- osc tab2 () -< apToHz ap + vib * dep
-	outA -< aud		</pre>
+    proc () -&gt; do
+	vib &lt;- osc tab1 () -&lt; vfrq
+	aud &lt;- osc tab2 () -&lt; apToHz ap + vib * dep
+	outA -&lt; aud		</pre>
 				<li>Step #2: Connect the instrument name to the instrument definition.
-					<pre style="font-size: 32px; white-space: pre-line;" font-family="family-name:cursive;">
+					<pre style="font-size: 32px; white-space: pre-line;">
 					type InstrMap a = [(InstrumentName, Instr a)]
 					myInstrMap :: InstrMap (AudSF () Double)
 					myInstrMap = [(myMandolinName, myMandolin)]
 					</pre>
 				<li>Step #3: Use the Euterpea function <em>renderSF</em>
-					<pre style="font-size: 32px;" font-family="family-name:cursive;">
+					<pre style="font-size: 32px;">
 renderSF :: (Performable a, AudioSample b, Clock c)
-	=> Music a -> InstrMap (SigFun p () b)
-	    -> (Double, SigFun p () b)	</pre>
+	=&gt; Music a -&gt; InstrMap (SigFun p () b)
+	    -&gt; (Double, SigFun p () b)	</pre>
 				<li>Finally:
-					<pre style="font-size: 32px; white-space: pre-line;" font-family="family-name:cursive;">
+					<pre style="font-size: 32px; white-space: pre-line;">
 					mandolinMelody = instrument myMandolinName $ <font color="#0000ff" weight="bold">...music...</font>
 					(dur, sigFun) = renderSF mandolinMelody myInstrMap
 					main = outFile "mandolinMelody.wav" dur sigFun
 					</pre>
 			</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="euterpea_codingStandards">
@@ -795,7 +807,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			</ul>
 		</ol>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="euterpea_other">
@@ -812,19 +825,35 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 				UISF Examples
 				</a> on github.
 			</ul>
-			<li> Many other music programming languages have interfaces in Haskell,
+			<li> Many other MPLs have Haskell interfaces,
 				so there can be communication between them and Euterpea.
 			<li> The
 				<a href="http://music-suite.github.io/docs/api/">
 				Haskell Music Suite
 				</a>
-				is based on Euterpea.
-				It's pretty slick.
-				It has a "back end" that supports printing tonal music via LilyPond,
+				is a slick music DSL inspired by Euterpea and other recent Haskell works.
+				It's focused on score representation, and has a "back end"
+				that supports printing tonal music via LilyPond,
 					but does not support soundscapes.
+				It also has a type called Music, but it's different from Euterpea's: 
+				<pre style="font-size: 32px;">
+type StandardNote =
+  (PartT Part
+    (ColorT
+      (TextT
+        (TremoloT
+          (HarmonicT
+            (SlideT
+              (ArticulationT Articulation
+                (DynamicT Dynamics
+                  [TieT
+                    Pitch]))))))))
+
+type Music = Score StandardNote</pre>
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -836,8 +865,79 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			<a href="#/section_chuck">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		Csound is an opcode-based language (think assembler) that allows the user
+		to define instruments and combine them to create music.
+		The instruments are basically waveforms, but can be custimized to sound like actual instruments.
+
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="csound_example">
+		<h3>Csound &mdash; A Simple Example</h3>
+		<div style="text-align: left;">
+		Csound is an opcode-based language (think assembler) that allows the user
+		to define instruments and combine them to create music.
+		The instruments are basically waveforms, but can be custimized to sound like actual instruments.
+		Here is a simple example from the documentation:
+		<pre style="font-size: 32px;">
+&lt;CsoundSynthesizer&gt;
+&lt;CsOptions&gt;
+&lt;/CsOptions&gt;
+&lt;CsInstruments&gt;
+sr = 44100		&lt;== Sample rate (Hz) for audio signals & vars
+ksmps = 128		&lt;== Sample rate per control-block, e.g., mouse
+nchnls = 2		&lt;== # of audio channels.  Two for stereo.
+0dbfs = 1		&lt;== Max output in dBs before clipping
+
+instr 2
+kFreq expon 100, 5, 1000    ; kFreq set to the output of expon(ential)
+aOut  oscili 0.2, kFreq, 1  ; aOut set to the output of 'oscil' 
+	outvalue "freqsweep", kFreq
+	outs aOut, aOut
+endin
+&lt;/CsInstruments&gt;
+&lt;CsScore&gt;
+f 1 0 1024 10 1	; this function table contains the sine information
+i 2 0 5 	; the instrument is called at t=0 &amp; plays for 5 sec.
+e
+&lt;/CsScore&gt;
+&lt;/CsoundSynthesizer&gt;</pre>
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="csound_language">
+		<h3>Csound &mdash; Other Language Features</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Instrument parameters: All instruments have 3 fixed params:
+					<ul>
+						<li> Instrument #
+						<li> Start time
+						<li> Duration
+					</ul>
+					<pre style="font-size: 32px;">
+instr 1			   &lt;== This takes 2 more params: amp &amp; freq.
+aSine poscil3 p4, p5, 1;   &lt;== p4 = 4th param; p5 = 5th param
+	outs aSine, aSine  &lt;== Output specified for each channel
+endin</pre>
+				<li> (Function tables also can take multiple params.)
+				<li> We've got if statements and loops!
+					<pre style="font-size: 32px;">
+instr 1
+iGreetingCount = 0
+    loop:					&lt;== Any label
+	iGreetingCount = iGreetingCount + 1
+	prints "Hello world #%i\n", iGreetingCount  &lt;== To console
+    if (iGreetingCount &lt; 5) igoto loop
+endin</pre>
+			</ul>
+		</div>
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="csound_other">
@@ -848,7 +948,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			is a composition environment for Csound.
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -863,7 +964,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		</div>
 		<aside class="notes">
 		<ul>
-			At one point, there was a Coursera course on ChucK, "ChucK 101".  It's now 404.
+			<li> At one point, there was a Coursera course on ChucK, "ChucK 101".  It's now 404.
 		</ul>
 		</aside>
 	</section>
@@ -874,11 +975,11 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.
 			Here is a script that plays a 220 Hz sine wave for 5 seconds.
 		<pre style="font-size: 32px;">
-	<<< "Hello, sine wave" >>>
-	SinOsc s => dac;
-	0.6 => s.gain;
-	220 => s.freq;
-	5::second => now;
+	&lt;&lt;&lt; "Hello, sine wave" &gt;&gt;&gt;
+	SinOsc s =&gt; dac;
+	0.6 =&gt; s.gain;
+	220 =&gt; s.freq;
+	5::second =&gt; now;
 		</pre>
 		In this script:
 		<ul>
@@ -888,7 +989,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			<li> Sending a duration to "now" causes time to advance, which streams output to the dac, which creates sound.
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="chuck_moreinfo">
@@ -907,7 +1009,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			<li> ChucK can be run in what I'll call "performance mode", where a script can be updated as it's running.
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="chuck_echo">
@@ -917,16 +1020,17 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			then echoes a slightly delayed and muted version to the speakers.  It uses a built-in Audio-to-Digital Converter (ADC) called adc. 
 		<pre style="font-size: 32px;">
 	// Feedback setup
-	adc => Gain g => dac;
-	g => Gain feedback => DelayL delay => g;
+	adc => Gain g =&gt; dac;
+	g => Gain feedback =&gt; DelayL delay =&gt; g;
 
-	0.75::second => delay.max => delay.delay;
-	0.5 => feedback.gain;  // Note: gain < 1.
-	0.75 => delay.gain;
-	while (true) 1::second => now;
+	0.75::second =&gt; delay.max =&gt; delay.delay;
+	0.5 =&gt; feedback.gain;  // Note: gain &lt; 1.
+	0.75 =&gt; delay.gain;
+	while (true) 1::second =&gt; now;
 		</pre>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="chuck_instrument">
@@ -943,12 +1047,12 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			</a>.
 		<pre style="font-size: 32px;">
 	// Karplus-Strong model of a plucked string
-	Impulse imp => Delay plucked => dac;
-	plucked => plucked;   // Feedback 
-	441.0::samp => plucked.delay; // Sample rate
-	0.98 => plucked.gain; // Round-trip gain < 1
-	1.0 => imp.next;      // "Pluck" impulse
-	5.0::second => now;   // The string resonates
+	Impulse imp =&gt; Delay plucked =&gt; dac;
+	plucked =&gt; plucked;   // Feedback 
+	441.0::samp =&gt; plucked.delay; // Sample rate
+	0.98 =&gt; plucked.gain; // Round-trip gain &lt; 1
+	1.0 =&gt; imp.next;      // "Pluck" impulse
+	5.0::second =&gt; now;   // The string resonates
 		</pre>
 		<ul>
 			<li> Note the feedback line that connects plucked to itself.
@@ -956,7 +1060,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 					on its action at previous moments in time.
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="chuck_other">
@@ -981,7 +1086,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 				</ul>
 			</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -994,7 +1100,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -1007,7 +1114,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="supercollider_language">
@@ -1035,7 +1143,9 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		result;
 	};
 	factorial.(5).postln;</pre>
-		<aside class="notes" />
+		</div>
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="supercollider_basics">
@@ -1074,19 +1184,20 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<pre style="font-size: 32px; white-space: pre-line;">
 		{ SinOsc.ar(440) }.play;  // Omitting arguments with default values</pre>
 		where "ar" is the "audio rate" constructor of the SinOsc class.
-		The sine wave can be stopped with Ctrl-<period>.
+		The sine wave can be stopped with Ctrl-&lt;period>.
 		All the parameters above can be omitted, which will cause default values to be used.
 		An important class to become familiar with is UGen, the abstract superclass of all "unit generators".
 		These unit generators represent signals.  Predefined examples include:
-		<ul><ul>
+		<ul>
 			<li> Impulse, a class that represents a simple sound;
 			<li> LFSaw, a class that represents a low-frequency sawtooth oscillator (cf. SinOsc);
 			<li> PMOsc, a class that represents a phase modulation oscillator (cf. SinOsc);
 			<li> EnvGen, which wraps another signal with an "envelope";
 			<li> Latch, which wraps another signal with an all-or-nothing filter.
-		</ul></ul>
+		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="supercollider_complex">
@@ -1160,13 +1271,14 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 				for more sample code.
 				Note the three distinct functions above:
 			</p>
-			<ul><ul>
+			<ul>
 				<li> def &mdash; What you'd expect.  The operator "->>" is a Clojure macro.
 				<li> defn &mdash; Same as def, but this adds metadata to the defined var.
 				<li> definst &mdash; Defines an instrument.
-			</ul></ul>
+			</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -1178,7 +1290,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Strasheela is a music programming language that lets the user describe constraints
+		Strasheela is an MPL that lets the user describe constraints
 		(e.g., rhythmic, melodic, and harmonic) on a music composition
 		via user-defined "containers".
 		Strasheela then finds one or more compositions that satisfies these constraints,
@@ -1260,7 +1372,8 @@ end
 			[<a href="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.mp3">play</a>]:
 			<img src="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.preview.png"
 				border="1"
-				width="100%"/>
+				width="100%"
+				alt="Score of sample canon"/>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1331,7 +1444,7 @@ end
 		<div style="text-align: left;">
 		<p><b>Music &amp; Music Theory</b></p>
 			<ul>
-				<li> <a href=http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
+				<li> <a href="http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
 					The Jazz Theory Book
 					</a>, by Mark Levine
 				<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
@@ -1351,7 +1464,7 @@ end
 				<li> Cheatsheets:
 					<a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
 				<li> <a href="http://www.musicainformatica.org/topics/music-n.php">History</a>
-					of the Music-N family of music programming languages
+					of the Music-N family of MPLs
 				<li> <a href="http://www.link.cs.cmu.edu/melisma/">The Melisma Music Analyzer</a>
 				<li> <a href="http://soareschen.github.io/harmtrace-slides/#1">Functional
 					Modelling of Musical Harmony</a>
@@ -1382,16 +1495,21 @@ end
 		</h2>
 		<div style="text-align: left;">
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 
 	<section id="appendix_advice">
 		<h3>Appendix A &mdash; Advice</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Be cautious about volume: 
-				Programs that don't explicitly set volume might by default
-				play at the loudest possible volume.
+			<li> Volume.
+				<ul>
+					<li> Programs that don't explicitly set volume might by default
+						play at the loudest possible volume.
+					<li> Sudden changes in soundscape volume can result in clicks.
+						These can be resolved by adding envelopes to modulate the volume.
+				</ul>
 			<li> Note that pitch numbering starts at C in each octave, not A.
 				<ul>
 					<li> For example, the pitch one semitone below C4 is not B4, but B3.
@@ -1404,16 +1522,16 @@ end
 				If you want to attempt to modify the vertical placement of slides
 				on a reveal.js presentation, take a look at the layout() function in reveal.js.
 		</ul>
-		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 	
 	<section id="appendix_choosing">
 		<h3>Appendix C &mdash; Choosing a Music Programming Language</h3>
 		<div style="text-align: left;">
 		If you just want to compose music, an app (e.g., Opusmodus, TODO) might make more sense
-		than a music programming language.
+		than an MPL.
 		<br/><br/>
 		Here are some guidelines on which language to choose.
 		(TODO: Live performance)
@@ -1478,20 +1596,24 @@ end
 						<a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
 						(<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>)
 				</ul>
+			<br/>
 			<li> Linux
 				<ul>
 					<li> TODO
 				</ul>
+			<br/>
 			<li> Mac
 				<ul>
 					<li> <a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a> (a DAW &mdash; Mac OS X only)
 					<li> <a href="https://en.wikipedia.org/wiki/Ableton_Live">Ableton Live</a> (a DAW &mdash; Mac/PC)
 				</ul>
+			<br/>
 			<li> .NET
 				<ul>
 					<li> <a href="http://naudio.codeplex.com/">NAudio</a>
 					<li> <a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a>
 				</ul>
+			<br/>
 			<li> Python
 				<ul>
 					<li> <a href="http://web.mit.edu/music21/">music21</a>:
@@ -1499,7 +1621,8 @@ end
 				</ul>
 		</ul>
 		</div>
-		<aside class="notes" />
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
