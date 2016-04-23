@@ -191,18 +191,49 @@ reveal.js tips:
 		</aside>
 	</section>
 
-	<section id="intro_musicxml">
-		<h3>Introduction &mdash; MusicXML, v3.0</h3>
+	<section id="intro_musicxml_lilypond">
+		<h3>Introduction &mdash; MusicXML and LilyPond</h3>
 		<div style="text-align: left;">
+		Both of these involve the sound of a piece and the appearance of its score.
 			<ul>
-				<li> MusicXML was is the Esperanto of music apps, except it's used more often.
-				<li> Nearly every possible variation of musical notation is there ... twice.
-				<li> The file musicxml.xsd along is ~5400 lines long.
-				<li> MuseScore used to support printing to LilyPond format,
-					but instead focused support on MusicXML,
-					and left MusicXML-to-LilyPond support to others.
+				<li> <b>MusicXML:</b> Standard format for computer exchange of score info
+					<ul>
+						<li> Most music apps read and/or write MusicXML.
+						<li> The schema file, musicxml.xsd, is ~5400 lines long.
+						<li> Significant undertaking to support
+					</ul>
+				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
+					<ul>
+						<li> Better than MusicXML as a source to learn about music
+						<li> Many convenience features, i.e., chord names, relative pitch
+						<li> Separate GUI front-end called Frescobaldi
+						<ul>
+							<li> Some features in command-line not present in GUI (e.g., SVG output)
+						</ul>
+					</ul>
+				</ul>
+				<pre style="font-size: 28px;">
+\version "2.18.2"
+global = {
+  \key c \major
+  \time 3/4
+}
+right = \relative c'' {\global g8 g8 a4 g4        c4 b2      }
+left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
+\score {
+  \new PianoStaff \with {instrumentName = "Piano"}
+  &lt;&lt;
+    \new Staff = "right" \with {midiInstrument = "acoustic grand"} \right
+    \new Staff = "left"  \with {midiInstrument = "acoustic grand"} { \clef bass \left}
+  >>
+  \layout { }
+  \midi {\tempo 4=100}
+}</pre>
 		</div>
 		<aside class="notes">
+			Note: MuseScore used to support printing to LilyPond format,
+				but instead focused support on MusicXML,
+				and left MusicXML-to-LilyPond support to others.
 		</aside>
 	</section>
 
