@@ -214,17 +214,17 @@ reveal.js tips:
 				</ul>
 				<pre style="font-size: 28px;">
 \version "2.18.2"
-global = {
-  \key c \major
-  \time 3/4
-}
+\header { title = "Happy Birthday" }
+global = { \key c \major
+           \time 3/4
+         }
 right = \relative c'' {\global g8 g8 a4 g4        c4 b2      }
 left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 \score {
   \new PianoStaff \with {instrumentName = "Piano"}
   &lt;&lt;
     \new Staff = "right" \with {midiInstrument = "acoustic grand"} \right
-    \new Staff = "left"  \with {midiInstrument = "acoustic grand"} { \clef bass \left}
+    \new Staff = "left"  \with {midiInstrument = "acoustic grand"} {\clef bass \left}
   >>
   \layout { }
   \midi {\tempo 4=100}
@@ -297,16 +297,13 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		<h3>Introduction &mdash; Mathematical Music Theory</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Hugo Riemann (1849-1919) was a German music theorist and composer
-				who studied the transformations that can be made to three-note chords
-				in order to better understand chord progressions.
+			<li> Three-note chord transformations first formally explored by Hugo Riemann (1849-1919)
 			<ul>
 				<li> A <em>Schritt</em> transposes one chord (i.e., shifts its frequency).
 				<li> A <em>Wechsel</em> changed a major triad into a minor triad and vice versa.
 			</ul>
-			<li> This was later generalized to the P, L, and R operations
-				in "Neo-Riemannian Theory", and the subjective field of "Schenkerian analysis",
-				by Heinrich Schenker (1868-1935).
+			<li> Later generalized to P, L, R operations in Neo-Riemannian Theory and Schenkerian analysis.
+				<!-- Heinrich Schenker (1868-1935).  Schenkerian analysis is subjective -->
 			<li> More recent work:
 			<ul>
 				<li> Transformational theory, by David Lewin, 1980s.
@@ -315,10 +312,8 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			</ul>
 		</ul>
 		<br/><br/>
-		So what?  Any of these should be judged on their usefulness:
-		Not in answering the questions that they pose,
-		but in answering questions outside of their scope.
-		Don't forget the human listener, and don't mistake pattern for passion.
+		<b>Q:</b> How useful in addressing issues outside their scope?<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Don't forget the human listener, and don't mistake pattern for passion.
 		</div>
 		<aside class="notes">
 			<ul>
@@ -458,26 +453,27 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 	<section id="euterpea">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_transcription">&#x25c1;</a>
-			Euterpea2
+			Euterpea
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		<ul>
-			<li> Euterpea (v2) is a music DSL embedded in the Haskell programming language.
-			<li> It's first on the list of languages because:
+			<li> Euterpea (v2): A music DSL embedded in Haskell
+			<li> First up because:
 				<ul>
-					<li> (a) it supports tonal and full-spectrum music, and
-					<li> (b) the similicity of its representation of music will help us focus on the
-						domain of music itself.
+					<li> (a) Supports both tonal and full-spectrum music
+					<li> (b) Core similicity &rArr; Better focus on the domain of music itself.
 				</ul>
-			<li> Euterpea (and a related library and PDF called
-				The Haskell School of Music) was written by the late Paul Hudak,
-				together with
-					Hai ("Paul") Liu,
-					Eric Cheng,
-					Donya Quick, and
-					Daniel Winograd-Cort.
-			<li> It's now maintained by the last two, Quick and Winograd-Cort.
+			<li> Euterpea (and a related library and PDF: The Haskell School of Music)
+				was written by:
+				<ul>
+					<li> the late Paul Hudak
+					<li> Hai ("Paul") Liu,
+					<li> Eric Cheng,
+					<li> Donya Quick
+					<li> Daniel Winograd-Cort
+				</ul>
+			<li> Now maintained by Quick &amp; Winograd-Cort.
 		</ul>
 		</div>
 		<aside class="notes">
@@ -615,8 +611,7 @@ instrB = AcousticBassDrum
 mkBeat d h a = [Beat { bDur = d, bHeard = h, bAcc = a }]
 qns = mkBeat qn 0 0; ens =  mkBeat en 0 0; enb = mkBeat en 1 0; snb = mkBeat sn 1 0
 -- amen1b represents the first measure for one instrument (Bass Drum).
-amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
-			</pre>
+amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns</pre>
 		</div>
 		<aside class="notes">
 		    <ul>
@@ -641,8 +636,7 @@ amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns
 		If we replace play with the more explicit version
 		<pre style="font-size: 32px;">
 playA :: (ToMusic1 a, Control.DeepSeq.NFData a)
-		=> PMap Note1 -> Context Note1 -> Music a -> IO()
-		</pre>
+		=> PMap Note1 -> Context Note1 -> Music a -> IO()</pre>
 		then we need to supply some more information,
 		such as how to interpret note attributes (e.g., Pizzicato)
 		and phrase attributes (e.g., Crescendo).
@@ -656,8 +650,7 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			 , playNote     :: NoteFun a    -- Interp. notes
 			 , interpPhrase :: PhraseFun a  -- Interp. phrases
 			 -- , notatePlayer :: NotateFun -- Removed.
-			 }
-		</pre>
+			 }</pre>
 		The PMap ("Player Map") mentioned above tells Euterpea which Player to use
 		for which instrument.
 		</div>
@@ -753,8 +746,7 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 		<pre style="font-size: 32px;">
 (>>>)          :: SF a b -> SF b c -> SF a c -- Left-to-right composition
 (&lt;&lt;&lt;) :: SF b c -> SF a b -> SF a c -- Right-to-left composition
-z &lt;- sigFunc -&lt; (x, y)		    -- Signal function
-		</pre>
+z &lt;- sigFunc -&lt; (x, y)		    -- Signal function</pre>
 		<pre style="font-size: 32px;">
 {-# LANGUAGE Arrows #-}
 module Euterpea.Examples.SigFuns where
@@ -776,8 +768,7 @@ vibrato vfrq dep = proc afrq -> do
 
 -- type AudSF a b = SigFun AudRate a b
 s5 :: AudSF () Double
-s5 = constA 1000 >>> vibrato 5 20
-		</pre>
+s5 = constA 1000 >>> vibrato 5 20</pre>
 		</div>
 		<aside class="notes">
 		<ul>
@@ -799,14 +790,12 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 		     | BrightAcousticPiano
 		     | ...
 		     | Custom String
-		     deriving (Show, Eq, Ord)
-			</pre>
+		     deriving (Show, Eq, Ord)</pre>
 			This can be used as follows (see Chapter 19 of HSoM)
 			<pre style="font-size: 32px;">
     myMandolinName :: InstrumentName -- Or myFlugelhorn or myUkulele
     myMandolinName = Custom "My Mandolin"
-    type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a
-			</pre>
+    type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a</pre>
 			This is commonly used with the type variable a being
 			"<font color="#0000ff">Instr (AudSF () Double)</font>".
 			The list of parameters ([Double], above) are handled as determined by the instrument designer.
@@ -902,27 +891,26 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<h3>Euterpea &mdash; Other Info</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Chapter 17 of the PDF book Haskell School of Music introduces
-				Arrow-based Functional Reactive Programming (FRP) via the library
-				FRP.UISF.
+			<li> Chapter 17 of HSoM introduces
+				Arrow-based Functional Reactive Programming (FRP) 
+				via FRP.UISF.
 			<ul>
-				<li> A good place to learn more about it is
+				<li> Good place to learn more:
 				Daniel Winograd-Cort's
 				<a href="https://github.com/dwincort/UISF/tree/master/FRP/UISF/Examples">
 				UISF Examples
 				</a> on github.
 			</ul>
 			<li> Many other MPLs have Haskell interfaces,
-				so there can be communication between them and Euterpea.
-			<li> The
-				<a href="http://music-suite.github.io/docs/api/">
-				Haskell Music Suite
-				</a>
-				is a slick music DSL inspired by Euterpea and other recent Haskell works.
-				It's focused on score representation, and has a "back end"
-				that supports printing tonal music via LilyPond,
-					but does not support soundscapes.
-				It also has a type called Music, but it's different from Euterpea's: 
+				allowing communication between them &amp; Euterpea.
+			<li> <a href="http://music-suite.github.io/docs/api/">
+				Haskell Music Suite</a>:
+				a slick music DSL inspired by Euterpea and others.
+				<ul>
+					<li> Focused on score representation
+					<li> Does not support soundscapes
+					<li> Has a "back end" that supports printing tonal music via LilyPond
+					<li> Also has a type called Music, but it's different from Euterpea's: 
 				<pre style="font-size: 32px;">
 type StandardNote =
   (PartT Part
@@ -952,9 +940,14 @@ type Music = Score StandardNote</pre>
 			<a href="#/section_chuck">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Csound is an opcode-based language (think assembler) that allows the user
-		to (a) define customized instruments and (b) combine them to create music.
-		In might be helpful to think of these as two separate languages.
+			Csound is an opcode-based language (think assembler).  The user can:
+			<ul>
+				<li> Define customized instruments
+				<ul>
+					<li> The instruments are basically waveforms, but can be custimized to sound like actual instruments.
+				</ul>
+				<li> Combine them to create music
+			</ul>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -963,9 +956,6 @@ type Music = Score StandardNote</pre>
 	<section id="csound_example">
 		<h3>Csound &mdash; A Simple Example</h3>
 		<div style="text-align: left;">
-		Csound is an opcode-based language (think assembler) that allows the user
-		to define instruments and combine them to create music.
-		The instruments are basically waveforms, but can be custimized to sound like actual instruments.
 		Here is a simple example from the documentation:
 		<pre style="font-size: 32px;">
 &lt;CsoundSynthesizer>
@@ -1059,7 +1049,7 @@ endin</pre>
 	<section id="chuck_hellosinewave">
 		<h3>ChucK &mdash; Hello Sine Wave</h3>
 		<div style="text-align: left;">
-		ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.
+			ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.<br/>
 			Here is a script that plays a 220 Hz sine wave for 5 seconds.
 		<pre style="font-size: 32px;">
 	&lt;&lt;&lt; "Hello, sine wave" >>>
@@ -1070,10 +1060,10 @@ endin</pre>
 		</pre>
 		In this script:
 		<ul>
-			<li> Stuff inside the guillemet-like quotes are evaluated and printed to the standard output.
-			<li> SinOsc is a Sinusoidal Oscillator type, which has "gain" (i.e., volume) and "freq" (i.e., pitch) properties.
+			<li> &lt;&lt;&lt;Stuff inside the angled quotes>>> is  evaluated and printed.
+			<li> The Sinusoidal Oscillator type, SinOsc, has "gain" (i.e., volume) and "freq" (i.e., pitch) properties.
 			<li> The '=>' symbol is called the "chuck" operator, since it "throws" or "chucks" a value or stream to its destination.
-			<li> Sending a duration to "now" causes time to advance, which streams output to the dac, which creates sound.
+			<li> Sending a duration to "now" causes time to advance.  This streams output to the dac to create sound.
 		</ul>
 		</div>
 		<aside class="notes">
@@ -1084,16 +1074,22 @@ endin</pre>
 		<h3>ChucK &mdash; More Info</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Musical notes can be referenced by their MIDI Note Numbers, and converted to actual frequencies by Std.mtof().
+			<li> Musical notes are be called by their MIDI Note Numbers, &amp; converted to freqs by Std.mtof().
 			<li> A 3-note chord can be represented by an array of SinOsc objects: SinOsc chord[3];
 			<li> ChucK uses the whimsical terms "shreds" and "spork" for processes and forks.
 			<ul>
 				<li> Scripted and compiled plug-ins are called Chugens and ChuGins.
 			</ul>
-			<li> To emulate rests, have time advance in a scope without audio streams.  Add notes in function calls.
-			<li> Different instruments can be represented via different "shreds".  Events are used to communicate between shreds.
-			<li> For stereo, dac has fields called .left and .right.  For quadraphonic sound, use the .chan field.
-			<li> ChucK can be run in what I'll call "performance mode", where a script can be updated as it's running.
+			<li> Different instruments are put in different "shreds".  Events communicate between shreds.
+			<li> To emulate rests, have time advance in a static scope without audio streams.
+				<ul>
+					<li> Notes placed in function calls are in a different static scope.
+				</ul>
+			<li> For stereo, dac has fields called <tt>.left</tt> and <tt>.right</tt>.
+				<ul>
+					<li> For quadraphonic sound, use the <tt>.chan</tt> field.
+				</ul>
+			<li> ChucK can run in "live performance mode", where a script is updated while running.
 		</ul>
 		</div>
 		<aside class="notes">
@@ -1123,11 +1119,6 @@ endin</pre>
 	<section id="chuck_instrument">
 		<h3>ChucK &mdash; Instrument Modeling</h3>
 		<div style="text-align: left;">
-		But wait, there's more!  ChucK doesn't just dutifully chuck data around.
-		It also allows you to create physical models of the acoustics of instruments,
-			such as a ceramic flute, an 18th century violin, or the human voice.
-		(This functionality was copied from the earlier Synthesis ToolKit in C++.
-		For more details on the modeling, see https://ccrma.stanford.edu/~jos/pas...)
 		Here's a simplified version of a plucked string, modified from the book
 			<a href="http://www.amazon.com/Programming-Musicians-Digital-Artists-Creating/dp/1617291706/">
 				Programming for Musicians and Digital Arists: Creating music with ChucK
@@ -1139,15 +1130,16 @@ endin</pre>
 	441.0::samp => plucked.delay; // Sample rate
 	0.98 => plucked.gain; // Round-trip gain &lt; 1
 	1.0 => imp.next;      // "Pluck" impulse
-	5.0::second => now;   // The string resonates
-		</pre>
+	5.0::second => now;   // The string resonates</pre>
 		<ul>
-			<li> Note the feedback line that connects plucked to itself.
-					This reflects how the action of a plucked string is dependent
+			<li> Note the feedback line that connects plucked to itself,
+					reflecting how the action of a plucked string is dependent
 					on its action at previous moments in time.
 		</ul>
 		</div>
 		<aside class="notes">
+			Instrument modeling was pulled into ChucK from the earlier
+			<a href="https://ccrma.stanford.edu/software/stk/">Synthesis ToolKit in C++</a>.
 		</aside>
 	</section>
 
@@ -1311,8 +1303,7 @@ endin</pre>
 		[freq * ratio, freq * 1.5 * ratio],
 		index,
 		mul: env * 0.5)
-)}.play
-		</pre>
+)}.play</pre>
 		</div>
 		<aside class="notes">
 		When SC was named, the SSC had recently been cancelled by a budget cut.
@@ -1410,21 +1401,19 @@ endin</pre>
 	<section id="strasheela_constraints">
 		<h3>Strasheela &mdash; Constraints</h3>
 		<div style="text-align: left;">
-			Here is an example from a
-			<a href="http://cmr.soc.plymouth.ac.uk/tanders/publications/TorstenAnders-MOZ2004.pdf">
+			Example of a constraint called RestrictMelodicInterval.
+			(<a href="http://cmr.soc.plymouth.ac.uk/tanders/publications/TorstenAnders-MOZ2004.pdf">
 			2004 paper
-			</a>
-			of a constraint in Strasheela called RestrictMelodicInterval.
-			It requires consecutive notes to be separated by at most a
-			perfect fifth (i.e., 7 semitones).
+			</a>)
+			<br/>
+			The constraint: Consecutive notes must be separated by at most a perfect fifth (i.e., 7 semitones).
 			<pre style="font-size: 32px;">
 proc {RestrictMelodicInterval Note1}
     Note2 = {Note1 getTimeAspectPredecessor($)}
 in
     7 >=: {FD.distance {Note1 getPitch($)} {Note2 getPitch($)}}
-end
-			</pre>
-			and here is this rule being applied:
+end</pre>
+			And here is this rule being applied:
 			<pre style="font-size: 32px;">
 {MyScore
     forAll(RestrictMelodicInterval
@@ -1432,13 +1421,10 @@ end
 	    {X isNote($)} andthen
 	    {X hasTimeAspectPredecessor($)}
     end)}
-}
-			</pre>
-			A typical Strasheela program can use hundreds of variables and constraints.
-			The order of application of the constraits does matter.  The order is usually
-			Timing &rArr; Melodic &rArr; Harmonic.
-			A novice user should gradually increase the number of constraints
-			to determine their impact on program execution time.
+}</pre>
+			A typical Strasheela program can use hundreds of variables and constraints.<br/>
+			Constrait order does matter.  Usually it's Timing &rArr; Melodic &rArr; Harmonic.<br/>
+			A novice user should gradually increase the number of constraints to determine impact.
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1447,14 +1433,11 @@ end
 	<section id="strasheela_canons">
 		<h3>Strasheela &mdash; Canons</h3>
 		<div style="text-align: left;">
-			In music, a <em>canon</em> is a piece of music in which two or more voices
-			play the same music, starting at different times.  Classic examples include
-			"Row, Row, Row Your Boat" and "Frère Jacques".  If there are other voices
-			that do not share in the repetition, then it's called an
-			"<em>accompanied canon</em>".
-			Appropriate constraints can be used to ensure that the time-shifted copies
-			of the theme sound harmonious when played together.
-			<br/><br/>
+			A <em>canon</em> is music with 2+ voices that play time-shifted copies of the same music.<br/>
+			Constraints can ensure that the copies sound harmonious together.<br/>
+			Classic examples: "Row, Row, Row Your Boat" and "Frère Jacques".<br/>
+			An "<em>accompanied canon</em>" has other non-repeating voices.<br/>
+			<br/>
 			Here's a short canon found in a few seconds by Strasheela.
 			[<a href="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.mp3">play</a>]:
 			<img src="https://raw.githubusercontent.com/tanders/strasheela/master/strasheela/examples/Output/03-FloridCounterpoint-Canon.preview.png"
