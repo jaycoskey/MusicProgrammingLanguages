@@ -729,8 +729,7 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 		recorded as such.
 		Instead, they're recorded as something like
 		<pre style="font-size: 32px;">
-		(note1 :=: (note2 :=: (note3 :=: note4)))
-		</pre>
+		(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
 		So one drawback of the simplicity of the internal representation used
 		is that extracting structure from the piece later becomes challenging.
 		</div>
@@ -1170,26 +1169,12 @@ endin</pre>
 	</section>
 </section>
 
-<section id="section_puredata">
-	<section id="puredata">
-		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_chuck">&#x25c1;</a>
-			Pure Data (Pd)
-			<a href="#/section_supercollider">&#x25b7;</a>
-		</h2>
-		<div style="text-align: left;">
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-</section>
-
 <section id="section_supercollider">
 	<section id="supercollider">
 		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_puredata">&#x25c1;</a>
+			<a href="#/section_chuck">&#x25c1;</a>
 			SuperCollider 3 (SC)
-			<a href="#/section_strasheela">&#x25b7;</a>
+			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		</div>
@@ -1200,12 +1185,12 @@ endin</pre>
 	<section id="supercollider_language">
 		<h3>SuperCollider &mdash; The Language</h3>
 		<div style="text-align: left;">
-		SuperCollider (named in 1993 after the cancelled Superconducting Super Collider project)
-			is an OO language that supports GUI programming,
-			with slightly differences between Windows, Mac, and Linux.
-		It also supports plug-ins, a means of interactive programming, MIDI data,
-			and communication with external devices.
-		Functions are invoked via messages, as in Smalltalk.
+			<p>SuperCollider:</p>
+			<ul>
+				<li> A Smalltalk-like OO language.
+				<li> Named in 1993 after the cancelled Superconducting Super Collider project
+				<li> Supports plug-ins, MIDI data, live coding, and communication with external devices.
+			</ul>
 		<pre style="font-size: 32px;">
 	15.squared           // Evaluates to 225.
 	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
@@ -1224,58 +1209,66 @@ endin</pre>
 	factorial.(5).postln;</pre>
 		</div>
 		<aside class="notes">
+			SuperCollider has slight differences between Windows, Mac, and Linux versions.
 		</aside>
 	</section>
 
 	<section id="supercollider_basics">
 		<h3>SuperCollider &mdash; The Basics</h3>
 		<div style="text-align: left;">
-		SuperCollider has a client-server design, like IPython/Jupyter.
-		The client's interpreter starts automatically.  A local audio server can be started with the command
-		<pre style="font-size: 32px;">
+			<p>SuperCollider has a client-server design, like IPython/Jupyter.
+			</p>
+			<ul>
+				<li> The client's interpreter starts automatically.
+				<li> A local audio server can be started with the command
+
+					<pre style="font-size: 32px;">
 		s.boot</pre>
-		where the variable "s" is reserved to represent the server.
-		Client-server synchronization is achieved via communication message tags
-			with the intended time of execution in NTP (Network Time Protocol) format.
-		<br/><br/>
-		To execute a command in the IDE that comes with SC,
-			highlight a section of code and type Ctrl-Enter.
-		<br/><br/>
-		The IDE's Help Browser is easy to use, though some entries have minimal information.
-		<br/><br/>
-		SuperCollider focus is on creating envelopes of sound with signal processing,
-			and combining them with a family of "pattern" classes (e.g., Pbind, Pchain, Prand, etc.).
-			While it's theoretically possible to emulate specific musical instruments (e.g., piano, guitar, etc.)
-			in SuperCollider, it isn't commonly done.
+					where the variable "s" is reserved to represent the server.
+			</ul>
+			<br/>
+			Client-server synchronization via message tags
+				with execution time in NTP format.
+			<br/><br/>
+			IDE: &nbsp;&nbsp;&nbsp; Ctrl-Enter = execute; &nbsp;&nbsp;&nbsp; Ctrl-&lt;period> = terminate.
+				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				The Help Browser is easy to use, though some entries have minimal information.
+			<br/><br/>
+			Focus on signal processing, creating envelopes of sound,
+				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				and combining them with a family of "pattern" classes (e.g., Pbind, Pchain, Prand, etc.).
+				<br/>
+			It's possible to emulate specific musical instruments, but not commonly done.
 		</div>
 	</section>
 
 	<section id="supercollider_sinewaves">
 		<h3>SuperCollider &mdash; Sine Waves</h3>
 		<div style="text-align: left;">
-		A (non-terminating) sine wave at 440 Hz can be played at half-volume with
-		<pre style="font-size: 32px; white-space: pre-line;">
-		{ SinOsc.ar(440, phase: 0, mul: 0.5, add: 0) }.play;  // Keyword args</pre>
-		or
-		<pre style="font-size: 32px; white-space: pre-line;">
-		{ SinOsc.ar(440, 0, 0.5, 0) }.play;  // Positional args</pre>
-		or just
-		<pre style="font-size: 32px; white-space: pre-line;">
-		{ SinOsc.ar(440) }.play;  // Omitting arguments with default values</pre>
-		where "ar" is the "audio rate" constructor of the SinOsc class.
-		The sine wave can be stopped with Ctrl-&lt;period>.
-		All the parameters above can be omitted, which will cause default values to be used.
-		An important class to become familiar with is UGen, the abstract superclass of all "unit generators".
-		These unit generators represent signals.  Predefined examples include:
-		<ul>
-			<li> Impulse, a class that represents a simple sound;
-			<li> LFSaw, a class that represents a low-frequency sawtooth oscillator (cf. SinOsc);
-			<li> PMOsc, a class that represents a phase modulation oscillator (cf. SinOsc);
-			<li> EnvGen, which wraps another signal with an "envelope";
-			<li> Latch, which wraps another signal with an all-or-nothing filter.
-		</ul>
+			A (non-terminating) sine wave at 440 Hz can be played at half-volume with
+			<pre style="font-size: 32px; white-space: pre-line;">
+			{ SinOsc.ar(440, phase: 0, mul: 0.5, add: 0) }.play;  // Keyword args</pre>
+			or
+			<pre style="font-size: 32px; white-space: pre-line;">
+			{ SinOsc.ar(440, 0, 0.5, 0) }.play;  // Positional args</pre>
+			or just
+			<pre style="font-size: 32px; white-space: pre-line;">
+			{ SinOsc.ar(440) }.play;  // Omitting arguments with default values</pre>
+			where "ar" is the "audio rate" constructor of the SinOsc class.
+			<br/><br/>
+			<p>
+				UGen is the abstract superclass of all "unit generators", which represent signals.  Some examples:
+			</p>
+			<ul>
+				<li> Impulse, a class that represents a simple sound;
+				<li> LFSaw, a class that represents a low-frequency sawtooth oscillator (cf. SinOsc);
+				<li> PMOsc, a class that represents a phase modulation oscillator (cf. SinOsc);
+				<li> EnvGen, which wraps another signal with an "envelope";
+				<li> Latch, which wraps another signal with a conditional filter.
+			</ul>
 		</div>
 		<aside class="notes">
+			All the parameters above can be omitted, which causes defaults to be used instead.
 		</aside>
 	</section>
 
@@ -1360,10 +1353,24 @@ endin</pre>
 	</section>
 </section>
 
+<section id="section_puredata">
+	<section id="puredata">
+		<h2 style="background-color: #d0d0ff;">
+			<a href="#/section_supercollider">&#x25c1;</a>
+			Pure Data (Pd)
+			<a href="#/section_strasheela">&#x25b7;</a>
+		</h2>
+		<div style="text-align: left;">
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+</section>
+
 <section id="section_strasheela">
 	<section id="strasheela">
 		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_supercollider">&#x25c1;</a>
+			<a href="#/section_puredata">&#x25c1;</a>
 			Strasheela (Honorable Mention)
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
