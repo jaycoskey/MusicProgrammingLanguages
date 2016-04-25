@@ -243,17 +243,13 @@ reveal.js tips:
 				<li> <b>MusicXML:</b> Standard format for computer exchange of score info
 					<ul>
 						<li> Most music apps read and/or write MusicXML.
-						<li> The schema file, musicxml.xsd, is ~5400 lines long.
-						<li> Significant undertaking to support
+						<li> Significant undertaking to support (schema is ~5400 lines)
 					</ul>
 				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
 					<ul>
-						<li> Better than MusicXML as a source to learn about music
-						<li> Many convenience features, i.e., chord names, relative pitch
-						<li> Separate GUI front-end called Frescobaldi
-						<ul>
-							<li> Some features in command-line not present in GUI (e.g., SVG output)
-						</ul>
+						<li> Many convenience features, e.g., chord names, relative pitch
+						<li> Better than MusicXML for learning about music
+						<li> Frescobaldi = separate GUI front-end 
 					</ul>
 				</ul>
 				<pre style="font-size: 28px;">
@@ -275,9 +271,12 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 }</pre>
 		</div>
 		<aside class="notes">
-			Note: MuseScore used to support printing to LilyPond format,
-				but instead focused support on MusicXML,
-				and left MusicXML-to-LilyPond support to others.
+			<ul>
+				<li> Note: MuseScore used to support printing to LilyPond format,
+					but instead focused support on MusicXML,
+					and left MusicXML-to-LilyPond support to others.
+				<li> Some features in command-line not present in GUI (e.g., SVG output)
+			</ul>
 		</aside>
 	</section>
 
@@ -619,21 +618,25 @@ data Music a = Prim (Primitive a)       -- primitive value
 	<section id="euterpea_percussion">
 	<h3>Euterpea &mdash; Percussion</h3>
 		<div style="text-align: left;">
-			Percussion notation is different in scores, in MIDI, &amp; Euterpea.
 			Here is percussion staff notation for the
 			"<a href="http://en.wikipedia.org/wiki/Amen_break">Amen Break</a>"
 			(<a href="https://upload.wikimedia.org/wikipedia/en/8/80/The_Amen_Break%2C_in_context.ogg">
 			play</a>),
 			a famous drum solo.
-			Note: Different lines represent instruments, not pitches.
 			<div style="text-align: center;">
-			<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
+			<!-- Image below derived from:
+				src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Amen_break_notation.png"
+			-->
+			<img 
+				src="img/Amen_break_notation.jpg"
 				align="center"
 				border="1"
 				width="50%"
 				alt="Percussion staff for the Amen Break"/>
+			<font style="font-size:20px">Wikipedia (<font color="#xff0000">modified</font>)</font>
 			</div>
-			<pre style="font-size: 28px;">
+			<pre style="font-size: 28px; font-color: #xff0000;
+						-webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;">
 data Beat = Beat { bDur :: Dur, bHeard :: Int, bAcc :: Int }
 type Beats = [Beat]
 infixr 6 .+.
@@ -652,13 +655,18 @@ beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
                         (1, 1) -> Modify (Phrase [Dyn (Accent 1.5)]) m
 instrB = AcousticBassDrum
 mkBeat d h a = [Beat { bDur = d, bHeard = h, bAcc = a }]
-qns = mkBeat qn 0 0; ens =  mkBeat en 0 0; enb = mkBeat en 1 0; snb = mkBeat sn 1 0
--- amen1b represents the first measure for one instrument (Bass Drum).
-amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns</pre>
+qns = mkBeat qn 0 0; ens =  mkBeat en 0 0; enb = mkBeat en 1 0; snb = mkBeat sn 1 0</pre>
+<font color="red"><pre style="font-size: 28px; font-color: #xff0000;
+						-webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;">
+amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns</pre></font>
 		</div>
 		<aside class="notes">
-		    <ul>
-			<li> In addition to the percussion staff, above, drum tablature is sometimes used:
+			<ul>
+			<li> Percussion staff notation works differently in scores, in MIDI, &amp; Euterpea.
+				<ul>
+				<li> The vertical placement of notes is used to denote instrument, rather than pitch.
+				</ul>
+			<li> Another notation, drum tablature, is sometimes used:
 				<pre style="font-size: 28px; white-space: pre-line;">
 					C |----------------|----------------|----------------|----------X-----|
 					R |x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-X-x-x-|x-x-x-x-x---x-x-|
