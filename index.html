@@ -41,9 +41,10 @@
 		<h1>Music Programming Languages</h1>
 		<h3>Creating and Analyzing Tonal Music and Soundscapes</h3>
 		<p align="center">Jay Coskey</p>
+		<p align="center">jay&lt;dot>coskey&lt;at>gmail&ltdot>com</p>
 		<p align="center">2016-05-04</p>
 		<b>
-		<pre style="background-color: #d0ffd0; font-size: 48px;">
+		<pre style="background-color: #d0ffd0; font-size: 40px;">
 reveal.js tips:
   Use n or &lt;space> to advance to the next slide.
   Use p to return to the previous slide.
@@ -139,7 +140,7 @@ reveal.js tips:
 							<li> Score file formats: MusicXML, ABC, LilyPond, MusicTeX, etc.
 							<li> Sound file formats:
 								<a href="https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html">MIDI</a>
-							<li> Scorewriters (e.g., MuseScore)
+							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, Opusmodus, etc.)
 						</ul>
 					</td>
 					<td>
@@ -248,7 +249,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			<li> Most digital audio workstations (DAWs) are written in C++.
 			<li> At a low level, sound can be represented by arrays of numbers,
 				and the domain-specific language (DSL) for arrays of numbers
-				has already been written: Fortran, back in 1957 by J. Backus,
+				has already been written: Fortran, back in 1957 by Backus,
 				famous for Backus-Naur Form (BNF).
 			<li> Tools: DAWs, FFTs
 			<li> Most of this talk will focus on tonal music.
@@ -262,6 +263,8 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 				<a href="https://www.youtube.com/watch?v=AOqfWj0HqNE">
 				Psyché Rock
 				</a> by Pierre Henry.
+			<li> Deep sound code in SuperCollider can be found
+				<a href="http://www.earslap.com/article/recreating-the-thx-deep-note.html">here</a>.
 		</ul>
 		</aside>
 	</section>
@@ -279,9 +282,9 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 					<li> Measuring song similarity (e.g., copyright infringement), incl. phrase identification
 					<li> Song search (incl. search by humming) &amp; recommendations, using metadata
 				</ul>
-			<li> Detection of patterns, including duplicated subexpressions and nearly-duplicated subexpressions.
+			<li> Detection duplicated subexpressions and nearly-duplicated subexpressions.
 				<ul>
-					<li> (Think of string algorithms, but generalized to apply to music.)
+					<li> Geralize string algorithms to music (diff, distance, etc.)
 				</ul>
 			<li> Physical simulation of instruments and acoustics
 			<li> Visualization
@@ -332,9 +335,9 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			<li> There are
 				<a href="https://en.wikipedia.org/wiki/List_of_audio_programming_languages">20+</a>
 				high-level MPLs.
-			<li> If you include transcription-oriented ones (think HTML, but for music),
-				then it's more like
-				<a href="http://nosuch.com/plum/cgi/showlist.cgi?sort=name&concise=yes">100+</a>.
+			<li> More like
+				<a href="http://nosuch.com/plum/cgi/showlist.cgi?sort=name&concise=yes">100+</a>
+				if you include transcription-oriented ones (think HTML, but for music).
 			<li> Soundscape DSLs came first ... but now there's a lot of support for melodic music.
 			<li> Here is a short list of a few:
 			<table>
@@ -359,7 +362,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			</tr>
 			<tr>
 				<td>ChucK</td>
-					<td>2004</td>
+					<td>2003</td>
 					<td>RT synthesis, live coding, pedagogy, acoustic research, algo composition
 					</td>
 			</tr>
@@ -376,7 +379,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			</tr>
 			<tr>
 				<td>Strasheela</td>
-					<td>2004?-2012</td>
+					<td>2004-2012</td>
 					<td>Constraint-based composition, based on the Oz language
 					</td>
 			</tr>
@@ -396,10 +399,8 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			<a href="#/section_euterpea">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Some simple MPLs don't support variables or loops,
-			so they can't support any of the more complex use cases.
+		MPLs without variables or loops can still be suitable for transcription and song DBs.
 		<br/><br/>
-		But they can be good for representing scores in song databases.  Here's a brief taste.
 		<ul>
 			<li> ABC notation (v2.1 - Dec 2011) is a concise, popular, and well-supported
 				<pre style="font-size: 32px; white-space: pre-line;">
@@ -428,13 +429,12 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		</aside>
 	</section>
 	
-	<section id="transcription">
+	<section id="transcription2">
 		<h3>Song Transcription Languages (2/2)</h3>
 		<div style="text-align: left;">
 		    <ul>
-			<li> Alda (inspired by LilyPond and Music Macro Language) was designed
-				to find the "sweet spot" between simple/intuitive syntax and 
-				depth of features.
+			<li> Alda (inspired by LilyPond and Music Macro Language) tries to find
+				the "sweet spot" between simple/intuitive syntax and depth of features.
 				It's implemented in Clojure, and emits a Clojure DSL,
 				which is exposed as a library.
 				<pre style="font-size: 32px; white-space: pre-line;">
@@ -935,7 +935,7 @@ type Music = Score StandardNote</pre>
 	<section id="csound">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_euterpea">&#x25c1;</a>
-			Csound
+			Csound (since 1986)
 			<a href="#/section_chuck">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
@@ -1021,7 +1021,6 @@ endin</pre>
 			<ul>
 				<li> <a href="http://blue.kunstmusik.com/">Blue</a>
 					is a composition environment for Csound.
-				<li> 
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1030,42 +1029,35 @@ endin</pre>
 </section>
 
 <section id="section_chuck">
-	<section id="chuck">
+	<section id="chuck_hellosinewave">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_csound">&#x25c1;</a>
-			ChucK
+			ChucK (since 2003)
 			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		</div>
-		<aside class="notes">
-		<ul>
-			<li> At one point, there was a Coursera course on ChucK, "ChucK 101".  It's now 404.
-		</ul>
-		</aside>
-	</section>
-
-	<section id="chuck_hellosinewave">
-		<h3>ChucK &mdash; Hello Sine Wave</h3>
-		<div style="text-align: left;">
-			ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.<br/>
+			ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.
+			<br/>
 			Here is a script that plays a 220 Hz sine wave for 5 seconds.
-		<pre style="font-size: 32px;">
+			<pre style="font-size: 32px;">
 	&lt;&lt;&lt; "Hello, sine wave" >>>
 	SinOsc s => dac;
 	0.6 => s.gain;
 	220 => s.freq;
 	5::second => now;
-		</pre>
-		In this script:
-		<ul>
-			<li> &lt;&lt;&lt;Stuff inside the angled quotes>>> is  evaluated and printed.
-			<li> The Sinusoidal Oscillator type, SinOsc, has "gain" (i.e., volume) and "freq" (i.e., pitch) properties.
-			<li> The '=>' symbol is called the "chuck" operator, since it "throws" or "chucks" a value or stream to its destination.
-			<li> Sending a duration to "now" causes time to advance.  This streams output to the dac to create sound.
-		</ul>
+			</pre>
+			In this script:
+			<ul>
+				<li> &lt;&lt;&lt;Stuff inside the angled quotes>>> is  evaluated and printed.
+				<li> The Sinusoidal Oscillator type, SinOsc, has "gain" (i.e., volume) and "freq" (i.e., pitch) properties.
+				<li> The '=>' symbol is called the "chuck" operator, since it "throws" or "chucks" a value or stream to its destination.
+				<li> Sending a duration to "now" causes time to advance.  This streams output to the dac to create sound.
+			</ul>
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> At one point, there was a Coursera course on ChucK, "ChucK 101".  It's now 404.
+			</ul>
 		</aside>
 	</section>
 
@@ -1073,13 +1065,12 @@ endin</pre>
 		<h3>ChucK &mdash; More Info</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Musical notes are be called by their MIDI Note Numbers, &amp; converted to freqs by Std.mtof().
 			<li> A 3-note chord can be represented by an array of SinOsc objects: SinOsc chord[3];
 			<li> ChucK uses the whimsical terms "shreds" and "spork" for processes and forks.
 			<ul>
 				<li> Scripted and compiled plug-ins are called Chugens and ChuGins.
 			</ul>
-			<li> Different instruments are put in different "shreds".  Events communicate between shreds.
+			<li> Different instruments go into different "shreds", &amp; can communicate using Events.
 			<li> To emulate rests, have time advance in a static scope without audio streams.
 				<ul>
 					<li> Notes placed in function calls are in a different static scope.
@@ -1092,6 +1083,9 @@ endin</pre>
 		</ul>
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> Musical notes are be called by their MIDI Note Numbers, &amp; converted to freqs by Std.mtof().
+			</ul>
 		</aside>
 	</section>
 
@@ -1121,7 +1115,7 @@ endin</pre>
 		Here's a simplified version of a plucked string, modified from the book
 			<a href="http://www.amazon.com/Programming-Musicians-Digital-Artists-Creating/dp/1617291706/">
 				Programming for Musicians and Digital Arists: Creating music with ChucK
-			</a>.
+			</a> (2015).
 		<pre style="font-size: 32px;">
 	// Karplus-Strong model of a plucked string
 	Impulse imp => Delay plucked => dac;
@@ -1141,66 +1135,32 @@ endin</pre>
 			<a href="https://ccrma.stanford.edu/software/stk/">Synthesis ToolKit in C++</a>.
 		</aside>
 	</section>
-
-	<section id="chuck_other">
-		<h3>ChucK &mdash; Other info</h3>
-		<div style="text-align: left;">
-		The Good &amp; The Bad
-			<ul>
-			<li> What ChucK does well: Signal processing and musical instrument acoustic modeling.
-			<li> What ChucK doesn’t do as well: Programmatic expressiveness and musical expressiveness.
-			<ul>
-				<li> Programmatic exp.:
-						There's no support for interfaces or higher-order functions, and it’s 2016!
-				<li> Musical exp.:
-						The language supports abstractions for audio streams,
-						but not so much for melodic composition or analysis,
-						which are critical for the capturing of many musical idioms.
-						(Think of two jazz musicians speaking with each other in shorthand.
-						Then again, what programming environment captures this well?)
-						This shortcoming is partially addressed by some open source libraries on github
-							(e.g., LiCK and Chuckery), but these can only go so far in addressing
-							fundamental language limitations.
-				</ul>
-			</ul>
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
 </section>
 
 <section id="section_supercollider">
 	<section id="supercollider">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_chuck">&#x25c1;</a>
-			SuperCollider 3 (SC)
+			SuperCollider3 (SC) (since 1996)
 			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-
-	<section id="supercollider_language">
-		<h3>SuperCollider &mdash; The Language</h3>
-		<div style="text-align: left;">
-			<p>SuperCollider:</p>
 			<ul>
-				<li> A Smalltalk-like OO language.
+				<li> A Smalltalk-like OO language
+				<li> Supports live performance
 				<li> Named in 1993 after the cancelled Superconducting Super Collider project
 				<li> Supports plug-ins, MIDI data, live coding, and communication with external devices.
 			</ul>
-		<pre style="font-size: 32px;">
+			<pre style="font-size: 32px;">
 	15.squared           // Evaluates to 225.
 	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
 	5 pow: 8             // Same as 5.pow(8) 
 	10.do({ "Hello world".postln })    // Writes to the "Post" pane.</pre>
 		Caution: Binary operators are always evaluated in left-to-right order,
 			so 1 + 3 * 5 yields 20, not 16.
-		<br/><br/>
-		Here is a brief code snippet that prints out the value of 5! ("five factorial"):
-		<pre style="font-size: 32px;">
+			<br/><br/>
+			Here is a brief code snippet that prints out the value of 5! ("five factorial"):
+			<pre style="font-size: 32px;">
 	var factorial = { | n |
 		var result = 1;
 		n do: { | i | result = result * (i + 1) };
@@ -1357,12 +1317,104 @@ endin</pre>
 	<section id="puredata">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_supercollider">&#x25c1;</a>
-			Pure Data (Pd)
+			Pure Data (Pd) (1996 - 2014)
 			<a href="#/section_strasheela">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+			<ul>
+				<li> Pd is patterned after the commercial project Max/MSP (originally by IRCAM; now sold by Cycling'74)
+				<li> Pd is similar to SC in that it's another MPL that focuses on soundscapes.
+				<li> Like SC, Pd supports live performance.
+				<li> Unlike SC, it supports visual programming.
+				<li> The user edits signal diagrams similar to circuit diagrams.
+					<ul>
+						<li> Subsystems can be abstracted as a Pd box with inputs and outputs. 
+					</ul>
+				<li> Section 4 of the book
+					<a href="http://www.amazon.com/Designing-Sound-Press-Andy-Farnell/dp/0262014416">Designing Sound</a> (2010)
+					explains how to make 35 different sounds, from helicopters to running water.
+			</ul>
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> Installation note: Pd v0.46-7 is missing an autogen.sh script referenced in INSTALLATION.txt.
+				<li> Pd has separate apps called pd and pd-gui (and another called pd-watchdog). 
+				<li> Performance notes:
+				<ul>
+					<li> On Linux: Use the -rt command-line option
+					<li> On Linux with the OSS driver: Adjust audio fragments with -frags and -fragsize.
+					<li> On Windows, use the ASIO driver to lower latency.
+				</ul>
+				<li> From Wikipedia: In 1998, a direct descendant of Max/FTS (jMax) was developed
+					for Unix systems, using Java for its user interface and C for the real time part,
+					and later released as open-source.
+			</ul>
+		</aside>
+	</section>
+
+	<section id="puredata_foo">
+		<h3>Pure Data (Pd)</h3>
+		<div style="text-align: left;">
+			Relatively simple example:
+			<br/>
+			<ul>
+				<li> A "toggle box" feeds a metronome to set a beat.
+				<li> Two subsystems pick up that beat &mdash; one for each speaker.
+				<li> In this diagram, both oscillators and delays have fixed values.
+				<li> Message boxes &rArr; Number boxes &rArr; Signal multiplication &rArr; L &amp; R audio.
+			</ul>
+		</div>
+		<img src="http://en.flossmanuals.net/pure-data/ch040_wireless-connections/_booki/pure-data/static/PureData-DataFlow-sendreceive1-en.png"
+			width="1200"
+			alt="Pure Data example"
+			/>
+		<aside class="notes">
+			<ul>
+				<li> Installation Note: Install Pd-Extended
+				<li> edit mode vs. run mode
+				<li> put objects on design surface
+				<li> first object : dac~ [~ indicates audio write object]
+				<li> Caution: If you send discontinuous signals to [*~]
+					without using [line~] to smooth them out, you'll get audible clicks.
+				<li> Sliders can be added to allow live control.
+		</aside>
+	</section>
+
+	<section id="puredata_gem">
+		<h3>Pure Data (Pd) &mdash; More Info</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Install Pd-Extended instead of Pd-Vanilla
+				<li> Install <a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">GEM</a>
+					= "Graphics Environment for Multimedia" = plug-in library of Pd sounds
+					<ul>
+						<li> GEM's <a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">FLOSS manual</a>,
+							and
+							<a href="http://gem.iem.at/documentation/faq">FAQ</a>
+					</ul>
+			</ul>
+
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+	
+	<section id="puredata_moreinfo">
+		<h3>Pure Data (Pd) &mdash; More Info</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Pure Data computes audio 64-sample blocks before shipping them off to audio output,
+					and uses a 3-block buffer.
+				<li> This prohibits DSP loops, which would cause deadlock.
+				<li> 
+			</ul>
+
+		</div>
+		<aside class="notes">
+			<ul>
+				<li> Pd patches cannot run as standalone executables without the Pd binary.
+				<li> On Mac OS X, Pd-Extended has a "Make app from" option
+					that bundles the patch with a copy of Pd.
 		</aside>
 	</section>
 </section>
@@ -1371,7 +1423,7 @@ endin</pre>
 	<section id="strasheela">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_puredata">&#x25c1;</a>
-			Strasheela (Honorable Mention)
+			Strasheela (2004 - 2012)
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
@@ -1516,16 +1568,18 @@ end</pre>
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_strasheela">&#x25c1;</a>
 			Resources
-			<a href="#/appendix">&#x25b7;</a>
+			<a href="#/appendices">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		<p><b>Music &amp; Music Theory</b></p>
 			<ul>
 				<li> <a href="http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
-					The Jazz Theory Book
-					</a>, by Mark Levine
+					The Jazz Theory Book</a> (1995),
+					by Mark Levine
 				<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
-					Ragtimify</a>: a book on converting scores to Ragtime
+					Ragtimify</a> (2013): a book on converting scores to Ragtime
+				<li> <a href="https://mitpress.mit.edu/books/sweet-anticipation">
+					Sweet Anticipation: Music and the Psychology of Expectation</a> (2006)
 				<li> Song databases: 
 					<a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
 						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
@@ -1567,11 +1621,11 @@ end</pre>
 	</section>
 </section>
 
-<section id="section_appendix">
-	<section id="appendix">
+<section id="section_appendices">
+	<section id="appendices">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_resources">&#x25c1;</a>
-			Appendix
+			Appendices
 			<a href="#/title">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
@@ -1580,7 +1634,7 @@ end</pre>
 		</aside>
 	</section>
 
-	<section id="appendix_advice">
+	<section id="appendices_advice">
 		<h3>Appendix A &mdash; Advice</h3>
 		<div style="text-align: left;">
 		<ul>
@@ -1608,14 +1662,13 @@ end</pre>
 		</aside>
 	</section>
 	
-	<section id="appendix_choosing">
+	<section id="appendices_choosing">
 		<h3>Appendix C &mdash; Choosing a Music Programming Language</h3>
 		<div style="text-align: left;">
-		If you just want to compose music, an app (e.g., Opusmodus, TODO) might make more sense
+		If you just want to compose music, an app (e.g., MuseScore, etc.) might make more sense
 		than an MPL.
 		<br/><br/>
 		Here are some guidelines on which language to choose.
-		(TODO: Live performance)
 		<table>
 			<tr><th>Language/Library</th>
 				<th>Reason to choose</th>
@@ -1628,6 +1681,7 @@ end</pre>
 						<li> Haskell
 							<a href="https://wiki.haskell.org/Applications_and_libraries/Music_and_sound">APIs</a>
 							for Csound, SuperCollider, OpenAL/ALUT.
+						<li> Does not support live performance (but see Tidal &amp; Conductive)
 					</ul>
 				</td>
 			</tr>
@@ -1642,8 +1696,8 @@ end</pre>
 			<tr><td>Chuck</td>
 				<td>
 					<ul>
-						<li> Good support for instrument modeling
-						<li> 
+						<li> Good support for synchronization &amp; instrument modeling
+						<li> Open source libs LiCK and Chuckery support better musical expressiveness.
 					</ul>
 				</td>
 			</tr>
@@ -1667,7 +1721,17 @@ end</pre>
 		</aside>
 	</section>
 
-	<section id="appendix_ecosystems">
+	<section id="appendices_daws">
+		<h3>Appendix D &mdash; Digital Audio Workstations (DAWs)</h3>
+		<div style="text-align: left;">
+		TODO: Add info on DAWs and their programmability
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+</section>
+
+	<section id="appendices_ecosystems">
 		<h3>Appendix E &mdash; Ecosystems</h3>
 		<div style="text-align: left;">
 		<ul>
