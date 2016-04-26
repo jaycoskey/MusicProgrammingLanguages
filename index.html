@@ -6,42 +6,26 @@ TODO:
   * Add comments in the aside sections.
   * Specifically, impact of language design decisions (esp. representation and layers)
     on supportable features and their difficulty of implementation.
-  Introduction:
-	* Add aside on oldest known melody.
-	* Add overview of how MusicXML structures info on a composition.
-	* Add info on file formats: MusicXML, Scores, MIDI, and raw audio (e.g., .wav)
-		- Including their support by all the MPLs covered
-		- Include general notes on what can be done when starting with a non-MusicXML format:
-		  o MIDI
-		  o .wav
-		  o Score
   Song Transcription Languages:
 	* Break up into more pages and add details
   Euterpea:
-	* How to send output to two different channels/speakers.
 	* Add info on taking FFT of signals with Euterpea
+	* How to send output to two different channels/speakers.
 	* Add better description of Arrows and their use, perhaps in Appendix F.
 	* Add an example of UISF.
 	* Add info on the Haskell Music Suite
+	* Kulitta?
   PureData:
 	* Add info on Pure Data data flow controls, events, tables, idioms
   Resources:
 	* Add a bullet for other languages, e.g., Processing.
-  Appendix A:
-	* Move content to Appendix G: "Good Advice"
-	* Rename Appendix A as "Apps for Tonal Music"
-	* Add content on Music Apps (e.g., MuseScore, Finale, OpusMondus, Sibelius) and their programmability.
-  Appendix B: Bonus Music
-  	* Amen Break variations?
-	* In The Mood (Standard vs. Swing)?
-	* Polyrhythms?
-  Appendix D: Digial Audio Workstations (DAWs)
-	* Add info on DAWs
+  Appendix A: Apps
+	* Add content on Music Apps---mainly Scorewriters & DAWs---
+		and their programmability.
+  Appendix B: Best Practices
   Appendix E:
 	* Add info on Linux music programming ecosystem
-  Appendix F: FRP?
-  Appendix G: Good Advice
-	* Create this Appendix, and move Advice from Appendix A to here.
+  Appendix G: Good Advice (content moved from Appendix A: Advice)
 -->
 
 <head>
@@ -104,20 +88,15 @@ reveal.js tips:
 			Introduction
 			<a href="#/euterpea">&#x25b7;</a>
 		</h2>
-		<em>
-		"To play the wrong note is insignificant; to play without passion is inexcusable."
-		</em>
-		- Beethoven
-		<br/><br/>
 		<div style="text-align: left;">
 			<table>
 				<tr>
 					<td align="left" width="800" style="vertical-align:top; font-size: 36px;">
+						"To play the wrong note is insignificant; to play without passion is inexcusable."
+						- Beethoven
 						<p><b>Music runs deep through the human psyche:</b></p>
 						<ul>
-							<li> Music is universal and
-							<a href="http://news.nationalgeographic.com/news/2009/06/090624-bone-flute-oldest-instrument.html">
-								ancient</a>.
+							<li> Music is universal and ancient.
 							<li> The psychology of music is murky.
 							<li> Music turns movies into blockbusters.
 						</ul>
@@ -142,7 +121,7 @@ reveal.js tips:
 							alt="Score of Happy Birthday"/>
 						<br/>
 						Happy Birthday:
-						<a href="midi/HappyBirthdayStandard.mid">original</a>, &amp;
+						<a href="midi/HappyBirthdayStandard.mid">original</a> &amp;
 						<a href="midi/HappyBirthdayVariation.mid">modified</a>
 						<br/>
 						<img src="img/HappyBirthdayVariation.svg"
@@ -150,17 +129,26 @@ reveal.js tips:
 							height="300"
 							border="0"
 							alt="Score of variation on Happy Birthday"/>
-						<!--
-						<img src="img/InTheMoodSample.svg"
-							width="600"
-							height="200"
-							alt="Score of Happy Birthday"/>
-						-->
+						<br/>
+						<a href="img/InTheMoodSample.svg">In The Mood</a> (bars 5-8):
+						<a href="midi/InTheMoodSampleStandard.mid">original</a> &amp;
+						<a href="midi/InTheMoodSampleSwing.mid">swing</a>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> Oldest known instrument:
+					<a href="http://news.nationalgeographic.com/news/2009/06/090624-bone-flute-oldest-instrument.html">flute</a>
+					from 40K years ago.
+				<li> Oldest recorded melody: Hurrian Hymn #6, from ~40K years ago.
+				<ul>
+					<li> Melody known because string lengths were recorded
+				</ul>
+				<li> Complex polyrhythms are difficult to master by hand,
+					but easy with software.
+			</ul>
 		</aside>
 	</section>
 
@@ -254,7 +242,7 @@ reveal.js tips:
 				</ul>
 				<pre style="font-size: 28px;">
 \version "2.18.2"
-\header { title = "Happy Birthday" }
+\header { title = "Happy Birthday to You" }
 global = { \key c \major
            \time 3/4
          }
@@ -280,6 +268,43 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		</aside>
 	</section>
 
+	<section id="intro_musicxml_example">
+		<h3>Introduction &mdash; MusicXML Example</h3>
+		<div style="text-align: left;">
+			<pre style="font-size: 28px;">
+&lt;score-partwise>
+  &lt;work>
+    &lt;work-title>Happy Birthday to You&lt;/work-title>
+    &lt;/work>
+  &lt;identification>
+    &lt;creator type="composer">Patty and Mildred J. Hill&lt;/creator>
+    ...
+    &lt;/identification>
+  ...
+  &lt;part-list>...&lt;part-name>Piano&lt;/part-name>...&lt;/part-list>
+  &lt;part id="P1">
+    &lt;measure number="1" width="273.03">
+      ...
+      &lt;note default-x="78.29" default-y="-30.00">
+        &lt;pitch>
+          &lt;step>G&lt;/step>
+          &lt;octave>4&lt;/octave>
+          &lt;/pitch>
+        &lt;duration>1&lt;/duration>
+        &lt;voice>1&lt;/voice>
+        &lt;type>eighth&lt;/type>
+        &lt;stem>up&lt;/stem>
+        &lt;staff>1&lt;/staff>
+        &lt;beam number="1">begin&lt;/beam>
+        &lt;/note>
+        ...
+      &lt;/measure>
+     ...
+    &lt;/part>
+  &lt;/score-partwise></pre>
+		</div>
+	</section>
+  
 	<section id="intro_soundscapes">
 		<h3>Introduction &mdash; Soundscapes</h3>
 		<div style="text-align: left;">
@@ -431,6 +456,22 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		<aside class="notes">
 		</aside>
 	</section>
+
+	<section id="intro_fileformats">
+		<h3>Introduction &mdash; Music App File Formats</h3>
+		<div style="text-align: left; font-size: 28px;">
+			<ul>
+				<li> MusicXML is the "universal donor" file format.
+				<li> It's output by the scorewriter apps (&amp; Stresheela).
+				<li> Below is a partial diagram.
+			</ul>
+		</div>
+		<img src="img/MusicAppFileFormats.jpg"
+			width="1024"
+			border="1"
+			alt="Music App File Formats"
+			/>
+	</section>
 </section>
 
 <section id="section_transcription">
@@ -454,16 +495,15 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 				AGFG|AAAA|GGAG|F4|]
 				</pre>
 			<li> LilyPond is useful for printing beautiful scores.
-				<pre style="font-size: 32px; white-space: pre-line;">
-				song = \relative c' {
-					\clef treble
-					\key c \major
-					\time 4/4
-					e4 d c d e e e2 d4 d d2 e4 e e2
-					e4 d c d e e e c d d e d c2 r2
-				}
-				\score { \new Staff \song }
-				</pre>
+				<pre style="font-size: 32px;">
+song = \relative c' {
+    \clef treble
+    \key c \major
+    \time 4/4
+    e4 d c d e e e2 d4 d d2 e4 e e2
+    e4 d c d e e e c d d e d c2 r2
+}
+\score { \new Staff \song }</pre>
 			<li> MusicTeX is also available to add scores into TeX documents.
 		</ul>
 		</div>
@@ -1239,8 +1279,9 @@ endin</pre>
 					where the variable "s" is reserved to represent the server.
 			</ul>
 			<br/>
-			Client-server synchronization via message tags
-				with execution time in NTP format.
+			Client-server synchronization uses a network protocol
+				called OSC (Open Sound Control)
+				and message tags with execution time in NTP format.
 			<br/><br/>
 			IDE: &nbsp;&nbsp;&nbsp; Ctrl-Enter = execute; &nbsp;&nbsp;&nbsp; Ctrl-&lt;period> = terminate.
 				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
