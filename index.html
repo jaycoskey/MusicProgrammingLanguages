@@ -1,33 +1,5 @@
 <!doctype html>
 <html lang="en">
-
-<!--
-TODO:
-  * Add comments in the aside sections.
-  * Specifically, impact of language design decisions (esp. representation and layers)
-    on supportable features and their difficulty of implementation.
-  Song Transcription Languages:
-	* Break up into more pages and add details
-  Euterpea:
-	* Add info on taking FFT of signals with Euterpea
-	* How to send output to two different channels/speakers.
-	* Add better description of Arrows and their use, perhaps in Appendix F.
-	* Add an example of UISF.
-	* Add info on the Haskell Music Suite
-	* Kulitta?
-  PureData:
-	* Add info on Pure Data data flow controls, events, tables, idioms
-  Resources:
-	* Add a bullet for other languages, e.g., Processing.
-  Appendix A: Apps
-	* Add content on Music Apps---mainly Scorewriters & DAWs---
-		and their programmability.
-  Appendix B: Best Practices
-  Appendix E:
-	* Add info on Linux music programming ecosystem
-  Appendix G: Good Advice (content moved from Appendix A: Advice)
--->
-
 <head>
 	<meta charset="utf-8">
 	<title>Music Programming Languages</title>
@@ -58,6 +30,26 @@ TODO:
 	<script src="lib/js/html5shiv.js"></script>
 	<![endif]-->
 </head>
+
+<!--
+TODO:
+  * Add comments in the aside sections.
+  * Specifically, impact of language design decisions (esp. representation and layers)
+    on supportable features and their difficulty of implementation.
+  Euterpea:
+	* FFTs
+	* Using different channels/speakers.
+	* Better description of Arrows & UISF and their use.
+	* Kulitta?
+	* Haskell Music Suite
+  PureData:
+	* Data flow controls, events, tables, idioms
+  Resources:
+	* Add a bullet for other languages, e.g., Processing.
+  Appendix A: Apps
+	* Add content (Scorewriters, DAWs, and libs)
+	* Add Linux info
+-->
 
 <body>
 <div class="reveal">
@@ -1165,6 +1157,8 @@ type Music = Score StandardNote</pre>
 					<li> The instruments are basically waveforms, but can be custimized to sound like actual instruments.
 				</ul>
 				<li> Combine them to create music
+				<li> <a href="http://blue.kunstmusik.com/">Blue</a>
+					is a composition environment for Csound.
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1233,18 +1227,6 @@ endin</pre>
 		<aside class="notes">
 		</aside>
 	</section>
-
-	<section id="csound_other">
-		<h3>Csound &mdash; Other info</h3>
-		<div style="text-align: left;">
-			<ul>
-				<li> <a href="http://blue.kunstmusik.com/">Blue</a>
-					is a composition environment for Csound.
-			</ul>
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
 </section>
 
 <section id="section_chuck">
@@ -1269,8 +1251,11 @@ endin</pre>
 			<ul>
 				<li> &lt;&lt;&lt;Stuff inside the angled quotes>>> is  evaluated and printed.
 				<li> The Sinusoidal Oscillator type, SinOsc, has "gain" (i.e., volume) and "freq" (i.e., pitch) properties.
-				<li> The '=>' symbol is called the "chuck" operator, since it "throws" or "chucks" a value or stream to its destination.
-				<li> Sending a duration to "now" causes time to advance.  This streams output to the dac to create sound.
+				<li> "=>" is called the "chuck" operator: it "throws"/"chucks" a value or stream to its destination.
+				<li> Sending a duration to "now" causes time to advance. 
+					<ul>
+						<li> Streams in scope output their signals to the dac to create sound.
+					</ul>
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1597,6 +1582,7 @@ endin</pre>
 				<li> Caution: If you send discontinuous signals to [*~]
 					without using [line~] to smooth them out, you'll get audible clicks.
 				<li> Sliders can be added to allow live control.
+			</ul>
 		</aside>
 	</section>
 
@@ -1612,29 +1598,17 @@ endin</pre>
 							and
 							<a href="http://gem.iem.at/documentation/faq">FAQ</a>
 					</ul>
-			</ul>
-
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-	
-	<section id="puredata_moreinfo">
-		<h3>Pure Data (Pd) &mdash; More Info</h3>
-		<div style="text-align: left;">
-			<ul>
 				<li> Pure Data computes audio 64-sample blocks before shipping them off to audio output,
 					and uses a 3-block buffer.
 				<li> This prohibits DSP loops, which would cause deadlock.
-				<li> 
 			</ul>
-
 		</div>
 		<aside class="notes">
 			<ul>
 				<li> Pd patches cannot run as standalone executables without the Pd binary.
 				<li> On Mac OS X, Pd-Extended has a "Make app from" option
 					that bundles the patch with a copy of Pd.
+			</ul>
 		</aside>
 	</section>
 </section>
@@ -1728,8 +1702,8 @@ end</pre>
 		</aside>
 	</section>
 
-	<section id="strasheela_flexibility">
-		<h3>Strasheela &mdash; Flexibility</h3>
+	<section id="strasheela_moreinfo">
+		<h3>Strasheela &mdash; Flexibility &amp; Efficiency</h3>
 		<div style="text-align: left;">
 			Finding solutions to a system of constraints is a standard computer programming problem.
 			The challenge facing Anders in the creation of Strasheela was to provide the user
@@ -1738,47 +1712,45 @@ end</pre>
 			Flexibility:
 			<ul>
 				<li> Strasheela has many pre-defined pattern constraints.
-					An example of a simple numerical constraint would be to ensure
-					that the largest number in a list appears only once,
-					or that all items in a list are distinct from each other.
 				<li> The user can apply their own Lindenmayer system (i.e., generative grammar).
 				<li> Constraints can be applied to containers, which can be nested hierarchically.
-					So you can have a one-measure container nested inside a three-measure container
-					inside a five-measure container.
-					And these can all have different constaints applied to them.
-					You can group together different voices playing concurrently,
-					or put a constraint on different repetitions of a single voice.
-					(However, the nesting of score containers must be fully determined
-					before the search for a constraint satisfaction solution begins.)
-				<li> Constraints can be made into "soft constraints" that are more like preferences.
-					The user can specify priority between rules, and can even specify
-					that a given constraint not be violated more than a pre-chosen number of times.
-					(For example, you might allow only a few intervals between consecutive notes exceed one octave.)
+					<br/>
+					One can group together different concurrent parts, or repetitions of a single voice.
+					<br/>
+					(But nesting of containers must be set before the search for a
+					constraint solution begins.)
+				<li> Constraints can be made into "soft constraints" &mdash; more like preferences.
+					<br/>
+					The user can prioritize rules, and 
+					how many times soft constraints can be violated.
 			</ul>
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-
-	<section id="strasheela_efficiency">
-		<h3>Strasheela &mdash; Efficiency</h3>
-		<div style="text-align: left;">
+			<br/><br/>
 			Efficiency:
 			<ul>
-				<li> Strasheela allows the user to define what search strategy is used,
-					according to the constraint problem.
-					A well-chosen "distribution" strategy can allow for work on one sub-problem
-					to be shut down once parameters have been found that are good enough,
-					thereby allowing the program to continue applying resources
-					where they are most effective.
-				<li> An effort is made to to determine early on that no solutions will be found
-					in a particular domain, rather than searching through that domain and coming up empty.
-					(In more formal terms, constraint propagators are used to prune the search space.)
-				<li> Strasheela allows for the use of a memory-saving technique called adaptive recomputation.
-					Unfortunately, there's not a good explanation of this approach outside the source code.
+				<li> The user can specify the "distribution" strategy to solve the
+					constraint problem.
+					<br/>
+					Work on a sub-problem can be shut down once parameters
+					are found that are good enough.
 			</ul>
 		</div>
 		<aside class="notes">
+			(Numerical) constraint examples:
+			<br/><br/>
+			<ul>
+				<li> Largest # in a list appears only once.
+				<li> All items in a list are distinct.
+				<li> Container nesting: You can have a one-measure container nested inside
+					a three-measure container inside a five-measure container, each with
+					different constaints.
+				<li> An effort is made to to determine early on that no solutions will be found
+					in a particular domain, rather than searching through that domain and coming
+					up empty.  (In more formal terms, constraint propagators are used to prune
+					the search space.)
+				<li> Strasheela allows for the use of a memory-saving technique called
+					adaptive recomputation.  Unfortunately, there's not a good explanation of
+					this approach outside the source code.
+			</ul>
 		</aside>
 	</section>
 </section>
@@ -1855,8 +1827,47 @@ end</pre>
 		</aside>
 	</section>
 
-	<section id="appendices_advice">
-		<h3>Appendix A &mdash; Advice</h3>
+	<section id="appendices_apps_libraries">
+		<h3>Appendix A &mdash; Apps &amp; Libraries</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Java
+				<ul>
+					<li> The
+						<a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
+						(<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>)
+				</ul>
+			<br/>
+				<li> Linux
+				<ul>
+					<li> TODO
+				</ul>
+			<br/>
+				<li> Mac
+				<ul>
+					<li> <a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a> (a DAW &mdash; Mac OS X only)
+					<li> <a href="https://en.wikipedia.org/wiki/Ableton_Live">Ableton Live</a> (a DAW &mdash; Mac/PC)
+				</ul>
+			<br/>
+				<li> .NET
+				<ul>
+					<li> <a href="http://naudio.codeplex.com/">NAudio</a>
+					<li> <a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a>
+				</ul>
+			<br/>
+				<li> Python
+				<ul>
+					<li> <a href="http://web.mit.edu/music21/">music21</a>:
+						a toolkit for computational musicology, music theory, and generative composition.
+				</ul>
+			</ul>
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="appendices_bestpractices">
+		<h3>Appendix B &mdash; Best Practices</h3>
 		<div style="text-align: left;">
 		<ul>
 			<li> Volume.
@@ -1882,12 +1893,11 @@ end</pre>
 		<aside class="notes">
 		</aside>
 	</section>
-	
+
 	<section id="appendices_choosing">
 		<h3>Appendix C &mdash; Choosing a Music Programming Language</h3>
 		<div style="text-align: left;">
-		If you just want to compose music, an app (e.g., MuseScore, etc.) might make more sense
-		than an MPL.
+		If you just want to compose music, an app (e.g., MuseScore) might be right for you.
 		<br/><br/>
 		Here are some guidelines on which language to choose.
 		<table>
@@ -1937,54 +1947,6 @@ end</pre>
 				<td>Support for constraint-based composition</td>
 			</tr>
 		</table>
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-
-	<section id="appendices_daws">
-		<h3>Appendix D &mdash; Digital Audio Workstations (DAWs)</h3>
-		<div style="text-align: left;">
-		TODO: Add info on DAWs and their programmability
-		</div>
-		<aside class="notes">
-		</aside>
-	</section>
-
-	<section id="appendices_ecosystems">
-		<h3>Appendix E &mdash; Ecosystems</h3>
-		<div style="text-align: left;">
-		<ul>
-			<li> Java
-				<ul>
-					<li> The
-						<a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
-						(<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>)
-				</ul>
-			<br/>
-			<li> Linux
-				<ul>
-					<li> TODO
-				</ul>
-			<br/>
-			<li> Mac
-				<ul>
-					<li> <a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a> (a DAW &mdash; Mac OS X only)
-					<li> <a href="https://en.wikipedia.org/wiki/Ableton_Live">Ableton Live</a> (a DAW &mdash; Mac/PC)
-				</ul>
-			<br/>
-			<li> .NET
-				<ul>
-					<li> <a href="http://naudio.codeplex.com/">NAudio</a>
-					<li> <a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a>
-				</ul>
-			<br/>
-			<li> Python
-				<ul>
-					<li> <a href="http://web.mit.edu/music21/">music21</a>:
-						a toolkit for computational musicology, music theory, and generative composition.
-				</ul>
-		</ul>
 		</div>
 		<aside class="notes">
 		</aside>
