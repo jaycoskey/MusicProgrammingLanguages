@@ -222,88 +222,6 @@ reveal.js tips:
 		</ul>
 		</aside>
 	</section>
-
-	<section id="intro_musicxml_lilypond">
-		<h3>Introduction &mdash; MusicXML and LilyPond</h3>
-		<div style="text-align: left;">
-		Both of these involve the sound of a piece and the appearance of its score.
-			<ul>
-				<li> <b>MusicXML:</b> Standard format for computer exchange of score info
-					<ul>
-						<li> Most music apps read and/or write MusicXML.
-						<li> Significant undertaking to support (schema is ~5400 lines)
-					</ul>
-				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
-					<ul>
-						<li> Many convenience features, e.g., chord names, relative pitch
-						<li> Better than MusicXML for learning about music
-						<li> Frescobaldi = separate GUI front-end 
-					</ul>
-				</ul>
-				<pre style="font-size: 28px;">
-\version "2.18.2"
-\header { title = "Happy Birthday to You" }
-global = { \key c \major
-           \time 3/4
-         }
-right = \relative c'' {\global g8 g8 a4 g4        c4 b2      }
-left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
-\score {
-  \new PianoStaff \with {instrumentName = "Piano"}
-  &lt;&lt;
-    \new Staff = "right" \with {midiInstrument = "acoustic grand"} \right
-    \new Staff = "left"  \with {midiInstrument = "acoustic grand"} {\clef bass \left}
-  >>
-  \layout { }
-  \midi {\tempo 4=100}
-}</pre>
-		</div>
-		<aside class="notes">
-			<ul>
-				<li> Note: MuseScore used to support printing to LilyPond format,
-					but instead focused support on MusicXML,
-					and left MusicXML-to-LilyPond support to others.
-				<li> Some features in command-line not present in GUI (e.g., SVG output)
-			</ul>
-		</aside>
-	</section>
-
-	<section id="intro_musicxml_example">
-		<h3>Introduction &mdash; MusicXML Example</h3>
-		<div style="text-align: left;">
-			<pre style="font-size: 28px;">
-&lt;score-partwise>
-  &lt;work>
-    &lt;work-title>Happy Birthday to You&lt;/work-title>
-    &lt;/work>
-  &lt;identification>
-    &lt;creator type="composer">Patty and Mildred J. Hill&lt;/creator>
-    ...
-    &lt;/identification>
-  ...
-  &lt;part-list>...&lt;part-name>Piano&lt;/part-name>...&lt;/part-list>
-  &lt;part id="P1">
-    &lt;measure number="1" width="273.03">
-      ...
-      &lt;note default-x="78.29" default-y="-30.00">
-        &lt;pitch>
-          &lt;step>G&lt;/step>
-          &lt;octave>4&lt;/octave>
-          &lt;/pitch>
-        &lt;duration>1&lt;/duration>
-        &lt;voice>1&lt;/voice>
-        &lt;type>eighth&lt;/type>
-        &lt;stem>up&lt;/stem>
-        &lt;staff>1&lt;/staff>
-        &lt;beam number="1">begin&lt;/beam>
-        &lt;/note>
-        ...
-      &lt;/measure>
-     ...
-    &lt;/part>
-  &lt;/score-partwise></pre>
-		</div>
-	</section>
   
 	<section id="intro_programersintro">
 		<h3>Introduction &mdash; A Programmer's Intro</h3>
@@ -315,7 +233,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 				</ul>
 				<li> A pitch class (such as C) is an equivalence class of notes differing by a multiple of an octave.
 				<li> A note (such as C4 = middle C) is a pair (pitch class, octave), and has a specific frequency. 
-				<li> A chord (such as C = C Major = {C, E, G}) is 3+ notes played at once.
+				<br/><br/>
 				<li> A key (same as a scale) is a subset of pitch classes selected for performance or analysis.
 				<ul>
 					<li> Key of C Major = [C, D, E, F, G, A, B]
@@ -327,15 +245,16 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 						<li> In minor keys, the # of semitones between notes is [2, 1, 2, 2, 1, 2, 2].
 					</ul>
 				</ul>
+				<br/>
+				<li> A chord (such as C = C Major = {C, E, G}) is 3+ notes played at once.
 				<li> Chords with names like major, minor, diminished, augmented, etc., are independent of scale.
 				<ul>
 					<li> Example: C4 Major seventh chord = Copies of C4 shifted up by {0, 4, 7, 11} semitones.
 				</ul>
 				<li> Chords with names like I-V-vi-iii-IV-I-IV-V are scale-specific.
 				<ul>
-					<li> The Roman # represents the base note of the chord: I = first note of scale, II = second, etc.
-					<li> Upper-case denotes Major
-					<li> Lower-case denotes minor
+					<li> The Roman # = the base note of the chord: I = first note of scale, II = second, etc.
+					<li> Upper-case = Major; Lower-case = minor
 				</ul>
 			</ul>
 		</div>
@@ -526,7 +445,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		<div style="text-align: left; font-size: 28px;">
 			<ul>
 				<li> MusicXML is the "universal donor" file format.
-				<li> It's output by the scorewriter apps (&amp; Stresheela).
+				<li> It is output by the scorewriter apps (&amp; Stresheela).
 				<li> Below is a partial diagram.
 			</ul>
 		</div>
@@ -535,6 +454,8 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 			border="1"
 			alt="Music App File Formats"
 			/>
+		<aside class="notes">
+		</aside>
 	</section>
 </section>
 
@@ -542,24 +463,103 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 	<section id="transcription">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_introduction">&#x25c1;</a>
-			Song Transcription Languages (1/2)
+			Song Transcription Languages
 			<a href="#/section_euterpea">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		MPLs without variables or loops can still be suitable for transcription and song DBs.
-		<br/><br/>
-		<ul>
-			<li> ABC notation (v2.1 - Dec 2011) is a concise, popular, and well-supported
-				<pre style="font-size: 32px; white-space: pre-line;">
-				T:Mary had a little lamb
-				M:C		% meter
-				L:1/4   % basic note length
-				K:F		% key
-				AGFG|AAA2|GGG2|AAA2|
-				AGFG|AAAA|GGAG|F4|]
-				</pre>
-			<li> LilyPond is useful for printing beautiful scores.
-				<pre style="font-size: 32px;">
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
+	<section id="transcription_musicxml_lilypond">
+		<h3>Transcription &mdash; MusicXML and LilyPond</h3>
+		<div style="text-align: left;">
+		Both of these involve the sound of a piece and the appearance of its score.
+			<ul>
+				<li> <b>MusicXML:</b> Standard format for computer exchange of score info
+					<ul>
+						<li> Most music apps read and/or write MusicXML.
+						<li> Significant undertaking to support (schema is ~5400 lines)
+					</ul>
+				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
+					<ul>
+						<li> Many convenience features, e.g., chord names, relative pitch
+						<li> Better than MusicXML for learning about music
+						<li> Frescobaldi = separate GUI front-end 
+					</ul>
+				</ul>
+				<pre style="font-size: 28px;">
+\version "2.18.2"
+\header { title = "Happy Birthday to You" }
+global = { \key c \major
+           \time 3/4
+         }
+right = \relative c'' {\global g8 g8 a4 g4        c4 b2      }
+left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
+\score {
+  \new PianoStaff \with {instrumentName = "Piano"}
+  &lt;&lt;
+    \new Staff = "right" \with {midiInstrument = "acoustic grand"} \right
+    \new Staff = "left"  \with {midiInstrument = "acoustic grand"} {\clef bass \left}
+  >>
+  \layout { }
+  \midi {\tempo 4=100}
+}</pre>
+		</div>
+		<aside class="notes">
+			<ul>
+				<li> Note: MuseScore used to support printing to LilyPond format,
+					but instead focused support on MusicXML,
+					and left MusicXML-to-LilyPond support to others.
+				<li> Some features in command-line not present in GUI (e.g., SVG output)
+			</ul>
+		</aside>
+	</section>
+
+	<section id="transcription_musicxml">
+		<h3>Transcription &mdash; More on MusicXML</h3>
+		<div style="text-align: left;">
+			<pre style="font-size: 28px;">
+&lt;score-partwise>
+  &lt;work>
+    &lt;work-title>Happy Birthday to You&lt;/work-title>
+    &lt;/work>
+  &lt;identification>
+    &lt;creator type="composer">Patty and Mildred J. Hill&lt;/creator>
+    ...
+    &lt;/identification>
+  ...
+  &lt;part-list>...&lt;part-name>Piano&lt;/part-name>...&lt;/part-list>
+  &lt;part id="P1">
+    &lt;measure number="1" width="273.03">
+      ...
+      &lt;note default-x="78.29" default-y="-30.00">
+        &lt;pitch>
+          &lt;step>G&lt;/step>
+          &lt;octave>4&lt;/octave>
+          &lt;/pitch>
+        &lt;duration>1&lt;/duration>
+        &lt;voice>1&lt;/voice>
+        &lt;type>eighth&lt;/type>
+        &lt;stem>up&lt;/stem>
+        &lt;staff>1&lt;/staff>
+        &lt;beam number="1">begin&lt;/beam>
+        &lt;/note>
+        ...
+      &lt;/measure>
+     ...
+    &lt;/part>
+  &lt;/score-partwise></pre>
+		</div>
+	</section>
+
+	<section id="transcription_lilypond">
+		<h3>Transcription &mdash; More on LilyPond</h3>
+		<div style="text-align: left;">
+			<p>LilyPond is useful for printing beautiful scores.</p>
+			<pre style="font-size: 32px;">
 song = \relative c' {
     \clef treble
     \key c \major
@@ -568,29 +568,96 @@ song = \relative c' {
     e4 d c d e e e c d d e d c2 r2
 }
 \score { \new Staff \song }</pre>
-			<li> MusicTeX is also available to add scores into TeX documents.
-		</ul>
+			<ul>
+				<li> Notes can be specified with relative or absolute pitches.
+					<ul>
+						<li> (In chordmode, absolute pitches only)
+					</ul>
+				<li> LilyPond supports contemporary, antique, and obscure formats.
+				<li> If you think something can't be done...
+					<br/>
+					you probably haven't read enough of the documentation.
+			</ul>
 		</div>
 		<aside class="notes">
 		</aside>
 	</section>
-	
-	<section id="transcription2">
-		<h3>Song Transcription Languages (2/2)</h3>
+
+	<section id="transcription_abc">
+		<h3>Transcription &mdash; ABC</h3>
 		<div style="text-align: left;">
-		    <ul>
-			<li> Alda (inspired by LilyPond and Music Macro Language) tries to find
-				the "sweet spot" between simple/intuitive syntax and depth of features.
-				It's implemented in Clojure, and emits a Clojure DSL,
-				which is exposed as a library.
-				<pre style="font-size: 32px; white-space: pre-line;">
-				piano: o3
-				g8 a b > c d e f+ g | a b > c d e f+ g4
-				g8 f+ e d c &lt; b a g | f+ e d c &lt; b a g4
-				&lt;&lt; g1/>g/>g/b/>d/g</pre>
+			<ul>
+				<li> ABC notation (v2.1 - Dec 2011) is a concise, popular, and well-supported
+					<pre style="font-size: 32px; white-space: pre-line;">
+					T:Mary had a little lamb
+					M:C		% meter
+					L:1/4   % basic note length
+					K:F		% key
+					AGFG|AAA2|GGG2|AAA2|
+					AGFG|AAAA|GGAG|F4|]
+					</pre>
+				<li> See
+					<a href="http://abcnotation.com">abcnotation.com</a>
+					for apps that support this format.
+				<li> See this 
+					<a href="http://www.stephenmerrony.co.uk/uploads/ABCquickRefv0_6.pdf">Quick Reference</a>
+					by Stephen Merrony.
+				<li> Don't be fooled by the simplicity of the format:
+					countless transcription details are supported.
 			</ul>
 		</div>
 		<aside class="notes">
+			<p>Not listed in this section:
+			<ul>
+				<li> MusicTeX is also available to add scores into TeX documents.
+			</ul>
+		</aside>
+	</section>
+
+	<section id="transcription_alda">
+		<h3>Transcription &mdash; Alda</h3>
+		<div style="text-align: left;">
+		    <ul>
+				<li> Alda (inspired by LilyPond and Music Macro Language) tries to find
+					the "sweet spot" between simple/intuitive syntax and depth of features.
+					It's implemented in Clojure, and emits a Clojure DSL,
+					which is exposed as a library.
+					<pre style="font-size: 32px; white-space: pre-line;">
+					piano: o3
+					g8 a b > c d e f+ g | a b > c d e f+ g4
+					g8 f+ e d c &lt; b a g | f+ e d c &lt; b a g4
+					&lt;&lt; g1/>g/>g/b/>d/g</pre>
+			</ul>
+			<table align="left">
+				<tr>
+					<td> "+" / "-"</td>
+					<td> sharp / flat (moves note up/down one semitone) </td>
+				</tr>
+				<tr>
+					<td> o / ">" / "&lt;"</td>
+					<td> sets the default octave / increments / decrements </td>
+				</tr>
+				<tr>
+					<td> "|" (pipe) </td>
+					<td> For readability only; ignored by the compiler </td>
+				<tr>
+				<tr>
+					<td> "/" </td>
+					<td> Separator for notes in chord </td>
+				</tr>
+				<tr>
+					<td> 1, 2, 4, etc.</td>
+					<td> whole, 1/2, 1/4, etc. (as in LilyPond)</td>
+				</tr>
+				<tr>
+					<td> Dots </td>
+					<td> Dotted notes (as in LilyPond) </td>
+				</tr>
+			</table>
+		</div>
+		<aside class="notes">
+			Note: Keeping running tabs on the current octave make it more difficult
+				to time-reverse a piece of music.
 		</aside>
 	</section>
 </section>
@@ -946,7 +1013,7 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 		     | Custom String
 		     deriving (Show, Eq, Ord)</pre>
 			This can be used as follows (see Chapter 19 of HSoM)
-			<pre style="font-size: 32px;">
+			<pre style="font-size: 32px; white-space: pre-line;">
     myMandolinName :: InstrumentName -- Or myFlugelhorn or myUkulele
     myMandolinName = Custom "My Mandolin"
     type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a</pre>
@@ -965,7 +1032,7 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 			<ul>
 				<li>Step #1: Convert a signal function into an instance of type Instr.
 					For example, using <em>vibrato</em>,
-					<pre style="font-size: 32px;">
+					<pre style="font-size: 28px;">
 myMandolin :: Instr (AudSF () Double)
 -- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
 myMandolin dur ap vol [vfrq, dep] =
@@ -974,18 +1041,17 @@ myMandolin dur ap vol [vfrq, dep] =
 	aud &lt;- osc tab2 () -&lt; apToHz ap + vib * dep
 	outA -&lt; aud		</pre>
 				<li>Step #2: Connect the instrument name to the instrument definition.
-					<pre style="font-size: 32px; white-space: pre-line;">
+					<pre style="font-size: 28px; white-space: pre-line;">
 					type InstrMap a = [(InstrumentName, Instr a)]
 					myInstrMap :: InstrMap (AudSF () Double)
 					myInstrMap = [(myMandolinName, myMandolin)]
 					</pre>
 				<li>Step #3: Use the Euterpea function <em>renderSF</em>
-					<pre style="font-size: 32px;">
+					<pre style="font-size: 28px;">
 renderSF :: (Performable a, AudioSample b, Clock c)
-	=> Music a -> InstrMap (SigFun p () b)
-	    -> (Double, SigFun p () b)	</pre>
+    => Music a -> InstrMap (SigFun p () b) -> (Double, SigFun p () b)</pre>
 				<li>Finally:
-					<pre style="font-size: 32px; white-space: pre-line;">
+					<pre style="font-size: 28px; white-space: pre-line;">
 					mandolinMelody = instrument myMandolinName $ <font color="#0000ff" weight="bold">...music...</font>
 					(dur, sigFun) = renderSF mandolinMelody myInstrMap
 					main = outFile "mandolinMelody.wav" dur sigFun
@@ -1000,22 +1066,15 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 	<h3>Euterpea &mdash; Some music coding standards</h3>
 		<div style="text-align: left;">
 		<ol>
-		<li> <b>Represent compositions as concatenations of smaller sub-compositions ("pieces")
-				in a regular way, such as by instrument and measure(s).</b>
+		<li> <b>Represent compositions in terms of smaller sub-compositions ("pieces"):</b>
 			<ul>
-				<li> Consider naming the pieces to reflect the structure of this decomposition.
+				<li> Use naming to reflect structure (e.g., sonata_violin_1_4)
+				<li> Consider putting measures on separate lines.
+				<li> Identify/extract duplicated subexpressions &amp; other structures.
 				<ul>
-					<li> E.g., sonata_violin_1_4 could contain measures 1 through 4.
+					<li> Consider using lyrics in identifier names.
 				</ul>
-				<li> If a value contains multiple measures, consider putting each measure
-					on a separate line.
-				<li> Identify and extract duplicated subexpressions and other structures.
-				<ul>
-					<li> If lyrics are tied to the subexpression,
-						consider using them in the name of the subexpression.
-				</ul>
-				<li> Identify nearly-duplicated subexpressions, and use functions
-					to extract the commonality.
+				<li> Use functions to extract commonality from nearly-duplicated subexpressions.
 			</ul>
 		<br/>
 		<li> <b>Perform validation tests:</b>
@@ -1027,17 +1086,21 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<li> <b>Perform live testing:</b>
 			<ul>
 				<li> Listening to compositions will help detect some issues.
-				<li> Play melodies in parallel to detect differences/intervals.  (Discussion: XOR impl. issues)
+				<li> Play melodies in parallel to detect differences/intervals.
 			</ul>
 		<br/>
 		<li> <b>Derive metrics to be used in testing:</b>
 			<ul>
 				<li> Just as images can be associated with color histograms,
-					short segments of music can be associated (via FFTs) with frequency histograms.
+					<br/>
+					music slices can be associated (via FFTs) with frequency histograms.
 			</ul>
 		</ol>
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> Playing melodies in parallel &rArr; Discuss text algorithms, XOR impl. issues, etc.
+			</ul>
 		</aside>
 	</section>
 
