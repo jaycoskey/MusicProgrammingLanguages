@@ -305,6 +305,44 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		</div>
 	</section>
   
+	<section id="intro_programersintro">
+		<h3>Introduction &mdash; A Programmer's Intro</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> A temperment is a mapping from notes to frequencies.
+				<ul>
+					<li> The standard temperment used in music is called equal temperment.
+				</ul>
+				<li> A pitch class (such as C) is an equivalence class of notes differing by a multiple of an octave.
+				<li> A note (such as C4 = middle C) is a pair (pitch class, octave), and has a specific frequency. 
+				<li> A chord (such as C = C Major = {C, E, G}) is 3+ notes played at once.
+				<li> A key (same as a scale) is a subset of pitch classes selected for performance or analysis.
+				<ul>
+					<li> Key of C Major = [C, D, E, F, G, A, B]
+					<ul>
+						<li> In Major keys, the # of semitones between notes is [2, 2, 1, 2, 2, 2, 1].
+					</ul>
+					<li> Key of F# minor = [F#, G#, A, B, C#, D, E]
+					<ul>
+						<li> In minor keys, the # of semitones between notes is [2, 1, 2, 2, 1, 2, 2].
+					</ul>
+				</ul>
+				<li> Chords with names like major, minor, diminished, augmented, etc., are independent of scale.
+				<ul>
+					<li> Example: C4 Major seventh chord = Copies of C4 shifted up by {0, 4, 7, 11} semitones.
+				</ul>
+				<li> Chords with names like I-V-vi-iii-IV-I-IV-V are scale-specific.
+				<ul>
+					<li> The Roman # represents the base note of the chord: I = first note of scale, II = second, etc.
+					<li> Upper-case denotes Major
+					<li> Lower-case denotes minor
+				</ul>
+			</ul>
+		</div>
+		<aside class="notes">
+		</aside>
+	</section>
+
 	<section id="intro_soundscapes">
 		<h3>Introduction &mdash; Soundscapes</h3>
 		<div style="text-align: left;">
@@ -454,6 +492,32 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		</ul>
 		</div>
 		<aside class="notes">
+			Honorable mention:
+			<ul>
+				<li> <a href="http://extempore.moso.com.au/">Extempore</a>
+					&mdash; A Scheme-based music DSL.
+					There's a good comparison between Extempore and Overtone
+					<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
+					Extempore runs in multiple processes &amp; communicates via IPC. 
+				<li> <a href="http://faust.grame.fr/">Faust</a>.
+					(Functional AUdio STream)
+					&mdash; A purely functional DSL for signal processing.
+					<br/>
+					<b>Note:</b>The deadline for the Faust Award 2016 contest is 2016-06-01!
+				<li> <a href="https://en.wikipedia.org/wiki/Max_(software)">Max</a>
+					(and Max/MSP, $)
+					&mdash; A visual programming language for music and multimedia.
+				<li> <a href="http://processing.org">Processing</a>
+				<li> <a href="https://en.wikipedia.org/wiki/Reaktor">Reaktor</a>
+					&mdash; A modular synthesizer
+				<li>
+				<li>
+				<li> Music esolangs:
+					<a href="http://esolangs.org/wiki/Bitoven">Bitoven</a>,
+					<a href="https://esolangs.org/wiki/Musical_notes">Musical notes</a>,
+					<a href="https://esolangs.org/wiki/Musical-X">Musical-X</a>,
+					<a href="http://esolangs.org/wiki/Velato">Volato (uses MIDI files as source code)</a>
+			</ul>
 		</aside>
 	</section>
 
@@ -1673,6 +1737,7 @@ end</pre>
 					Ragtimify</a> (2013): a book on converting scores to Ragtime
 				<li> <a href="https://mitpress.mit.edu/books/sweet-anticipation">
 					Sweet Anticipation: Music and the Psychology of Expectation</a> (2006)
+				<li> <a href="http://blog.mymusictheory.com/2014/how-to-compose-a-canon-or-round-easy-composition/">How to Compose a Canon</a> (video+text) 
 				<li> Song databases: 
 					<a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
 						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
