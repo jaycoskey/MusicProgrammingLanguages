@@ -407,32 +407,6 @@ reveal.js tips:
 		</ul>
 		</div>
 		<aside class="notes">
-			Honorable mention:
-			<ul>
-				<li> <a href="http://extempore.moso.com.au/">Extempore</a>
-					&mdash; A Scheme-based music DSL.
-					There's a good comparison between Extempore and Overtone
-					<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
-					Extempore runs in multiple processes &amp; communicates via IPC. 
-				<li> <a href="http://faust.grame.fr/">Faust</a>.
-					(Functional AUdio STream)
-					&mdash; A purely functional DSL for signal processing.
-					<br/>
-					<b>Note:</b>The deadline for the Faust Award 2016 contest is 2016-06-01!
-				<li> <a href="https://en.wikipedia.org/wiki/Max_(software)">Max</a>
-					(and Max/MSP, $)
-					&mdash; A visual programming language for music and multimedia.
-				<li> <a href="http://processing.org">Processing</a>
-				<li> <a href="https://en.wikipedia.org/wiki/Reaktor">Reaktor</a>
-					&mdash; A modular synthesizer
-				<li>
-				<li>
-				<li> Music esolangs:
-					<a href="http://esolangs.org/wiki/Bitoven">Bitoven</a>,
-					<a href="https://esolangs.org/wiki/Musical_notes">Musical notes</a>,
-					<a href="https://esolangs.org/wiki/Musical-X">Musical-X</a>,
-					<a href="http://esolangs.org/wiki/Velato">Volato (uses MIDI files as source code)</a>
-			</ul>
 		</aside>
 	</section>
 
@@ -1561,7 +1535,7 @@ endin</pre>
 		</aside>
 	</section>
 
-	<section id="puredata_foo">
+	<section id="puredata_example">
 		<h3>Pure Data (Pd)</h3>
 		<div style="text-align: left;">
 			Relatively simple example:
@@ -1833,40 +1807,162 @@ end</pre>
 
 	<section id="appendices_apps_libraries">
 		<h3>Appendix A &mdash; Apps &amp; Libraries</h3>
-		<div style="text-align: left;">
-			<ul>
-				<li> Java
-				<ul>
-					<li> The
-						<a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
-						(<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>)
-				</ul>
-			<br/>
-				<li> Linux
-				<ul>
-					<li> TODO
-				</ul>
-			<br/>
-				<li> Mac
-				<ul>
-					<li> <a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a> (a DAW &mdash; Mac OS X only)
-					<li> <a href="https://en.wikipedia.org/wiki/Ableton_Live">Ableton Live</a> (a DAW &mdash; Mac/PC)
-				</ul>
-			<br/>
-				<li> .NET
-				<ul>
-					<li> <a href="http://naudio.codeplex.com/">NAudio</a>
-					<li> <a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a>
-				</ul>
-			<br/>
-				<li> Python
-				<ul>
-					<li> <a href="http://web.mit.edu/music21/">music21</a>:
-						a toolkit for computational musicology, music theory, and generative composition.
-				</ul>
-			</ul>
+		<div style="text-align: left; style="font-size: 24px;">
+			<table>
+				<tr>
+					<td><a href="http://abjad.mbrsi.org/">Abjad</td>
+					<td>Python</td>
+					<td>Lib</td>
+					<td>Writing tonal music</td>
+				</tr>
+				<tr>
+					<td><a href="https://en.wikipedia.org/wiki/Ableton_Live">Ableton Live</a></td>
+					<td>M/P/L</td>
+					<td>DAW</td>
+					<td>VST (Virt. Studio Tech.) plugins</td>
+				</tr>
+				<tr>
+					<td><a href="https://csounds.com">Csound</a></td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>Csound API;  Plugin devel w/ Cabbage &amp; JUCE</td>
+				</tr>
+				<tr>
+					<td><a href="http://faust.grame.fr/">Faust</a> (Func. AUdio STream)</td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>Purely functional DSL for signal processing.</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.apple.com/mac/garageband/">Garageband</a></td>
+					<td>Mac</td>
+					<td>App</td>
+					<td>Audio Unit extensions</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.humdrum.org/">Humdrum Analysis Toolkit</td>
+					<td>M/P/L</td>
+					<td>Toolkit</td>
+					<td>Flexible with 60+ inter-related tools</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
+						<!-- (<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>) -->
+					</td>
+					<td>Java</td>
+					<td>API</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a></td>
+					<td>Mac</td>
+					<td>DAW</td>
+					<td>JavaScript plugins; Audio Unit extensions</td>
+				</tr>
+				<tr>
+					<td><a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a></td>
+					<td>.NET</td>
+					<td>Lib</td>
+					<td>Access to MIDI devices</td>
+				</tr>
+				<tr>
+					<td><a href="https://musescore.org/">MuseScore</a></td>
+					<td>M/P/L</td>
+					<td>App</td>
+					<td>JavaScript plugins</td>
+				</tr>
+				<tr>
+					<td><a href="http://web.mit.edu/music21/">music21</a></td>
+					<td>Python</td>
+					<td>Lib</td>
+					<td>Computational musicology; composition</td>
+				</tr>
+				<tr>
+					<td><a href="http://naudio.codeplex.com/">NAudio</a></td>
+					<td>.NET</td>
+					<td>Lib</td>
+					<td>Audio &amp; MIDI</td>
+				</tr>
+				<tr>
+					<td><a href="http://naudio.codeplex.com/">Nyquist (a Lisp)</a></td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>Sound effect plugins work in Audacity</td>
+				</tr>
+				<tr>
+					<td><a href="https://puredata.info/">Pure Data</a></td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>3 plugin frameworks:
+						<a href="http://pure-data.sourceforge.net/old/documentation.php#plugin~">plugin~</a>,
+						<a href="http://bitbucket.org/moumar/ladspa/wiki/Home">ladspa~</a>, and
+						<a href="http://puredata.info/Members/jb/">dssi~</a>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.reaper.fm/">Reaper</a></td>
+					<td>M/P/L</td>
+					<td>DAW</td>
+					<td>Plugins and extensions</td>
+				</tr>
+				<tr>
+					<td><a href="https://www.staffpad.net/">StaffPad</a></td>
+					<td>PC</td>
+					<td>App</td>
+					<td>Imports/exports MusicXML and MIDI</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.audiosynth.com/">SuperCollider</a></td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>"Quarks" extend lang; plugins extend server</td>
+				</tr>
+			</table>
 		</div>
 		<aside class="notes">
+			<table>
+				<tr>
+					<td> <a href="http://extempore.moso.com.au/">Extempore</a></td>
+					<td></td>
+					<td></td>
+					<td>
+						A Scheme-based music DSL.
+						There's a good comparison between Extempore and Overtone
+						<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
+						Extempore runs in multiple processes &amp; communicates via IPC. 
+					</td>
+				</tr>
+				<tr>
+					<td> <a href="https://en.wikipedia.org/wiki/Max_(software)">Max</a>(and Max/MSP)</a></td>
+					<td></td>
+					<td></td>
+					<td>
+						Visual programming language for music and multimedia.
+					</td>
+				</tr>
+				<tr>
+					<td> <a href="http://processing.org">Processing</a></td>
+					<td></td>
+					<td>Lang</td>
+					<td>
+						Java-like educational multimedia programming lang
+					</td>
+				</tr>
+				<tr>
+					<td> <a href="https://en.wikipedia.org/wiki/Reaktor">Reaktor</a></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>A modular synthesizer</td>
+				</tr>
+			</table>
+			</ul>
+				<li> Music esolangs:
+					<a href="http://esolangs.org/wiki/Bitoven">Bitoven</a>,
+					<a href="https://esolangs.org/wiki/Musical_notes">Musical notes</a>,
+					<a href="https://esolangs.org/wiki/Musical-X">Musical-X</a>,
+					<a href="http://esolangs.org/wiki/Velato">Volato (uses MIDI files as source code)</a>
+			</ul>
 		</aside>
 	</section>
 
