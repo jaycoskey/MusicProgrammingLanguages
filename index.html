@@ -36,19 +36,14 @@ TODO:
   * Add comments in the aside sections.
   * Specifically, impact of language design decisions (esp. representation and layers)
     on supportable features and their difficulty of implementation.
+  * Extract HTML styling into deck-specific CSS file.
   Euterpea:
 	* FFTs
-	* Using different channels/speakers.
 	* Better description of Arrows & UISF and their use.
 	* Kulitta?
 	* Haskell Music Suite
   PureData:
 	* Data flow controls, events, tables, idioms
-  Resources:
-	* Add a bullet for other languages, e.g., Processing.
-  Appendix A: Apps
-	* Add content (Scorewriters, DAWs, and libs)
-	* Add Linux info
 -->
 
 <body>
@@ -134,12 +129,14 @@ reveal.js tips:
 				<li> Oldest known instrument:
 					<a href="http://news.nationalgeographic.com/news/2009/06/090624-bone-flute-oldest-instrument.html">flute</a>
 					from 40K years ago.
-				<li> Oldest recorded melody: Hurrian Hymn #6, from ~40K years ago.
+				<li> Oldest recorded melody: Hurrian Hymn #6, from ~3400 years ago.
 				<ul>
 					<li> Melody known because string lengths were recorded
 				</ul>
 				<li> Complex polyrhythms are difficult to master by hand,
 					but easy with software.
+				<li> Traditional Happy Birthday score taken from here:
+					https://musescore.com/user/173585/scores/166951
 			</ul>
 		</aside>
 	</section>
@@ -265,15 +262,17 @@ reveal.js tips:
 		("<a href="https://www.youtube.com/watch?v=M3lO9Dt3kjA">Deep Sound</a>"), or the
 		<a href="https://www.youtube.com/watch?v=-0tPBQddeJs">Futurama Theme</a>
 		<ul>
-			<li> Soundscapes are more amorphous than tonal music.
-			<li> Most digital audio workstations (DAWs) are written in C++.
-			<li> At a low level, sound can be represented by arrays of numbers,
-				and the domain-specific language (DSL) for arrays of numbers
-				has already been written: Fortran, back in 1957 by Backus,
-				famous for Backus-Naur Form (BNF).
-			<li> Tools: DAWs, FFTs
-			<li> Most of this talk will focus on tonal music.
+			<li> More amorphous than tonal music.
+			<li> Often worked on by Digital Audio Workstations (DAWs).
+			<li> There are DSLs for sound processing, but most DAWs are written in C++.
+			<ul>
+				<li> Why?  Because sound can be represented by arrays of numbers,<br/>
+					and the last time we needed a new DSL to handle arrays of numbers was in 1957,<br/>
+					when Backus wrote Fortran.
+			</ul>
 		</ul>
+		<br/><br/>
+		Most of this talk will focus on tonal music.
 		</div>
 		<aside class="notes">
 		<ul>
@@ -285,6 +284,7 @@ reveal.js tips:
 				</a> by Pierre Henry.
 			<li> Deep sound code in SuperCollider can be found
 				<a href="http://www.earslap.com/article/recreating-the-thx-deep-note.html">here</a>.
+			<li> Mention Backus-Naur form, Fourier transforms, FFTs, and Arrows.
 		</ul>
 		</aside>
 	</section>
@@ -456,7 +456,6 @@ reveal.js tips:
 				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
 					<ul>
 						<li> Many convenience features, e.g., chord names, relative pitch
-						<li> Better than MusicXML for learning about music
 						<li> Frescobaldi = separate GUI front-end 
 					</ul>
 				</ul>
@@ -484,6 +483,8 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 					but instead focused support on MusicXML,
 					and left MusicXML-to-LilyPond support to others.
 				<li> Some features in command-line not present in GUI (e.g., SVG output)
+				<li> LilyPond is better than MusicXML for learning about music,
+					due to differences in the target audience.
 			</ul>
 		</aside>
 	</section>
@@ -647,15 +648,8 @@ song = \relative c' {
 					<li> (a) Supports both tonal and full-spectrum music
 					<li> (b) Core similicity &rArr; Better focus on the domain of music itself.
 				</ul>
-			<li> Euterpea (and a related library and PDF: The Haskell School of Music)
-				was written by:
-				<ul>
-					<li> the late Paul Hudak
-					<li> Hai ("Paul") Liu,
-					<li> Eric Cheng,
-					<li> Donya Quick
-					<li> Daniel Winograd-Cort
-				</ul>
+			<li> Euterpea (& lib/PDF: The Haskell School of Music) was started by the late Paul Hudak.
+			<li> It's now maintained by Donya Quick and Daniel Winograd-Cort
 			<li> Now maintained by Quick &amp; Winograd-Cort.
 		</ul>
 		</div>
@@ -930,7 +924,7 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 	</section>
 
 	<section id="euterpea_soundscape">
-		<h3>Euterpea &mdash; Creating Other Sounds</h3>
+		<h3>Euterpea &mdash; Creating Custom Sounds</h3>
 		<div style="text-align: left;">
 		Advanced: Euterpea also supports more general sound creation using Arrows
 		(see Control.Arrow).
@@ -944,8 +938,8 @@ module Euterpea.Examples.SigFuns where
 import Euterpea
 import Control.Arrow ((>>>),(&lt;&lt;&lt;),arr)
 
-s4 :: Clock c =>; SigFun c () Double
-s4 = proc () ->; do
+s4 :: Clock c => SigFun c () Double
+s4 = proc () -> do
        f0  &lt;- oscFixed 440   -&lt; ()
        f1  &lt;- oscFixed 880   -&lt; ()
        f2  &lt;- oscFixed 1320  -&lt; ()
@@ -1003,7 +997,7 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 				<li>Step #1: Convert a signal function into an instance of type Instr.
 					For example, using <em>vibrato</em>,
 					<pre style="font-size: 28px;">
-myMandolin :: Instr (AudSF () Double)
+myMandolin :: Instr (AudSF () Double)  -- Monaural: Could choose stereo instead.
 -- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
 myMandolin dur ap vol [vfrq, dep] =
     proc () -> do
@@ -1029,6 +1023,20 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			</ul>
 		</div>
 		<aside class="notes">
+			<ul>
+			<li> From Euterpea/IO/Audio/Types.hs:
+				<ul>
+				<li> type Stereo p = Signal p () (Double, Double)
+				</ul>
+			<li> From Euterpea.Examples.MusicToSignal:
+				<ul>
+				<li> reed :: Instr (Stereo AudRate)
+				</ul>
+			<li> From Euterpea.IO.Audio.Render:
+				<ul>
+				<li> type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a
+				</ul>
+			</ul>
 		</aside>
 	</section>
 
@@ -1038,13 +1046,13 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<ol>
 		<li> <b>Represent compositions in terms of smaller sub-compositions ("pieces"):</b>
 			<ul>
-				<li> Use naming to reflect structure (e.g., sonata_violin_1_4)
+				<li> Use naming to reflect structure (e.g., sonata_violin_1_4).
 				<li> Consider putting measures on separate lines.
-				<li> Identify/extract duplicated subexpressions &amp; other structures.
+				<li> Identify/extract duplicate subexpressions &amp; other structures.
 				<ul>
 					<li> Consider using lyrics in identifier names.
 				</ul>
-				<li> Use functions to extract commonality from nearly-duplicated subexpressions.
+				<li> Use functions to extract commonality from near-duplicate subexpressions.
 			</ul>
 		<br/>
 		<li> <b>Perform validation tests:</b>
@@ -1553,7 +1561,6 @@ endin</pre>
 			/>
 		<aside class="notes">
 			<ul>
-				<li> Installation Note: Install Pd-Extended
 				<li> edit mode vs. run mode
 				<li> put objects on design surface
 				<li> first object : dac~ [~ indicates audio write object]
@@ -1564,11 +1571,11 @@ endin</pre>
 		</aside>
 	</section>
 
-	<section id="puredata_gem">
+	<section id="puredata_moreinfo">
 		<h3>Pure Data (Pd) &mdash; More Info</h3>
 		<div style="text-align: left;">
 			<ul>
-				<li> Install Pd-Extended instead of Pd-Vanilla
+				<li> Recommendation: Choose Pd-Extended (or another derivative) over Pd-Vanilla.
 				<li> Install <a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">GEM</a>
 					= "Graphics Environment for Multimedia" = plug-in library of Pd sounds
 					<ul>
@@ -1579,6 +1586,50 @@ endin</pre>
 				<li> Pure Data computes audio 64-sample blocks before shipping them off to audio output,
 					and uses a 3-block buffer.
 				<li> This prohibits DSP loops, which would cause deadlock.
+			</ul>
+		</div>
+		<br/>
+		<h3>Related Language: Faust</h3>
+		<div style="text-align: left;">
+			<ul>
+				<li> Pure Data can be extended with "externals" written in
+					<a href="http://faust.grame.fr/">Faust</a>.
+				<li> Faust (Functional AUdio STream) is a DSL for signal processing.
+				<li> It's text-based, but has a GUI called Faustworks
+				<li> It's block-oriented, with five composition operators
+					that mirror Haskell's Arrow syntax.
+					<table>
+						<tr>
+							<th>Faust</th>
+							<th>Haskell/Arrow</th>
+							<th>Meaning</th>
+						</tr>
+						<tr>
+							<td>f ~ g</td>
+							<td>&lt;See wiki page&gt;</td>
+							<td>Recursive composition</td>
+						</tr>
+						<tr>
+							<td>f , g</td>
+							<td>f *** g</td>
+							<td>Parallel composition</td>
+						</tr>
+						<tr>
+							<td>f : g</td>
+							<td>f >>> g</td>
+							<td>Sequential composition</td>
+						</tr>
+						<tr>
+							<td>f &lt;: g</td>
+							<td>f >> ^h >>> g</td>
+							<td>Split composition (with appropriate function h)</td>
+						</tr>
+						<tr>
+							<td>f :> g</td>
+							<td>f >> ^h >>> g</td>
+							<td>Merge composition (with appropriate function h)</td>
+						</tr>
+					</table>
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1612,11 +1663,11 @@ endin</pre>
 		(The theme of "Oz" provides the name "Strasheela" &mdash;
 		it's the name of the Scarecrow in the Russian version of The Wizard of Oz.)
 		<br/><br/>
-		After calling 
+		The output of 
 		<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
 		Score.makeScore
 		</a>,
-		the output can be rendered with a choice of formats, including
+		can be rendered with a choice of formats, including
 		LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
 		</div>
 		<aside class="notes" >
@@ -1806,8 +1857,8 @@ end</pre>
 	</section>
 
 	<section id="appendices_apps_libraries">
-		<h3>Appendix A &mdash; Apps &amp; Libraries</h3>
-		<div style="text-align: left; style="font-size: 24px;">
+		<h3>Appendix A &mdash; Apps &amp; Libraries &amp; Other</h3>
+		<div style="text-align: left; font-size: 22px;">
 			<table>
 				<tr>
 					<td><a href="http://abjad.mbrsi.org/">Abjad</td>
@@ -1828,7 +1879,13 @@ end</pre>
 					<td>Csound API;  Plugin devel w/ Cabbage &amp; JUCE</td>
 				</tr>
 				<tr>
-					<td><a href="http://faust.grame.fr/">Faust</a> (Func. AUdio STream)</td>
+					<td> <a href="http://extempore.moso.com.au/">Extempore</a> (Schemey)</td>
+					<td>Mac</td>
+					<td>Lang</td>
+					<td>Uses LLVM for live coding, and uses IPC.</td>
+				</tr>
+				<tr>
+					<td><a href="http://faust.grame.fr/">Faust</a></td>
 					<td>M/P/L</td>
 					<td>Lang</td>
 					<td>Purely functional DSL for signal processing.</td>
@@ -1846,18 +1903,32 @@ end</pre>
 					<td>Flexible with 60+ inter-related tools</td>
 				</tr>
 				<tr>
+					<td> <a href="http://impromptu.moso.com.au/">Impromptu</a> (Schemey)</td>
+					<td>Mac</td>
+					<td>Lang</td>
+					<td>Formerly the core of Extempore.  Focus on live coding.</td>
+				</tr>
+				<tr>
 					<td><a href="http://www.oracle.com/technetwork/java/index-139508.html">Java Sound API</a>
 						<!-- (<a href="https://docs.oracle.com/javase/tutorial/sound/">tutorial</a>) -->
 					</td>
 					<td>Java</td>
 					<td>API</td>
-					<td></td>
+					<td>Emphasizes low-level control.  Compare with the higher-level JMF.</td>
 				</tr>
 				<tr>
 					<td><a href="https://en.wikipedia.org/wiki/Logic_Pro">Logic Pro</a></td>
 					<td>Mac</td>
 					<td>DAW</td>
 					<td>JavaScript plugins; Audio Unit extensions</td>
+				</tr>
+				<tr>
+					<td> <a href="https://en.wikipedia.org/wiki/Max_(software)">Max</a>(& Max/MSP)</a></td>
+					<td>Mac/PC</td>
+					<td>Lang</td>
+					<td>
+						The "lingua franca" of interactive musical performance software.
+					</td>
 				</tr>
 				<tr>
 					<td><a href="https://code.google.com/archive/p/midi-dot-net/">midi-dot-net</a></td>
@@ -1884,20 +1955,43 @@ end</pre>
 					<td>Audio &amp; MIDI</td>
 				</tr>
 				<tr>
-					<td><a href="http://naudio.codeplex.com/">Nyquist (a Lisp)</a></td>
+					<td><a href="http://naudio.codeplex.com/">Nyquist (Lispy)</a></td>
 					<td>M/P/L</td>
 					<td>Lang</td>
 					<td>Sound effect plugins work in Audacity</td>
 				</tr>
 				<tr>
+					<td> <a href="http://repmus.ircam.fr/openmusic/home">OpenMusic</a> (Lispy)</td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>
+						Visual programming language
+					</td>
+				</tr>
+				<tr>
+					<td> <a href="http://processing.org">Processing</a></td>
+					<td>M/P/L</td>
+					<td>Lang</td>
+					<td>
+						Java-based educational multimedia programming lang
+					</td>
+				</tr>
+				<tr>
 					<td><a href="https://puredata.info/">Pure Data</a></td>
 					<td>M/P/L</td>
 					<td>Lang</td>
-					<td>3 plugin frameworks:
-						<a href="http://pure-data.sourceforge.net/old/documentation.php#plugin~">plugin~</a>,
-						<a href="http://bitbucket.org/moumar/ladspa/wiki/Home">ladspa~</a>, and
-						<a href="http://puredata.info/Members/jb/">dssi~</a>
+					<td>Plugin frameworks:
+						<a href="http://pure-data.sourceforge.net/old/documentation.php#plugin~">plugin~</a>/
+						<a href="http://bitbucket.org/moumar/ladspa/wiki/Home">ladspa~</a>/
+						<a href="http://puredata.info/Members/jb/">dssi~</a>.
+						Externals create new primitives.
 					</td>
+				</tr>
+				<tr>
+					<td> <a href="https://en.wikipedia.org/wiki/Reaktor">Reaktor</a></td>
+					<td>Mac/PC</td>
+					<td>Synth</td>
+					<td>A modular synthesizer</td>
 				</tr>
 				<tr>
 					<td><a href="http://www.reaper.fm/">Reaper</a></td>
@@ -1920,43 +2014,9 @@ end</pre>
 			</table>
 		</div>
 		<aside class="notes">
-			<table>
-				<tr>
-					<td> <a href="http://extempore.moso.com.au/">Extempore</a></td>
-					<td></td>
-					<td></td>
-					<td>
-						A Scheme-based music DSL.
-						There's a good comparison between Extempore and Overtone
-						<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
-						Extempore runs in multiple processes &amp; communicates via IPC. 
-					</td>
-				</tr>
-				<tr>
-					<td> <a href="https://en.wikipedia.org/wiki/Max_(software)">Max</a>(and Max/MSP)</a></td>
-					<td></td>
-					<td></td>
-					<td>
-						Visual programming language for music and multimedia.
-					</td>
-				</tr>
-				<tr>
-					<td> <a href="http://processing.org">Processing</a></td>
-					<td></td>
-					<td>Lang</td>
-					<td>
-						Java-like educational multimedia programming lang
-					</td>
-				</tr>
-				<tr>
-					<td> <a href="https://en.wikipedia.org/wiki/Reaktor">Reaktor</a></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>A modular synthesizer</td>
-				</tr>
-			</table>
-			</ul>
+			<ul>
+				<li> Comparison between Extempore and Overtone
+					<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
 				<li> Music esolangs:
 					<a href="http://esolangs.org/wiki/Bitoven">Bitoven</a>,
 					<a href="https://esolangs.org/wiki/Musical_notes">Musical notes</a>,
