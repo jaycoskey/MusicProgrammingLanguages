@@ -38,7 +38,6 @@ TODO:
     on supportable features and their difficulty of implementation.
   * Extract HTML styling into deck-specific CSS file.
   Euterpea:
-	* FFTs
 	* Better description of Arrows & UISF and their use.
 	* Haskell Music Suite
   PureData:
@@ -132,10 +131,20 @@ reveal.js tips:
 				<ul>
 					<li> Melody known because string lengths were recorded
 				</ul>
-				<li> Complex polyrhythms are difficult to master by hand,
+				<li> Some things are painstaking to master by hand,
 					but easy with software.
-				<li> Traditional Happy Birthday score taken from here:
-					https://musescore.com/user/173585/scores/166951
+					<ul>
+						<li> Sifting through a catalog, such as all available instruments or chords.
+						<li> Complex polyrhythms
+					</ul>
+				<li> "Compare within a piece or within a corpus"
+					<ul>
+						<li> Comparison can be done on performances of a specific piece over time.
+						<li> Consider extending text algorithms to apply to music,
+							but be sure to ask what metrics are perceptually relevant.
+					</ul>
+				<li> Colophon: Traditional Happy Birthday score taken from:
+					<a href="https://musescore.com/user/173585/scores/166951">here</a>.
 			</ul>
 		</aside>
 	</section>
@@ -158,7 +167,8 @@ reveal.js tips:
 								</ul>
 							<li> Score file formats: MusicXML, ABC, LilyPond, MusicTeX, etc.
 							<li> Sound file formats:
-								<a href="https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html">MIDI</a>
+								<a href="https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html">MIDI</a>,
+								wav, mp3, etc.
 							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, Opusmodus, etc.)
 						</ul>
 					</td>
@@ -225,7 +235,7 @@ reveal.js tips:
 				<br/><br/>
 				<li> A key (same as a scale) is a subset of pitch classes selected for performance or analysis.
 				<ul>
-					<li> Key of C Major = [C, D, E, F, G, A, B]
+					<li> Key of C Major &nbsp;&nbsp;&nbsp;= [C, D, E, F, G, A, B]
 					<ul>
 						<li> In Major keys, the # of semitones between notes is [2, 2, 1, 2, 2, 2, 1].
 					</ul>
@@ -250,6 +260,8 @@ reveal.js tips:
 		<aside class="notes">
 			<ul>
 				<li> Mention the term "enharmonic".
+				<li> Mention measures (same as bars), and how accidentals apply
+					throughout the rest of the measures.
 			</ul>
 		</aside>
 	</section>
@@ -265,8 +277,8 @@ reveal.js tips:
 			<li> Often worked on by Digital Audio Workstations (DAWs).
 			<li> There are DSLs for sound processing, but most DAWs are written in C++.
 			<ul>
-				<li> Why?  Because sound can be represented by arrays of numbers,<br/>
-					and the last time we needed a new DSL to handle arrays of numbers was in 1957,<br/>
+				<li> Why?  Speed.  Note that sound can be represented by arrays of numbers,<br/>
+					and the language traits needed for numerical arrays was pretty solid by 1957,<br/>
 					when Backus wrote Fortran.
 			</ul>
 		</ul>
@@ -275,14 +287,12 @@ reveal.js tips:
 		</div>
 		<aside class="notes">
 		<ul>
-			<li> Joke: Seven years after Jim Backus invented Fortran, he was stranded with
-				six other castaways on Gilligan's Island.
+			<li> Deep sound code in SuperCollider can be found
+				<a href="http://www.earslap.com/article/recreating-the-thx-deep-note.html">here</a>.
 			<li> The Futurama Theme is based on a trippy 1967 song called
 				<a href="https://www.youtube.com/watch?v=AOqfWj0HqNE">
 				Psyché Rock
 				</a> by Pierre Henry.
-			<li> Deep sound code in SuperCollider can be found
-				<a href="http://www.earslap.com/article/recreating-the-thx-deep-note.html">here</a>.
 			<li> Mention Backus-Naur form, Fourier transforms, FFTs, and Arrows.
 		</ul>
 		</aside>
@@ -310,8 +320,17 @@ reveal.js tips:
 		</ul>
 		</div>
 		<aside class="notes">
-			Key-finding algorithms (CBMS profile, Beyesian profile, and Krumhansl's profile)
-				https://musescore.org/en/node/16444
+			<ul>
+				<li> Microsoft SoundSmith makes use of HMMs to generate chords from melody.
+					Example: 
+					<a href="http://mocksession.com/2012/01/revisiting-classic-hits-by-microsoft-songsmith-roxanne-calypso-version/">
+						Roxanne in Calypso</a>
+					<ul>
+						<li> Better than the original?  Turing test for music composition?
+					</ul>
+				<li> Key-finding algorithms (CBMS profile, Beyesian profile, and Krumhansl's profile)
+					https://musescore.org/en/node/16444
+			</ul>
 		</aside>
 	</section>
 
@@ -343,6 +362,21 @@ reveal.js tips:
 			<li> In Star Trek: The Next Generation, season 3, episode 9, Wesley Crusher was studying
 				"a locally Euclidian metrization of a k-fold contravariant Riemannian tensor field".
 				That's a different Riemann than Hugo Riemann.
+			<li> Mathematics has contributed immensely to some areas of music, such as acousitcs.
+			<li> Mathematical analysis has given us two keyboards with interesting hexagonal layouts:
+				<ul>
+					<li> The <a href="https://en.wikipedia.org/wiki/Harmonic_table_note_layout">Harmonic table note layout</a>,
+						sort of discovered by Leonhard Euler in 1739,
+						similar to layouts used by the concertina and accordian,
+						and used by the <a href="http://www.c-thru-music.com/cgi/?page=prod_axis-49">AXiS-49</a>
+						and the AXis-64.
+						<ul>
+							<li> Some <a href="http://www.c-thru-music.com/cgi/?page=layout_cshapes">chord shapes</a>,
+								which exist thanks to "transcription invariance". 
+						</ul>
+					<li> The <a href="https://en.wikipedia.org/wiki/Wicki-Hayden_note_layout">Wicki-Hayden note layout</a>,
+						discovered much later (1896), and used in the Hexiano Android app.
+				</ul>
 			</ul>
 		</aside>
 	</section>
@@ -362,45 +396,52 @@ reveal.js tips:
 			<table>
 			<tr>
 				<td>MUSIC-N</td>
-					<td>1957</td>
-					<td>A very early music DSL
-					</td>
+				<td>1957</td>
+				<td>A very early music DSL, which gave rise to 
+					<a href="http://www.musicainformatica.org/topics/music-n.php">many others</a>.
+				</td>
+			</tr>
+			<tr>
+				<td>Euterpea</td>
+				<td>????</td>
+				<td>Music DSL in Haskell spanning tonal music and soundscapes, composition and analysis.
+				</td>
 			</tr>
 			<tr>
 				<td>Csound</td>
-					<td>1986</td>
-					<td>RTperformance, sound synth, algorithmic composition, acoustic research
-					</td>
+				<td>1986</td>
+				<td>RTperformance, sound synth, algorithmic composition, acoustic research
+				</td>
 			</tr>
 			<tr>
 				<td>Pure Data (Pd)</td>
-					<td>1990s</td>
-					<td>A graphical language for RT audio+video synthesis,
-						like Max/MSP in the “Patcher” family
-					</td>
+				<td>1990s</td>
+				<td>A graphical language for RT audio+video synthesis,
+					like Max/MSP in the “Patcher” family
+				</td>
 			</tr>
 			<tr>
 				<td>ChucK</td>
-					<td>2003</td>
-					<td>RT synthesis, live coding, pedagogy, acoustic research, algo composition
-					</td>
+				<td>2003</td>
+				<td>RT synthesis, live coding, pedagogy, acoustic research, algo composition
+				</td>
 			</tr>
 			<tr>
 				<td>SuperCollider (SC)</td>
-					<td>???</td>
-					<td>Smalltalk-inspired language.
-						RT synthesis, live coding, algorithmic composition, acoustic research
-						<ul>
+				<td>1996</td>
+				<td>Smalltalk-inspired language.
+					RT synthesis, live coding, algorithmic composition, acoustic research
+					<ul>
 						<li> Overtone &mdash; A toolkit w/ a Closure API to SC and the compositional library “Leipzig”
 						<li> Skoarcy  &mdash; A toolset in Skoar, a high-level music composition DSL that runs on SC
-						</ul>
-					</td>
+					</ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Strasheela</td>
-					<td>2004-2012</td>
-					<td>Constraint-based composition, based on the Oz language
-					</td>
+				<td>2004-2012</td>
+				<td>Constraint-based composition, based on the Oz language
+				</td>
 			</tr>
 			</table>
 		</ul>
@@ -455,7 +496,7 @@ reveal.js tips:
 				<li> <b>LilyPond:</b> Popular human-writeable system for recording score info
 					<ul>
 						<li> Many convenience features, e.g., chord names, relative pitch
-						<li> Frescobaldi = separate GUI front-end 
+						<li> Frescobaldi = separate GUI front-end
 					</ul>
 				</ul>
 				<pre style="font-size: 28px;">
@@ -482,7 +523,7 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 					but instead focused support on MusicXML,
 					and left MusicXML-to-LilyPond support to others.
 				<li> Some features in command-line not present in GUI (e.g., SVG output)
-				<li> LilyPond is better than MusicXML for learning about music,
+				<li> LilyPond is better than MusicXML for learning about musical structures,
 					due to differences in the target audience.
 			</ul>
 		</aside>
@@ -530,6 +571,9 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		<div style="text-align: left;">
 			<p>LilyPond is useful for printing beautiful scores.</p>
 			<pre style="font-size: 32px;">
+\header {
+    title = "Mary Had a Little Lamb"
+}
 song = \relative c' {
     \clef treble
     \key c \major
@@ -626,8 +670,11 @@ song = \relative c' {
 			</table>
 		</div>
 		<aside class="notes">
-			Note: Keeping running tabs on the current octave make it more difficult
-				to time-reverse a piece of music.
+			<ul>
+				<li> Keeping running tabs on the current octave makes
+					it more difficult to time-reverse a piece of music.
+				<li> Why do you think the measure markers are ignored by the compiler?
+			</ul>
 		</aside>
 	</section>
 </section>
@@ -636,12 +683,12 @@ song = \relative c' {
 	<section id="euterpea">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_transcription">&#x25c1;</a>
-			Euterpea
+			Euterpea (since ????)
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		<ul>
-			<li> Euterpea (v2): A music DSL embedded in Haskell
+			<li> Euterpea (v2): A music DSL embedded in Haskell.  Evolved from earlier Haskore.
 			<li> First up because:
 				<ul>
 					<li> (a) Supports both tonal and full-spectrum music
@@ -693,8 +740,7 @@ song = \relative c' {
 		At the heart of Euterpea's representation of music is the following Primitive:
 		<pre style="font-size: 32px;">
 		data Primitive = Note Dur Pitch
-			       | Rest Dur
-		</pre>
+			       | Rest Dur</pre>
 		Type "Music" consists of Primitive events glued together
 			sequentially (w/ operator :+:)
 			or in parallel (with operator :=:),
@@ -703,8 +749,7 @@ song = \relative c' {
 data Music a = Prim (Primitive a)       -- primitive value
 	     | Music a :+: Music a      -- sequential composition
 	     | Music a :=: Music a      -- parallel composition
-	     | Modify Control (Music a) -- modifier
-		</pre>
+	     | Modify Control (Music a) -- modifier</pre>
 		So the different constructors of Music are Prim, (:+:), (:=:),
 		and Modify. 
 
@@ -715,6 +760,10 @@ data Music a = Prim (Primitive a)       -- primitive value
 		The final MidiMessage list is then sent to a MIDI output.
 		</div>
 		<aside class="notes">
+			<ul>
+				<li> The sequence of transformations at the end of this slide
+					is buried within many function calls.
+			</ul>
 		</aside>
 	</section>
 
@@ -745,7 +794,12 @@ data Music a = Prim (Primitive a)       -- primitive value
 			</pre>
 		</div>
 		<aside class="notes">
-			Converting Frère Jacques to a round is left as an exercise.
+			<ul>
+				<li> In Haskell, technically every function is a function of one argument,
+					including here the names of notes.  So the funciton c takes an Octave,
+					and returns another function that takes a Duration and returns a Music Pitch.
+				<li> Converting Frère Jacques to a round is left as an exercise.
+			</ul>
 		</aside>
 	</section>
 
@@ -859,13 +913,11 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 	<section id="euterpea_phraseAttribute">
 		<h3>Euterpea &mdash; A Simple Phrase Attribute</h3>
 		<div style="text-align: left;">
-		Let's look at a function to implement the core part
-			of one of the simplest phrase attributes, Crescendo,
-		which causes the volume of notes to grow over the lifetime of a phrase.
-		The function defined below modifies the volume of each note
-		(MEvent, actually) in a Performance, based on the timing of the note
-		within the performance
-		<pre style="font-size: 32px;">
+			How would we implement a phrase attribute like Crescendo,
+			which increases the volume of notes?
+			<br/>
+			We would change the volume of each note (MEvent) in a Performance.
+			<pre style="font-size: 32px;">
 myPasHandler :: PhraseAttribute -> Performance -> Performance
 myPasHandler (Dyn (Crescendo x)) pf = boostVolsBy x pf
     where t0 = eTime (head performance)
@@ -892,31 +944,33 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 	<section id="euterpea_ragtimify">
 		<h3>Euterpea &mdash; The "Ragtimify" Use Case</h3>
 		<div style="text-align: left;">
-		Ragtime pieces (think of "The Entertainer"
-		<a href="https://www.youtube.com/watch?v=uaU4Yg6IffQ">[play]</a>)
-		often have a baseline that alternates between chords and notes or pairs.
-		This gives the ragtime piece it's characteristic pulse.
+			Ragtime pieces (think of "The Entertainer"
+			<a href="https://www.youtube.com/watch?v=uaU4Yg6IffQ">[play]</a>)
+			often have a baseline that alternates between chords and notes or pairs.
+			This gives the ragtime piece it's characteristic pulse.
 			<div style="text-align: center;">
-			<img src="http://ragpiano.com/misc/somesyn.gif"
-				align="center"
-				border="1"
-				width="75%"
-				alt="Score of ragtime music sample"/>
+				<img src="http://ragpiano.com/misc/somesyn.gif"
+					align="center"
+					border="1"
+					width="75%"
+					alt="Score of ragtime music sample"/>
 			</div>
-		Suppose have a piece of music with chords in its baseline,
-		and you want to have a Player output a ragtime version.
-		Or you want to write a function that takes a Music argument
-		and outputs a ragtime version.
-		You might hope to first find the Chord objects by....
-		<br/><br/>
-		But if your music is written in Euterpea, there are no "Chord objects".
-		Because of how Music is defined, the chords are not explicitly
-		recorded as such.
-		Instead, they're recorded as something like
-		<pre style="font-size: 32px;">
-		(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
-		So one drawback of the simplicity of the internal representation used
-		is that extracting structure from the piece later becomes challenging.
+			Suppose you music with chords in its baseline,
+			and you want a Player output a ragtime version.
+			<br/>
+			Or you want to write a function that takes a Music argument
+			and outputs a ragtime version.
+			<br/>
+			You might hope to first find the Chord objects by....
+			<br/><br/>
+			But if your music is written in Euterpea, there are no "Chord objects"!
+			Because of how Music is defined, the chords are not explicitly recorded.
+			Instead, they're recorded as something like:
+			<pre style="font-size: 32px;">
+			(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
+			So ... Simplicity of internal representation chosen
+			<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&rArr; More costly extraction of structure from the piece later. 
 		</div>
 		<aside class="notes">
 		</aside>
@@ -958,8 +1012,8 @@ s5 = constA 1000 >>> vibrato 5 20</pre>
 		<ul>
 			<li> Arrows are like Monads, but they parameterize both input and (output) value.
 			<li> proc is used to define an Arrow just like lambda defines a function.
-			<li> do within an Arrow provides Arrow-related syntactic sugar,
-				just like do within a Monad provides Monad-related syntactic sugar.
+			<li> "do" within an Arrow provides Arrow-related syntactic sugar,
+				just like "do" within a Monad provides Monad-related syntactic sugar.
 			<li> The operator (-&lt;) can be pronounced "(first order) arrow tail".
 			<li> There's another operator, (-&lt;&lt;), or "(higher order) arrow tail".
 		</ul>
@@ -994,7 +1048,7 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 			Let's use the vibrato function defined earlier as a starting point.  (See Fig. 19.4 in HSoM.)
 			<ul>
 				<li>Step #1: Convert a signal function into an instance of type Instr.
-					For example, using <em>vibrato</em>,
+					For example, using <em>vibrato</em>:
 					<pre style="font-size: 28px;">
 myMandolin :: Instr (AudSF () Double)  -- Monaural: Could choose stereo instead.
 -- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
@@ -1081,19 +1135,21 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		</aside>
 	</section>
 
-	<section id="euterpea_other">
-		<h3>Euterpea &mdash; Other Info</h3>
+	<section id="euterpea_moreinfo">
+		<h3>Euterpea &mdash; More Info</h3>
 		<div style="text-align: left;">
 		<ul>
 			<li> Chapter 17 of HSoM introduces
-				Arrow-based Functional Reactive Programming (FRP) 
-				via FRP.UISF.
+				Arrow-based Functional Reactive Programming (FRP) via FRP.UISF.
 			<ul>
-				<li> Good place to learn more:
-				Daniel Winograd-Cort's
-				<a href="https://github.com/dwincort/UISF/tree/master/FRP/UISF/Examples">
-				UISF Examples
-				</a> on github.
+				<li> Good place to learn more on UISF:
+					Daniel Winograd-Cort's
+					<a href="https://github.com/dwincort/UISF/tree/master/FRP/UISF/Examples">UISF Examples</a>
+					on github.
+				<li> UISF is not as popular/mature as some other Haskell FRP systems.
+					such as Yampa, Netwire, Reflex, Sodium, and Reactive Banana.
+					A good discussion of these can be found
+					<a href="https://www.reddit.com/r/haskell/comments/3fr5ij/frp_systems_discussion/">here</a>.
 			</ul>
 			<li> Many other MPLs have Haskell interfaces,
 				allowing communication between them &amp; Euterpea.
@@ -1106,10 +1162,17 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 					<li> Has a "back end" that supports printing tonal music via LilyPond
 					<li> Also has a type called Music, but it's far more complex than Euterpea's.
 				</ul>
+			<li> <a href="http://www.link.cs.cmu.edu/melisma/">The Melisma Music Analyzer</a>
+				is a music analysis app written in Euterpea.
 			<li> <a href="http://donyaquick.com/kulitta/">Kulitta</a>
 				is a modular Euterpea-based music composition framework by Donya Quick.<br/>
 				It combines generative grammars, theories of harmony (chord spaces),<br/>
 				and available musical phrases to create a composition.
+			<li> Soundscape time-slices can be converted into frequency histograms
+				via FFTs (Fast Fourier Transforms).
+				The HSoM touches on this in Chapter 20, Spectrum Analysis.
+				Even within Haskell, a finished application might be a better reference,
+					to avoid a thicket of module dependencies.
 		</ul>
 		</div>
 		<aside class="notes">
@@ -1241,8 +1304,7 @@ endin</pre>
 	SinOsc s => dac;
 	0.6 => s.gain;
 	220 => s.freq;
-	5::second => now;
-			</pre>
+	5::second => now;</pre>
 			In this script:
 			<ul>
 				<li> &lt;&lt;&lt;Stuff inside the angled quotes>>> is  evaluated and printed.
@@ -1257,34 +1319,6 @@ endin</pre>
 		<aside class="notes">
 			<ul>
 				<li> At one point, there was a Coursera course on ChucK, "ChucK 101".  It's now 404.
-			</ul>
-		</aside>
-	</section>
-
-	<section id="chuck_moreinfo">
-		<h3>ChucK &mdash; More Info</h3>
-		<div style="text-align: left;">
-		<ul>
-			<li> A 3-note chord can be represented by an array of SinOsc objects: SinOsc chord[3];
-			<li> ChucK uses the whimsical terms "shreds" and "spork" for processes and forks.
-			<ul>
-				<li> Scripted and compiled plug-ins are called Chugens and ChuGins.
-			</ul>
-			<li> Different instruments go into different "shreds", &amp; can communicate using Events.
-			<li> To emulate rests, have time advance in a static scope without audio streams.
-				<ul>
-					<li> Notes placed in function calls are in a different static scope.
-				</ul>
-			<li> For stereo, dac has fields called <tt>.left</tt> and <tt>.right</tt>.
-				<ul>
-					<li> For quadraphonic sound, use the <tt>.chan</tt> field.
-				</ul>
-			<li> ChucK can run in "live performance mode", where a script is updated while running.
-		</ul>
-		</div>
-		<aside class="notes">
-			<ul>
-				<li> Musical notes are be called by their MIDI Note Numbers, &amp; converted to freqs by Std.mtof().
 			</ul>
 		</aside>
 	</section>
@@ -1335,13 +1369,43 @@ endin</pre>
 			<a href="https://ccrma.stanford.edu/software/stk/">Synthesis ToolKit in C++</a>.
 		</aside>
 	</section>
+
+	<section id="chuck_moreinfo">
+		<h3>ChucK &mdash; More Info</h3>
+		<div style="text-align: left;">
+		<ul>
+			<li> A 3-note chord can be represented by an array of SinOsc objects: SinOsc chord[3];
+			<li> ChucK uses the whimsical terms "shreds" and "spork" for processes and forks.
+			<ul>
+				<li> Scripted and compiled plug-ins are called Chugens and ChuGins.
+			</ul>
+			<li> Different instruments go into different "shreds", &amp; can communicate using Events.
+			<li> To emulate rests, have time advance in a static scope without audio streams.
+				<ul>
+					<li> Notes placed in function calls are in a different static scope.
+				</ul>
+			<li> For stereo, dac has fields called <tt>.left</tt> and <tt>.right</tt>.
+				<ul>
+					<li> For quadraphonic sound, use the <tt>.chan</tt> field.
+				</ul>
+			<li> ChucK can run in "live performance mode", where a script is updated while running.
+		</ul>
+		</div>
+		<aside class="notes">
+			<ul>
+				<li> Glossed over in the slide: Notes and rests do not play equal roles.
+					Rests are created not by the absence of notes.
+				<li> Musical notes are be called by their MIDI Note Numbers, &amp; converted to freqs by Std.mtof().
+			</ul>
+		</aside>
+	</section>
 </section>
 
 <section id="section_supercollider">
 	<section id="supercollider">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_chuck">&#x25c1;</a>
-			SuperCollider3 (SC) (since 1996)
+			SuperCollider (SC) (since 1996)
 			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
@@ -1369,7 +1433,10 @@ endin</pre>
 	factorial.(5).postln;</pre>
 		</div>
 		<aside class="notes">
-			SuperCollider has slight differences between Windows, Mac, and Linux versions.
+			<ul>
+				<li> SuperCollider has slight differences between Windows, Mac, and Linux versions.
+				<li> Current version is 3, sometimes called SuperCollider3 or SC3.
+			</ul>
 		</aside>
 	</section>
 
@@ -1826,9 +1893,6 @@ end</pre>
 			<ul>
 				<li> Cheatsheets:
 					<a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
-				<li> <a href="http://www.musicainformatica.org/topics/music-n.php">History</a>
-					of the Music-N family of MPLs
-				<li> <a href="http://www.link.cs.cmu.edu/melisma/">The Melisma Music Analyzer</a>
 				<li> <a href="http://soareschen.github.io/harmtrace-slides/#1">Functional
 					Modelling of Musical Harmony</a>
 				<li> <a href="http://theses.gla.ac.uk/2353/">Analysis
@@ -2025,6 +2089,9 @@ end</pre>
 		</div>
 		<aside class="notes">
 			<ul>
+				<li> See Wikipedia's
+					<a href="https://en.wikipedia.org/wiki/Comparison_of_audio_synthesis_environments">
+						list of audio synthesis environments</a>
 				<li> Comparison between Extempore and Overtone
 					<a href="https://www.quora.com/Music-Programming-What-are-the-differences-in-design-between-Overtone-and-Extempore-and-what-are-their-consequences">here</a>.
 				<li> Music esolangs:
@@ -2037,7 +2104,7 @@ end</pre>
 	</section>
 
 	<section id="appendices_bestpractices">
-		<h3>Appendix B &mdash; Best Practices</h3>
+		<h3>Appendix B &mdash; Best Practices &amp; Cautions</h3>
 		<div style="text-align: left;">
 		<ul>
 			<li> Volume.
@@ -2072,7 +2139,7 @@ end</pre>
 		Here are some guidelines on which language to choose.
 		<table>
 			<tr><th>Language/Library</th>
-				<th>Reason to choose</th>
+				<th>Considerations</th>
 			</tr>
 			<tr><td>Euterpea</td>
 				<td>
