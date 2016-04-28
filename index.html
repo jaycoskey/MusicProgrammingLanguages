@@ -40,7 +40,6 @@ TODO:
   Euterpea:
 	* FFTs
 	* Better description of Arrows & UISF and their use.
-	* Kulitta?
 	* Haskell Music Suite
   PureData:
 	* Data flow controls, events, tables, idioms
@@ -1105,8 +1104,18 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 					<li> Focused on score representation
 					<li> Does not support soundscapes
 					<li> Has a "back end" that supports printing tonal music via LilyPond
-					<li> Also has a type called Music, but it's different from Euterpea's: 
-				<pre style="font-size: 32px;">
+					<li> Also has a type called Music, but it's far more complex than Euterpea's.
+				</ul>
+			<li> <a href="http://donyaquick.com/kulitta/">Kulitta</a>
+				is a modular Euterpea-based music composition framework by Donya Quick.<br/>
+				It combines generative grammars, theories of harmony (chord spaces),<br/>
+				and available musical phrases to create a composition.
+		</ul>
+		</div>
+		<aside class="notes">
+			Haskell Music Suite's definition of Music a:
+			<br/>
+			<pre style="font-size: 32px;">
 type StandardNote =
   (PartT Part
     (ColorT
@@ -1120,10 +1129,11 @@ type StandardNote =
                     Pitch]))))))))
 
 type Music = Score StandardNote</pre>
-				</ul>
-		</ul>
-		</div>
-		<aside class="notes">
+			<br/>
+			<ul>
+				<li> <a href="http://www.donyaquick.com/img/kulitta_diagram.png">High-level architecture</a>
+					of Kulitta
+			</ul>
 		</aside>
 	</section>
 </section>
