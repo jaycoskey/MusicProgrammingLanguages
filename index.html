@@ -197,7 +197,7 @@ reveal.js tips:
 			<li> Egyptian suspended:    [2, 3, 2, 3, 2]       -- A-B-D-E-G-A
 			<li> Major (=Ionian)        [2, 2, 1, 2, 2, 2, 1]
 			<li> Minor (=Aeolian)       [2, 1, 2, 2, 1, 2, 2]
-			
+
 			<li> Ionian   (=Major)      [2, 2, 1, 2, 2, 2, 1] -- I   -- C-D-E-F-G-A-B-C
 			<li> Dorian                 [2, 1, 2, 2, 2, 1, 2] -- II  -- D-E-F-G-A-B-C-D
 			<li> Phrygian               [1, 2, 2, 2, 1, 2, 2] -- III -- E-F-G-A-B-C-D-E
@@ -224,6 +224,8 @@ reveal.js tips:
 	<section id="intro_programersintro">
 		<h3>Introduction &mdash; A Programmer's Intro</h3>
 		<div style="text-align: left;">
+			Every note is injected into the output stream &mdash; just like a debug print statement!
+			<br/><br/>
 			<ul>
 				<li> A temperment is a mapping from notes to frequencies.
 				<ul>
@@ -235,14 +237,11 @@ reveal.js tips:
 				<br/><br/>
 				<li> A key (same as a scale) is a subset of pitch classes selected for performance or analysis.
 				<ul>
-					<li> Key of C Major &nbsp;&nbsp;&nbsp;= [C, D, E, F, G, A, B]
-					<ul>
-						<li> In Major keys, the # of semitones between notes is [2, 2, 1, 2, 2, 2, 1].
-					</ul>
+					<li> Key of C Major &nbsp;&nbsp;&nbsp;= [C, D, E, F, G, A, B],
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						with semitone gap count [2, 2, 1, 2, 2, 2, 1]
 					<li> Key of F# minor = [F#, G#, A, B, C#, D, E]
-					<ul>
-						<li> In minor keys, the # of semitones between notes is [2, 1, 2, 2, 1, 2, 2].
-					</ul>
+						with semitone gap count [2, 1, 2, 2, 1, 2, 2]
 				</ul>
 				<br/>
 				<li> A chord (such as C = C Major = {C, E, G}) is 3+ notes played at once.
@@ -254,6 +253,7 @@ reveal.js tips:
 				<ul>
 					<li> The Roman # = the base note of the chord: I = first note of scale, II = second, etc.
 					<li> Upper-case = Major; Lower-case = minor
+					<li> (Note: Roman numbers are also used to represent the ancient Greek scales.)
 				</ul>
 			</ul>
 		</div>
@@ -403,7 +403,7 @@ reveal.js tips:
 			</tr>
 			<tr>
 				<td>Euterpea</td>
-				<td>????</td>
+				<td>2012</td>
 				<td>Music DSL in Haskell spanning tonal music and soundscapes, composition and analysis.
 				</td>
 			</tr>
@@ -683,18 +683,18 @@ song = \relative c' {
 	<section id="euterpea">
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_transcription">&#x25c1;</a>
-			Euterpea (since ????)
+			Euterpea (since 2012)
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 		<ul>
-			<li> Euterpea (v2): A music DSL embedded in Haskell.  Evolved from earlier Haskore.
+			<li> Euterpea (v2): A music DSL embedded in Haskell.  Evolved from earlier HasSound/Haskore.
 			<li> First up because:
 				<ul>
 					<li> (a) Supports both tonal and full-spectrum music
 					<li> (b) Core similicity &rArr; Better focus on the domain of music itself.
 				</ul>
-			<li> Euterpea (& lib/PDF: The Haskell School of Music) was started by the late Paul Hudak.
+			<li> Euterpea & lib/PDF "The Haskell School of Music" (HSoM) was started by the late Paul Hudak.
 			<li> It's now maintained by Donya Quick and Daniel Winograd-Cort
 			<li> Now maintained by Quick &amp; Winograd-Cort.
 		</ul>
@@ -708,8 +708,8 @@ song = \relative c' {
 		<div style="text-align: left;">
 		<h4>Haskell School of Music</h4>
 		<ul>
-			<li> Download the PDF "Haskell School of Music" (HSoM.pdf).  (Could also serve as intro to Haskell.)
-			<li> Can be thought of as a follow-on to Paul Hudak's "The Haskell School of Expression" (2000).
+			<li> Download the PDF "Haskell School of Music" (HSoM.pdf).  (Decent into to Haskell.)
+			<li> Can be thought of as a sequel to Paul Hudak's "The Haskell School of Expression" (2000).
 		</ul>
 		<br><br>
 		<h4>Installation</h4>
@@ -913,8 +913,8 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 	<section id="euterpea_phraseAttribute">
 		<h3>Euterpea &mdash; A Simple Phrase Attribute</h3>
 		<div style="text-align: left;">
-			How would we implement a phrase attribute like Crescendo,
-			which increases the volume of notes?
+			How to implement a phrase attribute like Crescendo,
+			that increases the volume of notes?
 			<br/>
 			We would change the volume of each note (MEvent) in a Performance.
 			<pre style="font-size: 32px;">
@@ -1139,7 +1139,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<h3>Euterpea &mdash; More Info</h3>
 		<div style="text-align: left;">
 		<ul>
-			<li> Chapter 17 of HSoM introduces
+			<li> The HSoM introduces
 				Arrow-based Functional Reactive Programming (FRP) via FRP.UISF.
 			<ul>
 				<li> Good place to learn more on UISF:
@@ -1171,7 +1171,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			<li> Soundscape time-slices can be converted into frequency histograms
 				via FFTs (Fast Fourier Transforms).
 				The HSoM touches on this in Chapter 20, Spectrum Analysis.
-				Even within Haskell, a finished application might be a better reference,
+				A finished application might be a better reference,
 					to avoid a thicket of module dependencies.
 		</ul>
 		</div>
@@ -1420,7 +1420,7 @@ endin</pre>
 	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
 	5 pow: 8             // Same as 5.pow(8) 
 	10.do({ "Hello world".postln })    // Writes to the "Post" pane.</pre>
-		Caution: Binary operators are always evaluated in left-to-right order,
+		Caution: Binary operators are evaluated in left-to-right order,
 			so 1 + 3 * 5 yields 20, not 16.
 			<br/><br/>
 			Here is a brief code snippet that prints out the value of 5! ("five factorial"):
@@ -1763,9 +1763,10 @@ endin</pre>
 			Example of a constraint called RestrictMelodicInterval.
 			(<a href="http://cmr.soc.plymouth.ac.uk/tanders/publications/TorstenAnders-MOZ2004.pdf">
 			2004 paper
-			</a>)
-			<br/>
-			The constraint: Consecutive notes must be separated by at most a perfect fifth (i.e., 7 semitones).
+			</a>):
+			<ul>
+				<li> Consecutive notes are separated by at most a perfect fifth (= 7 semitones).
+			</ul>
 			<pre style="font-size: 32px;">
 proc {RestrictMelodicInterval Note1}
     Note2 = {Note1 getTimeAspectPredecessor($)}
