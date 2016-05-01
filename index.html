@@ -53,7 +53,7 @@ TODO:
 		<h1>Music Programming Languages</h1>
 		<h3>Creating and Analyzing Tonal Music and Soundscapes</h3>
 		<p align="center">Jay Coskey</p>
-		<p align="center">jay&lt;dot>coskey&lt;at>gmail&lt;dot>com</p>
+		<p align="center">jay&lt;dot>coskey{at}gmail&lt;dot>com</p>
 		<p align="center">2016-05-04</p>
 		<b>
 		<pre style="background-color: #d0ffd0; font-size: 40px;">
@@ -143,6 +143,9 @@ reveal.js tips:
 						<li> Consider extending text algorithms to apply to music,
 							but be sure to ask what metrics are perceptually relevant.
 					</ul>
+				<li> In The Mood &amp; Swing &mdash; Many MIDI sequencers have a "swing" feature that
+					changes the timing of some notes based on their timing.
+					This is considered an interpretation of the song, not a rewrite.
 				<li> Colophon: Traditional Happy Birthday score taken from:
 					<a href="https://musescore.com/user/173585/scores/166951">here</a>.
 			</ul>
@@ -1102,9 +1105,6 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 				<li> Use naming to reflect structure (e.g., sonata_violin_1_4).
 				<li> Consider putting measures on separate lines.
 				<li> Identify/extract duplicate subexpressions &amp; other structures.
-				<ul>
-					<li> Consider using lyrics in identifier names.
-				</ul>
 				<li> Use functions to extract commonality from near-duplicate subexpressions.
 			</ul>
 		<br/>
@@ -1131,6 +1131,7 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<aside class="notes">
 			<ul>
 				<li> Playing melodies in parallel &rArr; Discuss text algorithms, XOR impl. issues, etc.
+				<li> Consider using lyrics in identifier names.
 			</ul>
 		</aside>
 	</section>
@@ -1443,30 +1444,32 @@ endin</pre>
 	<section id="supercollider_basics">
 		<h3>SuperCollider &mdash; The Basics</h3>
 		<div style="text-align: left;">
-			<p>SuperCollider has a client-server design, like IPython/Jupyter.
-			</p>
 			<ul>
-				<li> The client's interpreter starts automatically.
-				<li> A local audio server can be started with the command
-
-					<pre style="font-size: 32px;">
+				<li> SuperCollider has a client-server design, like IPython/Jupyter.
+					<ul>
+						<li> The client's interpreter starts automatically.
+						<li> A local audio server can be started with the command
+							<pre style="font-size: 32px;">
 		s.boot</pre>
-					where the variable "s" is reserved to represent the server.
-			</ul>
-			<br/>
-			Client-server synchronization uses a network protocol
-				called OSC (Open Sound Control)
-				and message tags with execution time in NTP format.
-			<br/><br/>
-			IDE: &nbsp;&nbsp;&nbsp; Ctrl-Enter = execute; &nbsp;&nbsp;&nbsp; Ctrl-&lt;period> = terminate.
-				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				The Help Browser is easy to use, though some entries have minimal information.
-			<br/><br/>
-			Focus on signal processing, creating envelopes of sound,
-				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				and combining them with a family of "pattern" classes (e.g., Pbind, Pchain, Prand, etc.).
-				<br/>
-			It's possible to emulate specific musical instruments, but not commonly done.
+							where the variable "s" is reserved to represent the server.
+					</ul>
+				<li> Client-server synchronization uses a network protocol
+					called OSC (Open Sound Control)
+					and message tags with execution time in NTP format.
+				<li> In the IDE: <b>Ctrl-&lt;Enter></b> = execute; &nbsp;&nbsp; <b>Ctrl-&lt;period></b> = terminate.
+					<ul>
+						<li> The Help Browser is easy to use, though some entries have minimal information.
+					</ul>
+				<li> Focus on signal processing, creating envelopes of sound,
+					and combining them with a family of "pattern" classes (e.g., Pbind, Pchain, etc.).
+					<ul>
+						<li> Pseq: Plays array values sequentially.
+						<li> Prand/Pshuf: Plays array values in random/shuffled order
+						<li> Pkey: Copies sequence from a supplied key
+						<li> Pbind: Gives  names to pattern result values
+						<li> Pchain: Feed the output of one pattern into the input of the next
+					</ul>
+				<li> It's possible to emulate specific instruments, but not commonly done.
 		</div>
 	</section>
 
@@ -1876,7 +1879,7 @@ end</pre>
 					The Jazz Theory Book</a> (1995),
 					by Mark Levine
 				<li> <a href="http://postmodernjukebox.com/courses/Ragtimify.pdf">
-					Ragtimify</a> (2013): a book on converting scores to Ragtime
+					Ragtimify</a> (2013): a PDF on converting scores to Ragtime
 				<li> <a href="https://mitpress.mit.edu/books/sweet-anticipation">
 					Sweet Anticipation: Music and the Psychology of Expectation</a> (2006)
 				<li> <a href="http://blog.mymusictheory.com/2014/how-to-compose-a-canon-or-round-easy-composition/">How to Compose a Canon</a> (video+text) 
@@ -1893,11 +1896,17 @@ end</pre>
 		<p><b>Music Programming &amp; Analysis</b></p>
 			<ul>
 				<li> Cheatsheets:
-					<a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
+					<a href="http://wiki.western.edu/mcis/index.php/Euterpea_Cheat_Sheet">Euterpea</a>
+					| <a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
+					| <a href="https://puredata.info/docs/manuals/pdrefcards/pd-refcard/at_download/file">Pure Data</a>
 				<li> <a href="http://soareschen.github.io/harmtrace-slides/#1">Functional
 					Modelling of Musical Harmony</a>
 				<li> <a href="http://theses.gla.ac.uk/2353/">Analysis
 					of musical structures using monadic parser combinators</a>
+				<li> <a hef="https://www.youtube.com/watch?v=Jmw6LLNQQfs">Composing (Music) in Haskell</a> [video]:
+					Use of Braid Theory in Music, starting at 21:00
+				<li> <a href="http://distractionandnonsense.com/sc/A_Practical_Guide_to_Patterns.pdf">A
+					Practical Guide to [SuperCollider] Patterns</a>
 			</ul>
 		<p><b>Colophon</b></p>
 			<ul>
@@ -1913,6 +1922,14 @@ end</pre>
 					<a href="http://www.skytopia.com/project/articles/notation.html">link</a>,
 					though it doesn't include
 					<a href="http://midisheetmusic.sourceforge.net/">midisheetmusic</a>
+				<li> Info on Stuart Popejoy's video:
+					<ul>
+						<li> 21:00 - 25:00: Braid theory introduction
+						<li> 25:00 - 28:15: Discusses his braid programming library
+						<li> 28:15 - 32:10: Applies the library to music composition
+						<li> 32:10 - 36:00: Discusses a 60min, 5-piece musical composition called Pleonid 
+						<li> 36:00 - 43:45: More on with braid theory
+					</ul>
 			</ul>
 		</aside>
 	</section>
