@@ -82,7 +82,7 @@ reveal.js tips:
 						<p><b>Music runs deep through the human psyche:</b></p>
 						<ul>
 							<li> Music is universal and ancient.
-							<li> The psychology of music is murky.
+							<li> The psychology of music is partially understood.
 							<li> Music turns movies into blockbusters.
 						</ul>
 						<p><b>Traditional training vs. software</b></p>
@@ -164,15 +164,19 @@ reveal.js tips:
 							<li> Time domain: Rhythm
 							<li> Freq domain: Temperament, scales, keys, chords
 							<li> Time & Freq: Melodies, chord progressions, texture
+							<br/><br/>
 							<li> Sheet music: Western notation &amp; lesser known
 								<ul>
 									<li> Scores, staves, measures, notes, accidentals....
 								</ul>
-							<li> Score file formats: MusicXML, ABC, LilyPond, MusicTeX, etc.
+							<br/>
+							<li> Score file formats: MusicXML, LilyPond, ABC, etc.)
+							<br/><br/>
 							<li> Sound file formats:
 								<a href="https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html">MIDI</a>,
 								wav, mp3, etc.
-							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, Opusmodus, etc.)
+							<br/><br/>
+							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, etc.)
 						</ul>
 					</td>
 					<td>
@@ -225,19 +229,23 @@ reveal.js tips:
 	</section>
   
 	<section id="intro_programersintro">
-		<h3>Introduction &mdash; A Programmer's Intro</h3>
+		<h3>Introduction &mdash; Programmer's Intro to Music</h3>
 		<div style="text-align: left;">
 			Every note is injected into the output stream &mdash; just like a debug print statement!
-			<br/><br/>
+			<br/>
+			<b>Notes</b>
+			<br/>
 			<ul>
 				<li> A temperment is a mapping from notes to frequencies.
-				<ul>
-					<li> The standard temperment used in music is called equal temperment.
-				</ul>
+					(std = "equal temperment")
 				<li> A pitch class (such as C) is an equivalence class of notes differing by a multiple of an octave.
 				<li> A note (such as C4 = middle C) is a pair (pitch class, octave), and has a specific frequency.
 				<li> Notes have multiple representations (e.g.,, C&#x266f; = D&#x266d;).  The same in some ways; different in others.
-				<br/><br/>
+			</ul>
+			<br/>
+			<b>Keys</b>
+			<br/>
+			<ul>
 				<li> A key (same as a scale) is a subset of pitch classes selected for performance or analysis.
 				<ul>
 					<li> Key of C Major &nbsp;&nbsp;&nbsp;= [C, D, E, F, G, A, B],
@@ -246,17 +254,20 @@ reveal.js tips:
 					<li> Key of F# minor = [F#, G#, A, B, C#, D, E]
 						with semitone gap count [2, 1, 2, 2, 1, 2, 2]
 				</ul>
-				<br/>
-				<li> A chord (such as C = C Major = {C, E, G}) is 3+ notes played at once.
-				<li> Chords with names like major, minor, diminished, augmented, etc., are independent of scale.
+			</ul>
+			<br/>
+			<b>Chords</b>
+			<br/>
+			<ul>
+				<li> A chord is 3+ notes played at once.  (E.g., C = C Major = {C, E, G})
+				<li> Chords with names like major, minor, diminished, etc., are independent of scale.
 				<ul>
 					<li> Example: C4 Major seventh chord = Copies of C4 shifted up by {0, 4, 7, 11} semitones.
 				</ul>
 				<li> Chords with names like I-V-vi-iii-IV-I-IV-V are scale-specific.
 				<ul>
-					<li> The Roman # = the base note of the chord: I = first note of scale, II = second, etc.
-					<li> Upper-case = Major; Lower-case = minor
-					<li> (Note: Roman numbers are also used to represent the ancient Greek scales.)
+					<li> The Roman # = the base note of the chord;
+						Case = Major/minor
 				</ul>
 			</ul>
 		</div>
@@ -265,6 +276,7 @@ reveal.js tips:
 				<li> Mention the term "enharmonic".
 				<li> Mention measures (same as bars), and how accidentals apply
 					throughout the rest of the measures.
+				<li> Note: Roman numbers are also used to represent the ancient Greek scales.
 			</ul>
 		</aside>
 	</section>
@@ -740,27 +752,30 @@ song = \relative c' {
 	<section id="euterpea_model">
 		<h3>Euterpea &mdash; Modeling (Tonal) Music</h3>
 		<div style="text-align: left;">
-		At the heart of Euterpea's representation of music is the following Primitive:
-		<pre style="font-size: 32px;">
+			At the heart of Euterpea's representation of music is the following Primitive:
+			<pre style="font-size: 32px;">
 		data Primitive = Note Dur Pitch
 			       | Rest Dur</pre>
-		Type "Music" consists of Primitive events glued together
-			sequentially (w/ operator :+:)
-			or in parallel (with operator :=:),
-			or tagged with some contextual control information.
-		<pre style="font-size: 32px;">
+			Type "Music" consists of Primitive events:
+			glued together
+			<ul>
+				<li> sequentially (w/ operator :+:)
+				<li> in parallel (with operator :=:), or
+				<li> tagged with contextual control information.
+			</ul>
+			<pre style="font-size: 32px;">
 data Music a = Prim (Primitive a)       -- primitive value
 	     | Music a :+: Music a      -- sequential composition
 	     | Music a :=: Music a      -- parallel composition
 	     | Modify Control (Music a) -- modifier</pre>
 		So the different constructors of Music are Prim, (:+:), (:=:),
 		and Modify. 
-
-		A function "play" uses defaults to perform some conversions:
-		<pre style="font-size: 32px; white-space: pre-line;">
-			Music ==> to Music1 (non-parameterized) ==> [MEvent] ==> [MidiMessage]
-		</pre>
-		The final MidiMessage list is then sent to a MIDI output.
+			<br/>
+			The function "play" uses defaults to perform conversions:
+			<pre style="font-size: 32px; white-space: pre-line;">
+				Music ==> to Music1 (non-parameterized) ==> [MEvent] ==> [MidiMessage]
+			</pre>
+			The final MidiMessage list is sent to a MIDI output.
 		</div>
 		<aside class="notes">
 			<ul>
@@ -875,14 +890,16 @@ amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns</pre></fon
 	<section id="euterpea_performance">
 		<h3>Euterpea &mdash; Creating a Performance</h3>
 		<div style="text-align: left;">
-		If we replace play with the more explicit version
-		<pre style="font-size: 32px;">
+			If we replace play with the more explicit version
+			<pre style="font-size: 32px;">
 playA :: (ToMusic1 a, Control.DeepSeq.NFData a)
 		=> PMap Note1 -> Context Note1 -> Music a -> IO()</pre>
-		then we need to supply some more information,
-		such as how to interpret note attributes (e.g., Pizzicato)
-		and phrase attributes (e.g., Crescendo).
-		<pre style="font-size: 32px;">
+			then we need to supply some more information,
+			such as how to interpret
+			<br/>
+			note attributes (e.g., Pizzicato)
+			and phrase attributes (e.g., Crescendo).
+			<pre style="font-size: 32px;">
 data Context a = Context { cTime :: PTime,          cPlayer :: Player a
 			 , cInst :: InstrumentName, cDur    :: DurT
 			 , cPch  :: AbsPitch,       cVol    :: Volume
@@ -893,8 +910,13 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			 , interpPhrase :: PhraseFun a  -- Interp. phrases
 			 -- , notatePlayer :: NotateFun -- Removed.
 			 }</pre>
-		The PMap ("Player Map") mentioned above tells Euterpea which Player to use
-		for which instrument.
+			In the type of playA:
+			<br/>
+			<ul>
+				<li> The PMap ("Player Map") tells which Player to use
+					for which instrument: (The "how")
+				<li> The Context conveys needed metadata: (The "what") 
+			</ul>
 		</div>
 		<aside class="notes">
 			<pre style="font-size: 32px; white-space: pre-line;">
@@ -970,7 +992,7 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 			Because of how Music is defined, the chords are not explicitly recorded.
 			Instead, they're recorded as something like:
 			<pre style="font-size: 32px;">
-			(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
+		(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
 			So ... Simplicity of internal representation chosen
 			<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			&rArr; More costly extraction of structure from the piece later. 
@@ -1007,7 +1029,7 @@ vibrato vfrq dep = proc afrq -> do
   aud  &lt;- osc tab2  0 -&lt; afrq + vib * dep
   outA -&lt; aud
 
--- type AudSF a b = SigFun AudRate a b
+-- type  a b = SigFun AudRate a b
 s5 :: AudSF () Double
 s5 = constA 1000 >>> vibrato 5 20</pre>
 		</div>
@@ -1097,12 +1119,12 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 	</section>
 
 	<section id="euterpea_codingStandards">
-	<h3>Euterpea &mdash; Some music coding standards</h3>
+	<h3>Euterpea &mdash; Programmer's Intro to Music Programming</h3>
 		<div style="text-align: left;">
 		<ol>
 		<li> <b>Represent compositions in terms of smaller sub-compositions ("pieces"):</b>
 			<ul>
-				<li> Use naming to reflect structure (e.g., sonata_violin_1_4).
+				<li> Use names to reflect structure (e.g., sonata_violin_1_4).
 				<li> Consider putting measures on separate lines.
 				<li> Identify/extract duplicate subexpressions &amp; other structures.
 				<li> Use functions to extract commonality from near-duplicate subexpressions.
@@ -1110,8 +1132,8 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		<br/>
 		<li> <b>Perform validation tests:</b>
 			<ul>
-				<li> Validate that all pieces have the expected duration.
 				<li> Validate that all expected instruments are present.
+				<li> Validate that all pieces have the expected duration.
 			</ul>
 		<br/>
 		<li> <b>Perform live testing:</b>
@@ -1277,7 +1299,7 @@ endin										</pre>
 					<pre style="font-size: 32px;">
 instr 1
 iGreetingCount = 0
-    loop:		   &lt;== Any label
+    loop:		   &lt;== Any label can be used here
 	iGreetingCount = iGreetingCount + 1
 	prints "Hello world #%i\n", iGreetingCount
     if (iGreetingCount &lt; 5) igoto loop
@@ -1347,11 +1369,11 @@ endin</pre>
 	<section id="chuck_instrument">
 		<h3>ChucK &mdash; Instrument Modeling</h3>
 		<div style="text-align: left;">
-		Here's a simplified version of a plucked string, modified from the book
+			Here's a simplified version of a plucked string, modified from the book
 			<a href="http://www.amazon.com/Programming-Musicians-Digital-Artists-Creating/dp/1617291706/">
 				Programming for Musicians and Digital Arists: Creating music with ChucK
 			</a> (2015).
-		<pre style="font-size: 32px;">
+			<pre style="font-size: 32px;">
 	// Karplus-Strong model of a plucked string
 	Impulse imp => Delay plucked => dac;
 	plucked => plucked;   // Feedback 
@@ -1359,11 +1381,13 @@ endin</pre>
 	0.98 => plucked.gain; // Round-trip gain &lt; 1
 	1.0 => imp.next;      // "Pluck" impulse
 	5.0::second => now;   // The string resonates</pre>
-		<ul>
-			<li> Note the feedback line that connects plucked to itself,
-					reflecting how the action of a plucked string is dependent
-					on its action at previous moments in time.
-		</ul>
+			<ul>
+				<li> Note the feedback connecting "plucked" to itself.
+					<ul>
+						<li> The action of a plucked string depends
+							on its action at previous moments.
+					</ul>
+			</ul>
 		</div>
 		<aside class="notes">
 			Instrument modeling was pulled into ChucK from the earlier
@@ -1504,7 +1528,7 @@ endin</pre>
 	</section>
 
 	<section id="supercollider_complex">
-		<h3>SuperCollider &mdash; A More Complex Example</h3>
+		<h3>SuperCollider &mdash; Another Example</h3>
 		<div style="text-align: left;">
 		Lastly, here is a short piece that creates a cascade of random pitches
 			that varies more quickly when the mouse is moved to the right-hand side of the IDE window.
@@ -1541,7 +1565,7 @@ endin</pre>
 	</section>
 
 	<section id="supercollider_overtone">
-		<h3>SuperCollider &mdash; Overtone and Leipzig</h3>
+		<h3>SuperCollider &mdash; Overtone &amp; Leipzig</h3>
 		<div style="text-align: left;">
 			<a href="http://overtone.github.io/">Overtone</a> is a Clojure-based language
 			wrapping SuperCollider,
@@ -1624,12 +1648,10 @@ endin</pre>
 	</section>
 
 	<section id="puredata_example">
-		<h3>Pure Data (Pd)</h3>
+		<h3>Pure Data (Pd) &mdash; A Simple Example</h3>
 		<div style="text-align: left;">
-			Relatively simple example:
-			<br/>
 			<ul>
-				<li> A "toggle box" feeds a metronome to set a beat.
+				<li> A "toggle box" (marked with 'X') feeds a metronome to set a beat.
 				<li> Two subsystems pick up that beat &mdash; one for each speaker.
 				<li> In this diagram, both oscillators and delays have fixed values.
 				<li> Message boxes &rArr; Number boxes &rArr; Signal multiplication &rArr; L &amp; R audio.
@@ -1663,9 +1685,10 @@ endin</pre>
 							and
 							<a href="http://gem.iem.at/documentation/faq">FAQ</a>
 					</ul>
-				<li> Pure Data computes audio 64-sample blocks before shipping them off to audio output,
-					and uses a 3-block buffer.
-				<li> This prohibits DSP loops, which would cause deadlock.
+				<li> Pd computes audio in 64-sample blocks using a 3-block buffer &amp; sends to audio output.
+					<ul>
+						<li> This prohibits DSP loops, which would cause deadlock.
+					</ul>
 			</ul>
 		</div>
 		<br/>
@@ -1675,42 +1698,44 @@ endin</pre>
 				<li> Pure Data can be extended with "externals" written in
 					<a href="http://faust.grame.fr/">Faust</a>.
 				<li> Faust (Functional AUdio STream) is a DSL for signal processing.
-				<li> It's text-based, but has a GUI called Faustworks
-				<li> It's block-oriented, with five composition operators
-					that mirror Haskell's Arrow syntax.
-					<table>
-						<tr>
-							<th>Faust</th>
-							<th>Haskell/Arrow</th>
-							<th>Meaning</th>
-						</tr>
-						<tr>
-							<td>f ~ g</td>
-							<td>&lt;See wiki page&gt;</td>
-							<td>Recursive composition</td>
-						</tr>
-						<tr>
-							<td>f , g</td>
-							<td>f *** g</td>
-							<td>Parallel composition</td>
-						</tr>
-						<tr>
-							<td>f : g</td>
-							<td>f >>> g</td>
-							<td>Sequential composition</td>
-						</tr>
-						<tr>
-							<td>f &lt;: g</td>
-							<td>f >> ^h >>> g</td>
-							<td>Split composition (with appropriate function h)</td>
-						</tr>
-						<tr>
-							<td>f :> g</td>
-							<td>f >> ^h >>> g</td>
-							<td>Merge composition (with appropriate function h)</td>
-						</tr>
-					</table>
+					<ul>
+						<li> It's text-based, but has a GUI called Faustworks
+						<li> It's block-oriented, with five composition operators
+							that mirror Haskell's Arrow syntax.
+					</ul>
 			</ul>
+			<table>
+				<tr>
+					<th>Faust</th>
+					<th>Haskell/Arrow</th>
+					<th>Meaning</th>
+				</tr>
+				<tr>
+					<td>f ~ g</td>
+					<td>&lt;See wiki page&gt;</td>
+					<td>Recursive composition</td>
+				</tr>
+				<tr>
+					<td>f , g</td>
+					<td>f *** g</td>
+					<td>Parallel composition</td>
+				</tr>
+				<tr>
+					<td>f : g</td>
+					<td>f >>> g</td>
+					<td>Sequential composition</td>
+				</tr>
+				<tr>
+					<td>f &lt;: g</td>
+					<td>f >> ^h >>> g</td>
+					<td>Split composition (with appropriate function h)</td>
+				</tr>
+				<tr>
+					<td>f :> g</td>
+					<td>f >> ^h >>> g</td>
+					<td>Merge composition (with appropriate function h)</td>
+				</tr>
+			</table>
 		</div>
 		<aside class="notes">
 			<ul>
@@ -1730,32 +1755,33 @@ endin</pre>
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		Strasheela is an MPL that lets the user describe constraints
-		(e.g., rhythmic, melodic, and harmonic) on a music composition
-		via user-defined "containers".
-		Strasheela then finds one or more compositions that satisfies these constraints,
-		presuming that they are satisfiable.
-		<br/><br/>
-		Strasheela was writting by Torsten Anders for his dissertation,
-		but hasn't seen significant developmenbt since 2012. 
-		It's implemented in the constraint-based programming language, Oz,
-		which is similar to Prolog.
-		(The theme of "Oz" provides the name "Strasheela" &mdash;
-		it's the name of the Scarecrow in the Russian version of The Wizard of Oz.)
-		<br/><br/>
-		The output of 
-		<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
-		Score.makeScore
-		</a>,
-		can be rendered with a choice of formats, including
-		LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
+			Strasheela is an MPL that lets the user describe constraints
+			(e.g., rhythmic, melodic, and harmonic) on a music composition
+			within user-defined "containers".
+			Strasheela then finds one or more compositions that satisfies these constraints,
+			presuming they're satisfiable.
+			<br/><br/>
+			Strasheela Torsten Anders's dissertation project, developed through 2012.
+			<br/>
+			It's implemented in the constraint-based programming language, <b>Oz</b>,
+			which is similar to Prolog.
+			<br/>
+			("Strasheela" is the name of the Scarecrow
+			in the Russian version of The Wizard of Oz.)
+			<br/><br/>
+			The output of 
+			<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
+			Score.makeScore
+			</a>,
+			can be rendered with a choice of formats, including
+			LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
 		</div>
 		<aside class="notes" >
 			<ul>
 				<li> Score constructors, score accessors, score transformers.
 				<li> Predefined constraints.
 				<li> Has a data type called finite domain (FD) integers.
-				<li> Hasn't been worked on since 2012 &mdash; You could say there's a resource constraint.
+				<li> Hasn't been worked on since 2012
 			</ul>
 		</aside>
 	</section>
@@ -1816,8 +1842,8 @@ end</pre>
 		<h3>Strasheela &mdash; Flexibility &amp; Efficiency</h3>
 		<div style="text-align: left;">
 			Finding solutions to a system of constraints is a standard computer programming problem.
-			The challenge facing Anders in the creation of Strasheela was to provide the user
-			flexibility while at the same time making efficient use of computer resources.
+			<br/>
+			A challenge is to provide user flexibility while still running efficiently.
 			<br/><br/>
 			Flexibility:
 			<ul>
