@@ -1752,14 +1752,11 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 		<h3>Pure Data (Pd) &mdash; More Info</h3>
 		<div style="text-align: left;">
 			<ul>
-				<li> Recommendation: Choose Pd-Extended (or another derivative) over Pd-Vanilla.
-				<li> Install <a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">GEM</a>
-					= "Graphics Environment for Multimedia" = plug-in library of Pd sounds
-					<ul>
-						<li> GEM's <a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">FLOSS manual</a>,
-							and
-							<a href="http://gem.iem.at/documentation/faq">FAQ</a>
-					</ul>
+				<li> Pd-Vanilla has different extensions (incl. Pd-Extended &mdash; no longer supported)
+				<li> There is a third-party plug-in library of sounds called
+					<a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">GEM</a>
+					(<a href="http://en.flossmanuals.net/pure-data/ch047_introduction/">Manual</a>,
+					<a href="http://gem.iem.at/documentation/faq">FAQ</a>).
 				<li> Pd computes audio in 64-sample blocks using a 3-block buffer &amp; sends to audio output.
 					<ul>
 						<li> This prohibits DSP loops, which would cause deadlock.
@@ -1770,11 +1767,11 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 		<h3>Related Language: Faust</h3>
 		<div style="text-align: left;">
 			<ul>
-				<li> Pure Data can be extended with "externals" written in
-					<a href="http://faust.grame.fr/">Faust</a>.
-				<li> Faust (Functional AUdio STream) is a DSL for signal processing.
+				<li> Pd "externals" (i.e., extentions) can be written in
+					<a href="http://faust.grame.fr/">Faust</a>
+					(Functional AUdio STream).
 					<ul>
-						<li> It's text-based, but has a GUI called Faustworks
+						<li> Faust is a text-based signal processing DSL, with a GUI called Faustworks
 						<li> It's block-oriented, with five composition operators
 							that mirror Haskell's Arrow syntax.
 					</ul>
@@ -1817,6 +1814,7 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 				<li> Pd patches cannot run as standalone executables without the Pd binary.
 				<li> On Mac OS X, Pd-Extended has a "Make app from" option
 					that bundles the patch with a copy of Pd.
+				<li> GEM = "Graphics Environment for Multimedia"
 			</ul>
 		</aside>
 	</section>
