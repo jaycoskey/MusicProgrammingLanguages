@@ -1486,27 +1486,25 @@ endin</pre>
 		</h2>
 		<div style="text-align: left;">
 			<b>Brief:</b> SC is a Smalltalk-like OO language that supports live performances.
-			<br/><br/>
 			<ul>
-				<li> Named in 1993 after the cancelled Superconducting Super Collider project
+				<li> UGens are optimized sound primitives; SynthDefs are built on top of them.
 				<li> Supports plug-ins, MIDI data, live coding, and communication with external devices.
+				<li> Named in 1993 after the cancelled Superconducting Super Collider project
 			</ul>
 			<pre style="font-size: 32px;">
 	15.squared           // Evaluates to 225.
 	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
 	5 pow: 8             // Same as 5.pow(8) 
-	10.do({ "Hello world".postln })    // Writes to the "Post" pane.</pre>
-		Caution: Binary operators are evaluated in left-to-right order,
-			so 1 + 3 * 5 yields 20, not 16.
-			<br/><br/>
-			Here is a brief code snippet that prints out the value of 5! ("five factorial"):
-			<pre style="font-size: 32px;">
+	10.do({ "Hello world".postln })    // Writes to the "Post" pane.
+	
 	var factorial = { | n |
 		var result = 1;
 		n do: { | i | result = result * (i + 1) };
 		result;
 	};
-	factorial.(5).postln;</pre>
+	factorial.(4).postln;       &lt;== Output: 24</pre>
+			<b>Caution:</b> Binary operators are evaluated in left-to-right order,
+				so 1 + 3 * 5 yields 20, not 16.
 		</div>
 		<aside class="notes">
 			<ul>
@@ -1535,14 +1533,14 @@ endin</pre>
 					<ul>
 						<li> The Help Browser is easy to use, though some entries have minimal information.
 					</ul>
-				<br/><br/>
+				<br/>
 				<li> It's possible to emulate specific instruments, but not commonly done.
 			</ul>
 		</div>
 	</section>
 
-	<section id="supercollider_sinewaves">
-		<h3>SuperCollider &mdash; Sine Waves</h3>
+	<section id="supercollider_basicsignals">
+		<h3>SuperCollider &mdash; Basic Signals</h3>
 		<div style="text-align: left;">
 			A (non-terminating) sine wave at 440 Hz can be played at half-volume with
 			<pre style="font-size: 32px; white-space: pre-line;">
@@ -1555,9 +1553,8 @@ endin</pre>
 			{ SinOsc.ar(440) }.play;  // Omitting arguments with default values</pre>
 			where "ar" is the "audio rate" constructor of the SinOsc class.
 			<br/><br/>
-			<p>
-				UGen is the abstract superclass of all "unit generators", which represent signals.  Some examples:
-			</p>
+			UGen is the superclass of all (250+) "unit generators" (basic signals).
+				Some examples:
 			<ul>
 				<li> Impulse, a class that represents a simple sound;
 				<li> LFSaw, a class that represents a low-frequency sawtooth oscillator (cf. SinOsc);
@@ -1583,7 +1580,9 @@ Pseq([0,1,2,3,4,5], 3, 2)          &lt;== [2,3,4,  2,3,4,  2,3,4]</pre>
 				<li> <b>Prand:</b> Plays randomly selected array values
 					<pre style="font-size: 32px;">
 Prand([1,2,3,4,5,6], 3)            &lt;== 3 random rolls of a d6		</pre>
-				<li> <b>Pshuf:</b> Same as Prand, but selection without replacement.
+				<li> <b>Pshuf:</b>
+					<pre style="font-size: 32px;">
+Same as Prand, but selection without replacement.</pre>
 				<li> <b>Pbind:</b> Give names to values
 					<pre style="font-size: 32px;">
 Pbind(*[dur:	0.2/2
@@ -1591,10 +1590,9 @@ Pbind(*[dur:	0.2/2
 	)</pre>
 				<li> <b>Pchain:</b> Feed the output of one pattern into the input of the next
 					<pre style="font-size: 32px;">
-Pchain(
-	Pbind( \degree, Pseq([1, 2, 3], inf) ),
-		(detune: [0, 4])
-	).trace.play;</pre>
+Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
+	     , (detune: [0, 4])
+      ).trace.play;</pre>
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1608,8 +1606,8 @@ Pchain(
 	<section id="supercollider_complex">
 		<h3>SuperCollider &mdash; Another Example</h3>
 		<div style="text-align: left;">
-		Lastly, here is a short piece that creates a cascade of random pitches
-			that varies more quickly when the mouse is moved to the right-hand side of the IDE window.
+		Here is a cascade of random pitches that vary more quickly
+		when the mouse is moved to the right-hand side of the IDE window.
 		<pre style="font-size: 32px; ">
 {
 	var freq, latchrate, index, ratio, env, speed = 9;
