@@ -153,13 +153,12 @@ reveal.js tips:
 	</section>
 
 	<section id="intro_tonal">
-		<h3>Introduction &mdash; Tonal Music</h3>
+		<h3>Introduction &mdash; Tonal Music (*)</h3>
 		<p>Examples: "Happy Birthday to You", "Greensleeves", "Yellow Submarine"</p>
 		<div style="text-align: left;">
 			<table>
 				<tr>
 					<td width="800" style="vertical-align:top; font-size: 36px;">
-						<br/>
 						<ul>
 							<li> Time domain: Rhythm
 							<li> Freq domain: Temperament, scales, keys, chords
@@ -169,15 +168,16 @@ reveal.js tips:
 								<ul>
 									<li> Scores, staves, measures, notes, accidentals....
 								</ul>
-							<br/>
 							<li> Score file formats: MusicXML, LilyPond, ABC, etc.)
-							<br/><br/>
 							<li> Sound file formats:
 								<a href="https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html">MIDI</a>,
 								wav, mp3, etc.
-							<br/><br/>
 							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, etc.)
 						</ul>
+						<br/><br/>
+						(*) Here the term "tonal music" is meant to refer to any music
+						consisting of clearly recognizable tones.  The term does not necessarily 
+						indicate the presence of a "tonal focus".  Any better terminology?
 					</td>
 					<td>
 						<img src="https://upload.wikimedia.org/wikipedia/en/d/da/Modern_Musical_Notation.jpg"
@@ -284,19 +284,21 @@ reveal.js tips:
 	<section id="intro_soundscapes">
 		<h3>Introduction &mdash; Soundscapes</h3>
 		<div style="text-align: left;">
-		Soundscape examples: The THX Sound Effect
-		("<a href="https://www.youtube.com/watch?v=M3lO9Dt3kjA">Deep Sound</a>"), or the
-		<a href="https://www.youtube.com/watch?v=-0tPBQddeJs">Futurama Theme</a>
-		<ul>
-			<li> More amorphous than tonal music.
-			<li> Often worked on by Digital Audio Workstations (DAWs).
-			<li> There are DSLs for sound processing, but most DAWs are written in C++.
+			Soundscape examples: The THX Sound Effect
+			("<a href="https://www.youtube.com/watch?v=M3lO9Dt3kjA">Deep Sound</a>"), or the
+			<a href="https://www.youtube.com/watch?v=-0tPBQddeJs">Futurama Theme</a>
 			<ul>
-				<li> Why?  Speed.  Note that sound can be represented by arrays of numbers,<br/>
-					and the language traits needed for numerical arrays was pretty solid by 1957,<br/>
-					when Backus wrote Fortran.
+				<li> More amorphous than tonal music.
+				<li> Often worked on by Digital Audio Workstations (DAWs).
+				<li> There are DSLs for sound processing, but most DAWs are written in C++.
+					<ul>
+						<li> Why?  Speed.  Note that sound can be represented by arrays of numbers,
+							<br/>
+							and the language traits needed for numerical arrays was pretty solid by 1957,
+							<br/>
+							when Backus wrote Fortran.
+					</ul>
 			</ul>
-		</ul>
 		<br/><br/>
 		Most of this talk will focus on tonal music.
 		</div>
@@ -502,6 +504,9 @@ reveal.js tips:
 		<h3>Transcription &mdash; MusicXML and LilyPond</h3>
 		<div style="text-align: left;">
 		Both of these involve the sound of a piece and the appearance of its score.
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		(Content and display styling are not as separated as in today's HTML+CSS.)
 			<ul>
 				<li> <b>MusicXML:</b> Standard format for computer exchange of score info
 					<ul>
@@ -548,20 +553,16 @@ left  = \relative c   {\global r4 \chordmode{c,2} r4 &lt;d f g>2}
 		<h3>Transcription &mdash; More on MusicXML</h3>
 		<div style="text-align: left;">
 			<pre style="font-size: 28px;">
-&lt;score-partwise>
+&lt;score-partwise>                                   &lt;== Show the 1st part, then 2nd, etc.
   &lt;work>
     &lt;work-title>Happy Birthday to You&lt;/work-title>
     &lt;/work>
-  &lt;identification>
-    &lt;creator type="composer">Patty and Mildred J. Hill&lt;/creator>
-    ...
-    &lt;/identification>
   ...
   &lt;part-list>...&lt;part-name>Piano&lt;/part-name>...&lt;/part-list>
   &lt;part id="P1">
     &lt;measure number="1" width="273.03">
       ...
-      &lt;note default-x="78.29" default-y="-30.00">
+      &lt;note default-x="78.29" default-y="-30.00">  &lt;== Just showing the first note here
         &lt;pitch>
           &lt;step>G&lt;/step>
           &lt;octave>4&lt;/octave>
@@ -616,15 +617,7 @@ song = \relative c' {
 		<h3>Transcription &mdash; ABC</h3>
 		<div style="text-align: left;">
 			<ul>
-				<li> ABC notation (v2.1 - Dec 2011) is a concise, popular, and well-supported
-					<pre style="font-size: 32px; white-space: pre-line;">
-					T:Mary had a little lamb
-					M:C		% meter
-					L:1/4   % basic note length
-					K:F		% key
-					AGFG|AAA2|GGG2|AAA2|
-					AGFG|AAAA|GGAG|F4|]
-					</pre>
+				<li> <b>Brief:</b> ABC notation (v2.1 - Dec 2011) is concise, popular, and well-supported.
 				<li> See
 					<a href="http://abcnotation.com">abcnotation.com</a>
 					for apps that support this format.
@@ -634,6 +627,42 @@ song = \relative c' {
 				<li> Don't be fooled by the simplicity of the format:
 					countless transcription details are supported.
 			</ul>
+			<pre style="font-size: 32px; white-space: pre-line;">
+				T:Mary had a little lamb
+				M:C		% meter
+				L:1/4   % basic note length
+				K:F		% key
+				AGFG|AAA2|GGG2|AAA2|
+				AGFG|AAAA|GGAG|F4|]
+			</pre>
+			<table align="left">
+				<tr>
+					<td> "^" / "_"</td>
+					<td> sharp / flat (moves note up/down one semitone) </td>
+				</tr>
+				<tr>
+					<td> "&lt;apostrophe>" / "&lt;comma>"</td>
+					<td> increments / decrements octave for given note</td>
+				</tr>
+				<tr>
+					<td> "|" (pipe) </td>
+					<td> Bar line.  (Lots of variations available.)</td>
+				</tr>
+				<tr>
+					<td> "[", "]"</td>
+					<td> Grouping of notes in chord </td>
+				</tr>
+				<tr>
+					<td> A2, A3, A4, A5, A6, etc.</td>
+					<td> Multiples of the default length of an 'A' note;
+					</td>
+				</tr>
+				<tr>
+					<td> A/2, A/3, A/4, A/5, A/6, etc.</td>
+					<td> Fractions of the default length of an 'A' note;
+					</td>
+				</tr>
+			</table>
 		</div>
 		<aside class="notes">
 			<p>Not listed in this section:
@@ -646,6 +675,7 @@ song = \relative c' {
 	<section id="transcription_alda">
 		<h3>Transcription &mdash; Alda</h3>
 		<div style="text-align: left;">
+			<b>Brief:</b> Alda is a Clojure-based tonal music DSL with a notation similar to that of ABC.
 		    <ul>
 				<li> Alda (inspired by LilyPond and Music Macro Language) tries to find
 					the "sweet spot" between simple/intuitive syntax and depth of features.
@@ -663,13 +693,18 @@ song = \relative c' {
 					<td> sharp / flat (moves note up/down one semitone) </td>
 				</tr>
 				<tr>
-					<td> o / ">" / "&lt;"</td>
-					<td> sets the default octave / increments / decrements </td>
+					<td> o</td>
+					<td> set default octave</td>
+				</tr>
+				<tr>
+				<tr>
+					<td> ">" / "&lt;"</td>
+					<td> increment / decrement default octave</td>
 				</tr>
 				<tr>
 					<td> "|" (pipe) </td>
 					<td> For readability only; ignored by the compiler </td>
-				<tr>
+				</tr>
 				<tr>
 					<td> "/" </td>
 					<td> Separator for notes in chord </td>
@@ -679,7 +714,7 @@ song = \relative c' {
 					<td> whole, 1/2, 1/4, etc. (as in LilyPond)</td>
 				</tr>
 				<tr>
-					<td> Dots </td>
+					<td> &lt;periods> </td>
 					<td> Dotted notes (as in LilyPond) </td>
 				</tr>
 			</table>
@@ -702,16 +737,16 @@ song = \relative c' {
 			<a href="#/section_csound">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+		<b>Brief:</b> Euterpea (v2) is a music DSL embedded in Haskell.  It evolved from earlier HasSound/Haskore.
+		<br/><br/>
 		<ul>
-			<li> Euterpea (v2): A music DSL embedded in Haskell.  Evolved from earlier HasSound/Haskore.
 			<li> First up because:
 				<ul>
 					<li> (a) Supports both tonal and full-spectrum music
 					<li> (b) Core similicity &rArr; Better focus on the domain of music itself.
 				</ul>
 			<li> Euterpea & lib/PDF "The Haskell School of Music" (HSoM) was started by the late Paul Hudak.
-			<li> It's now maintained by Donya Quick and Daniel Winograd-Cort
-			<li> Now maintained by Quick &amp; Winograd-Cort.
+			<li> Now maintained by Quick &amp; Winograd-Cort
 		</ul>
 		</div>
 		<aside class="notes">
@@ -890,15 +925,26 @@ amen1b = beats2m instrB $ 2.*.enb .+. qns .+. ens .+. 2.*.snb .+. qns</pre></fon
 	<section id="euterpea_performance">
 		<h3>Euterpea &mdash; Creating a Performance</h3>
 		<div style="text-align: left;">
-			If we replace play with the more explicit version
+			We can replace play with the more explicit version that has more args:
+			<ul>
+				<li> The "data"
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash;
+					Context
+				<li> The "strategy"
+					&mdash;
+					PMap ("Player Map")
+					&mdash;
+					which Player to use for which instrument
+			</ul>
 			<pre style="font-size: 32px;">
 playA :: (ToMusic1 a, Control.DeepSeq.NFData a)
 		=> PMap Note1 -> Context Note1 -> Music a -> IO()</pre>
-			then we need to supply some more information,
-			such as how to interpret
+			The Player determines how to interpret
 			<br/>
-			note attributes (e.g., Pizzicato)
-			and phrase attributes (e.g., Crescendo).
+			<ul>
+				<li> note attributes (e.g., Pizzicato)
+				<li> and phrase attributes (e.g., Crescendo)
+			</ul>
 			<pre style="font-size: 32px;">
 data Context a = Context { cTime :: PTime,          cPlayer :: Player a
 			 , cInst :: InstrumentName, cDur    :: DurT
@@ -910,14 +956,6 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			 , interpPhrase :: PhraseFun a  -- Interp. phrases
 			 -- , notatePlayer :: NotateFun -- Removed.
 			 }</pre>
-			In the type of playA:
-			<br/>
-			<ul>
-				<li> The PMap ("Player Map") tells which Player to use
-					for which instrument: (The "how")
-				<li> The Context conveys needed metadata: (The "what") 
-			</ul>
-		</div>
 		<aside class="notes">
 			<pre style="font-size: 32px; white-space: pre-line;">
 			type Performance = [ Event ]
@@ -980,11 +1018,11 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 					width="75%"
 					alt="Score of ragtime music sample"/>
 			</div>
-			Suppose you music with chords in its baseline,
-			and you want a Player output a ragtime version.
+			Suppose you want a Player to output a ragtime version of music
+			with baseline chords.
 			<br/>
-			Or you want to write a function that takes a Music argument
-			and outputs a ragtime version.
+			Or you want to write a function that transforms a Music arg
+			into a ragtime version.
 			<br/>
 			You might hope to first find the Chord objects by....
 			<br/><br/>
@@ -1076,7 +1114,6 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
 					For example, using <em>vibrato</em>:
 					<pre style="font-size: 28px;">
 myMandolin :: Instr (AudSF () Double)  -- Monaural: Could choose stereo instead.
--- Dur -> AbsPitch -> Volume -> [Double] -> (AudSF () Double)
 myMandolin dur ap vol [vfrq, dep] =
     proc () -> do
 	vib &lt;- osc tab1 () -&lt; vfrq
@@ -1232,16 +1269,19 @@ type Music = Score StandardNote</pre>
 			<a href="#/section_chuck">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-			Csound is an opcode-based language (think assembler).  The user can:
+			<b>Brief:</b> An opcode-based language (think assembler), based on soundwave generation.
+			<br/><br/>
+			Users can:
 			<ul>
 				<li> Define customized instruments
 				<ul>
 					<li> The instruments are basically waveforms, but can be custimized to sound like actual instruments.
 				</ul>
 				<li> Combine them to create music
-				<li> <a href="http://blue.kunstmusik.com/">Blue</a>
-					is a composition environment for Csound.
 			</ul>
+			<br/><br/>
+			<a href="http://blue.kunstmusik.com/">Blue</a>
+				is a composition environment for Csound.
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1319,8 +1359,9 @@ endin</pre>
 			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-			ChucK sends audio to the speakers using a Digital-to-Audio Converter (DAC) denoted by dac.
-			<br/>
+			<b>Brief:</b> ChucK is a strongly-, statically-typed OO language that
+				creates waveforms with strict timing.
+			<br/><br/>
 			Here is a script that plays a 220 Hz sine wave for 5 seconds.
 			<pre style="font-size: 32px;">
 	&lt;&lt;&lt; "Hello, sine wave" >>>
@@ -1434,9 +1475,9 @@ endin</pre>
 			<a href="#/section_puredata">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+			<b>Brief:</b> SC is a Smalltalk-like OO language that supports live performances.
+			<br/><br/>
 			<ul>
-				<li> A Smalltalk-like OO language
-				<li> Supports live performance
 				<li> Named in 1993 after the cancelled Superconducting Super Collider project
 				<li> Supports plug-ins, MIDI data, live coding, and communication with external devices.
 			</ul>
@@ -1494,6 +1535,7 @@ endin</pre>
 						<li> Pchain: Feed the output of one pattern into the input of the next
 					</ul>
 				<li> It's possible to emulate specific instruments, but not commonly done.
+			</ul>
 		</div>
 	</section>
 
@@ -1616,11 +1658,10 @@ endin</pre>
 			<a href="#/section_strasheela">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
+			<b>Brief:</b> Pd is similar to SC (soundscapes &amp; live performance), but also supports visual programming.
+			<br/><br/>
 			<ul>
 				<li> Pd is patterned after the commercial project Max/MSP (originally by IRCAM; now sold by Cycling'74)
-				<li> Pd is similar to SC in that it's another MPL that focuses on soundscapes.
-				<li> Like SC, Pd supports live performance.
-				<li> Unlike SC, it supports visual programming.
 				<li> The user edits signal diagrams similar to circuit diagrams.
 					<ul>
 						<li> Subsystems can be abstracted as a Pd box with inputs and outputs. 
@@ -1755,26 +1796,25 @@ endin</pre>
 			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-			Strasheela is an MPL that lets the user describe constraints
-			(e.g., rhythmic, melodic, and harmonic) on a music composition
-			within user-defined "containers".
-			Strasheela then finds one or more compositions that satisfies these constraints,
-			presuming they're satisfiable.
+			<b>Brief:</b> Given musical constraints, compositions are found that satisfy them,
+				if they're satisfiable.
 			<br/><br/>
-			Strasheela Torsten Anders's dissertation project, developed through 2012.
-			<br/>
-			It's implemented in the constraint-based programming language, <b>Oz</b>,
-			which is similar to Prolog.
-			<br/>
-			("Strasheela" is the name of the Scarecrow
-			in the Russian version of The Wizard of Oz.)
-			<br/><br/>
-			The output of 
-			<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
-			Score.makeScore
-			</a>,
-			can be rendered with a choice of formats, including
-			LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
+			<ul>
+				<li> There are many categories of constraints (e.g., rhythmic, melodic, and harmonic).
+				<li> Constraints apply to user-definable "containers".
+				<li> Strasheela was Torsten Anders's dissertation project, developed through 2012.
+				<li> Strasheela is implemented in the constraint-based language <b>Oz</b>
+					(similar to Prolog).
+					<ul>
+						<li> ("Strasheela" is the name of the Scarecrow
+							in the Russian version of The Wizard of Oz.)
+					</ul>
+				<li> The output of 
+					<a href="http://strasheela.sourceforge.net/strasheela/doc/api/node6.html#entity378">
+					Score.makeScore</a>
+					can be rendered with a choice of formats,
+					including LilyPond, Csound, SuperCollider, or Common Lisp Music (CLM).
+			</ul>
 		</div>
 		<aside class="notes" >
 			<ul>
