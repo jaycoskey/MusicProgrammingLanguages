@@ -269,7 +269,7 @@ reveal.js tips:
 				<li> Chords with names like I-V-vi-iii-IV-I-IV-V are scale-specific.
 				<ul>
 					<li> The Roman # = the base note of the chord;
-						Case = Major/minor
+						Case = Major (upper) / minor (lower)
 				</ul>
 			</ul>
 		</div>
@@ -1246,6 +1246,9 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 		</ul>
 		</div>
 		<aside class="notes">
+			To what extent is lack of MusicXML support a resource issue,
+			and to what extent is it a design issue?
+			<br/><br/>
 			Haskell Music Suite's definition of Music a:
 			<br/>
 			<pre style="font-size: 32px;">
@@ -1281,17 +1284,49 @@ type Music = Score StandardNote</pre>
 		<div style="text-align: left;">
 			<b>Brief:</b> An opcode-based language (think assembler), based on soundwave generation.
 			<br/><br/>
-			Users can:
-			<ul>
-				<li> Define customized instruments
+			<table>
+			<tr>
+			  <td>
+				Csound music uses:
+				<br/>
 				<ul>
-					<li> The instruments are basically waveforms, but can be custimized to sound like actual instruments.
+					<li> An "orchestra" section that defines "instruments"
+					<li> A "score" section that contains the actual music.
 				</ul>
-				<li> Combine them to create music
-			</ul>
-			<br/><br/>
-			<a href="http://blue.kunstmusik.com/">Blue</a>
-				is a composition environment for Csound.
+				<br/><br/>
+				Different (local) variables have different refresh rates
+				<ul>
+					<li> a-rate: Audio signal rate (~44kHz)
+						<ul>
+							<li> Specified as sr in the orchestra section.
+						</ul>
+					<li> k-rate: Control rate (mouse/keyboard sample rate)
+						<ul>
+							<li> Specified as ksmps in the orchestra section.
+						</ul>
+
+				</ul>
+				<br/><br/>
+				Local variable names begin with the letter p, i, k, or a.
+				<br/>
+				<ul>
+					<li> p# vars are the params of instrument functions 
+					<li> i-time: the initialization of each note
+					<li> k &amp; a variables use the k &amp; a rates.
+				</ul>
+				<br/><br/>
+				<a href="http://blue.kunstmusik.com/">Blue</a>
+					is a composition environment for Csound.
+			  </td>
+			  <td>
+				<br/>
+				<img src="http://www.csounds.com/toots/figures/toot6.gif"
+					width="600"
+					alt="Diagram of instrument #6 (GEN06) in Csound"/>
+				<!-- br/ -->
+			  </td>
+			</tr>
+			</table>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1305,7 +1340,7 @@ type Music = Score StandardNote</pre>
 &lt;CsoundSynthesizer>
 &lt;CsOptions>
 &lt;/CsOptions>
-&lt;CsInstruments>
+&lt;CsInstruments>	&lt;== The "orchestra" section
 sr = 44100		&lt;== Sample rate (Hz) for audio signals & vars
 ksmps = 128		&lt;== Sample rate per control-block, e.g., mouse
 nchnls = 2		&lt;== # of audio channels.  Two for stereo.
@@ -1344,8 +1379,8 @@ instr 1			   &lt;== This takes 2 extra params: amp &amp; freq.
 aSine poscil3 p4, p5, 1;   &lt;== p4 = 4th param; p5 = 5th param
 	outs aSine, aSine  &lt;== One output for each channel
 endin										</pre>
-				<li> Similarly, function tables can also take extra params.
-				<li> We've got if statements and loops!
+				<li> (Similarly, function tables can also take extra params.)
+				<li> And, of course, we've got if statements and loops:
 					<pre style="font-size: 32px;">
 instr 1
 iGreetingCount = 0
@@ -1825,7 +1860,7 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_puredata">&#x25c1;</a>
 			Strasheela (2004 - 2012)
-			<a href="#/section_resources">&#x25b7;</a>
+			<a href="#/section_patterns">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 			<b>Brief:</b> Given musical constraints, compositions are found that satisfy them,
@@ -1963,10 +1998,73 @@ end</pre>
 	</section>
 </section>
 
+<section id="section_patterns">
+	<section id="patterns">
+		<hr color="#ff0000"/>
+		<h2 style="background-color: #d0d0ff;">
+			<a href="#/section_strasheela">&#x25c1;</a>
+			Language Design &mdash; Musical Patterns
+			<a href="#/section_resources">&#x25b7;</a>
+		</h2>
+		<hr color="#ff0000"/>
+		<div style="text-align: left;">
+			<ul>
+				<li> <b>Filter by instrument, bars, etc.</b>
+					<pre style="font-size: 32px;">
+MTrait = MTInstrument IntrumentName
+        | MTBars1 Int         -- Begin
+        | MTBars2 Int Int     -- Begin, End
+mFilterBy :: [MTrait] -> Music a -> Music a</pre>
+				<li> <b>Pattern matches and diffs</b>
+					<pre style="font-size: 32px;">
+MAspect = MARhythm     -- Presence of notes, but not freq/volume
+        | MAFreq       -- Accidentals, but no other annotations
+        | MAVolume     -- Dynamics only (accents/cresc/dim/fp, etc.)		    
+        | MAFreqVolume -- Both frequency and volume
+mMatchCommon :: MAspect -> Music a -> Music a -> [Music a]
+mMatchDuplicate :: MAspect -> Music a -> [Music a]
+mDiff :: MAspect -> Bool -> Music a -> Music a -> Music a -- Bool=addBeats</pre>
+				<li> <b>Perceptually appropriate distance metrics</b>
+					<pre style="font-size: 32px;">
+MDistCost = | MDCAddition      (Pitch -> Dur -> Float)
+            | MDCDeletion      (Pitch -> Dur -> Float)
+            | MDCInstrument (InstrumentName -> InstrumentName -> Float)
+            | MDCTransposition (Pitch -> Pitch -> Float)
+            | MDCDuration      (Dur -> Dur -> Float)
+mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
+-- mDist:  How to make this perceptually relevant?</pre>
+				</pre>
+			</ul>
+		</div>
+		<aside class="notes">
+		<ul>
+		<li> MPL Design Considerations (Tonal Music Only)
+			<ul>
+				<li> <b>Big Picture.</b>
+					Core language + syntactic sugar + libs + tools.  Expressiveness and efficiency.
+				<li> <b>Interop.</b>
+					Consider communicating via API with Csound or the SC server.
+				<li> <b>Output.</b>
+					Printed scores are very helpful (via MusicXML or LilyPond).
+				<li> <b>Music representation.</b>
+					To flexibly represent single notes or polyphony, alg data type or dyn type.
+				<li> Break the language features into classes/modules/packages.
+				<li> <b>Representation.</b> Strike a bslance between
+					the simple core representation used by Euterpea
+					and the kitchen-sink approach of MusicXML.
+			</ul>
+		<li> <a href="https://en.wikipedia.org/wiki/Longest_repeated_substring_problem">
+				Longest repeated substring problem</a>
+		<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
+				Longest common substring problem</a>
+		</aside>
+	</section>
+</section>
+
 <section id="section_resources">
 	<section id="resources">
 		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_strasheela">&#x25c1;</a>
+			<a href="#/section_patterns">&#x25c1;</a>
 			Resources
 			<a href="#/appendices">&#x25b7;</a>
 		</h2>
@@ -2005,6 +2103,7 @@ end</pre>
 					Use of Braid Theory in Music, starting at 21:00
 				<li> <a href="http://distractionandnonsense.com/sc/A_Practical_Guide_to_Patterns.pdf">A
 					Practical Guide to [SuperCollider] Patterns</a>
+				<li> <a href="https://www.crcpress.com/Music-Data-Mining/Li-Ogihara-Tzanetakis/9781439835524">Music Data Mining</a> (2011)
 			</ul>
 		<p><b>Colophon</b></p>
 			<ul>
