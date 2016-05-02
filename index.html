@@ -1204,6 +1204,63 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 			</ul>
 		</aside>
 	</section>
+	
+	<section id="euterpea_patterns">
+		<hr color="#ff0000"/>
+		<h3>Euterpea &mdash; Designing Musical Pattern Code</h3>
+		<hr color="#ff0000"/>
+		<div style="text-align: left;">
+			<ul>
+				<li> <b>Filter by instrument, bars, etc.</b>
+					<pre style="font-size: 32px;">
+MTrait = MTInstrument IntrumentName
+        | MTBars1 Int         -- Begin
+        | MTBars2 Int Int     -- Begin, End
+mFilterBy :: [MTrait] -> Music a -> Music a</pre>
+				<li> <b>Pattern matches and diffs</b>
+					<pre style="font-size: 32px;">
+MAspect = MARhythm     -- Presence of notes, but not freq/volume
+        | MAFreq       -- Accidentals, but no other annotations
+        | MAVolume     -- Dynamics only (accents/cresc/dim/fp, etc.)		    
+        | MAFreqVolume -- Both frequency and volume
+mMatchCommon :: MAspect -> Music a -> Music a -> [Music a]
+mMatchDuplicate :: MAspect -> Music a -> [Music a]
+mDiff :: MAspect -> Bool -> Music a -> Music a -> Music a -- Bool=addBeats</pre>
+				<li> <b>Perceptually appropriate distance metrics (<em>Add Context?</em>)</b>
+					<pre style="font-size: 32px;">
+MDistCost = | MDCAddition   (Pitch -> Dur -> Float)
+            | MDCDeletion   (Pitch -> Dur -> Float)
+            | MDCInstrument (InstrumentName -> InstrumentName -> Float)
+            | MDCDuration   (Dur -> Dur -> Float)
+            | MDCPitch      (Pitch -> Pitch -> Float)
+mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
+-- mDist:  How to make this perceptually relevant?</pre>
+				</pre>
+			</ul>
+		</div>
+		<aside class="notes">
+		<ul>
+		<li> MPL Design Considerations (Tonal Music Only)
+			<ul>
+				<li> <b>Big Picture.</b>
+					Core language + syntactic sugar + libs + tools.  Expressiveness and efficiency.
+				<li> <b>Interop.</b>
+					Consider communicating via API with Csound or the SC server.
+				<li> <b>Output.</b>
+					Printed scores are very helpful (via MusicXML or LilyPond).
+				<li> <b>Music representation.</b>
+					To flexibly represent single notes or polyphony, alg data type or dyn type.
+				<li> Break the language features into classes/modules/packages.
+				<li> <b>Representation.</b> Strike a bslance between
+					the simple core representation used by Euterpea
+					and the kitchen-sink approach of MusicXML.
+			</ul>
+		<li> <a href="https://en.wikipedia.org/wiki/Longest_repeated_substring_problem">
+				Longest repeated substring problem</a>
+		<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
+				Longest common substring problem</a>
+		</aside>
+	</section>
 
 	<section id="euterpea_moreinfo">
 		<h3>Euterpea &mdash; More Info</h3>
@@ -1860,7 +1917,7 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 		<h2 style="background-color: #d0d0ff;">
 			<a href="#/section_puredata">&#x25c1;</a>
 			Strasheela (2004 - 2012)
-			<a href="#/section_patterns">&#x25b7;</a>
+			<a href="#/section_resources">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
 			<b>Brief:</b> Given musical constraints, compositions are found that satisfy them,
@@ -1998,73 +2055,10 @@ end</pre>
 	</section>
 </section>
 
-<section id="section_patterns">
-	<section id="patterns">
-		<hr color="#ff0000"/>
-		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_strasheela">&#x25c1;</a>
-			Language Design &mdash; Musical Patterns
-			<a href="#/section_resources">&#x25b7;</a>
-		</h2>
-		<hr color="#ff0000"/>
-		<div style="text-align: left;">
-			<ul>
-				<li> <b>Filter by instrument, bars, etc.</b>
-					<pre style="font-size: 32px;">
-MTrait = MTInstrument IntrumentName
-        | MTBars1 Int         -- Begin
-        | MTBars2 Int Int     -- Begin, End
-mFilterBy :: [MTrait] -> Music a -> Music a</pre>
-				<li> <b>Pattern matches and diffs</b>
-					<pre style="font-size: 32px;">
-MAspect = MARhythm     -- Presence of notes, but not freq/volume
-        | MAFreq       -- Accidentals, but no other annotations
-        | MAVolume     -- Dynamics only (accents/cresc/dim/fp, etc.)		    
-        | MAFreqVolume -- Both frequency and volume
-mMatchCommon :: MAspect -> Music a -> Music a -> [Music a]
-mMatchDuplicate :: MAspect -> Music a -> [Music a]
-mDiff :: MAspect -> Bool -> Music a -> Music a -> Music a -- Bool=addBeats</pre>
-				<li> <b>Perceptually appropriate distance metrics</b>
-					<pre style="font-size: 32px;">
-MDistCost = | MDCAddition      (Pitch -> Dur -> Float)
-            | MDCDeletion      (Pitch -> Dur -> Float)
-            | MDCInstrument (InstrumentName -> InstrumentName -> Float)
-            | MDCTransposition (Pitch -> Pitch -> Float)
-            | MDCDuration      (Dur -> Dur -> Float)
-mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
--- mDist:  How to make this perceptually relevant?</pre>
-				</pre>
-			</ul>
-		</div>
-		<aside class="notes">
-		<ul>
-		<li> MPL Design Considerations (Tonal Music Only)
-			<ul>
-				<li> <b>Big Picture.</b>
-					Core language + syntactic sugar + libs + tools.  Expressiveness and efficiency.
-				<li> <b>Interop.</b>
-					Consider communicating via API with Csound or the SC server.
-				<li> <b>Output.</b>
-					Printed scores are very helpful (via MusicXML or LilyPond).
-				<li> <b>Music representation.</b>
-					To flexibly represent single notes or polyphony, alg data type or dyn type.
-				<li> Break the language features into classes/modules/packages.
-				<li> <b>Representation.</b> Strike a bslance between
-					the simple core representation used by Euterpea
-					and the kitchen-sink approach of MusicXML.
-			</ul>
-		<li> <a href="https://en.wikipedia.org/wiki/Longest_repeated_substring_problem">
-				Longest repeated substring problem</a>
-		<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
-				Longest common substring problem</a>
-		</aside>
-	</section>
-</section>
-
 <section id="section_resources">
 	<section id="resources">
 		<h2 style="background-color: #d0d0ff;">
-			<a href="#/section_patterns">&#x25c1;</a>
+			<a href="#/section_strasheela">&#x25c1;</a>
 			Resources
 			<a href="#/appendices">&#x25b7;</a>
 		</h2>
