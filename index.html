@@ -1106,8 +1106,10 @@ data Instrument Name = AcousticGrandPiano -- See p. 35 of HSoM
     myMandolinName = Custom "My Mandolin"
     type Instr a = Dur -> AbsPitch -> Volume -> [Double] -> a</pre>
 			This is commonly used with the type variable a being
-			"<font color="#0000ff">Instr (AudSF () Double)</font>".
-			The list of parameters ([Double], above) are handled as determined by the instrument designer.
+			"<b>Instr (AudSF () Double)</b>".
+			<br/>
+			The handling of the [Double] parameter above is determined
+			by the instrument designer.
 		</div>
 		<aside class="notes">
 		</aside>
