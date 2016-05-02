@@ -175,7 +175,7 @@ reveal.js tips:
 							<li> Scorewriters (e.g., MuseScore, Finale, Sibelius, etc.)
 						</ul>
 						<br/><br/>
-						(*) Here the term "tonal music" is meant to refer to any music
+						<b>(*)</b> Here the term "tonal music" is meant to refer to any music
 						consisting of clearly recognizable tones.  The term does not necessarily 
 						indicate the presence of a "tonal focus".  Any better terminology?
 					</td>
@@ -229,7 +229,9 @@ reveal.js tips:
 	</section>
   
 	<section id="intro_programersintro">
+		<hr color="#ff0000"/>
 		<h3>Introduction &mdash; Programmer's Intro to Music</h3>
+		<hr color="#ff0000"/>
 		<div style="text-align: left;">
 			Every note is injected into the output stream &mdash; just like a debug print statement!
 			<br/>
@@ -494,7 +496,13 @@ reveal.js tips:
 			<a href="#/section_euterpea">&#x25b7;</a>
 		</h2>
 		<div style="text-align: left;">
-		MPLs without variables or loops can still be suitable for transcription and song DBs.
+			<ul>
+				<li> Music Programming Languges (MPLs) without variables or loops
+					lack flexibility...
+					<ul>
+						<li> But can still be used to record songs for song databases.
+						<li> In short: Songs as data.
+					</ul>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1156,7 +1164,9 @@ renderSF :: (Performable a, AudioSample b, Clock c)
 	</section>
 
 	<section id="euterpea_codingStandards">
-	<h3>Euterpea &mdash; Programmer's Intro to Music Programming</h3>
+	<hr color="#ff0000"/>
+	<h3 border-color="red">Euterpea &mdash; Programmer's Intro to Music Programming</h3>
+	<hr color="#ff0000"/>
 		<div style="text-align: left;">
 		<ol>
 		<li> <b>Represent compositions in terms of smaller sub-compositions ("pieces"):</b>
@@ -1525,15 +1535,7 @@ endin</pre>
 					<ul>
 						<li> The Help Browser is easy to use, though some entries have minimal information.
 					</ul>
-				<li> Focus on signal processing, creating envelopes of sound,
-					and combining them with a family of "pattern" classes (e.g., Pbind, Pchain, etc.).
-					<ul>
-						<li> Pseq: Plays array values sequentially.
-						<li> Prand/Pshuf: Plays array values in random/shuffled order
-						<li> Pkey: Copies sequence from a supplied key
-						<li> Pbind: Gives  names to pattern result values
-						<li> Pchain: Feed the output of one pattern into the input of the next
-					</ul>
+				<br/><br/>
 				<li> It's possible to emulate specific instruments, but not commonly done.
 			</ul>
 		</div>
@@ -1566,6 +1568,40 @@ endin</pre>
 		</div>
 		<aside class="notes">
 			All the parameters above can be omitted, which causes defaults to be used instead.
+		</aside>
+	</section>
+
+	<section id="supercollider_patternsEvents">
+		<h3>SuperCollider &mdash; Patterns and Events</h3>
+		<div style="text-align: left;">
+			SC has "Patterns" that operate on streams.  Here are a few shown with integer sequences.
+			<br/><br/>
+			<ul>
+				<li> <b>Pseq:</b> Plays array values sequentially, using repetition &amp; offset params.
+					<pre style="font-size: 32px;">
+Pseq([0,1,2,3,4,5], 3, 2)          &lt;== [2,3,4,  2,3,4,  2,3,4]</pre>
+				<li> <b>Prand:</b> Plays randomly selected array values
+					<pre style="font-size: 32px;">
+Prand([1,2,3,4,5,6], 3)            &lt;== 3 random rolls of a d6		</pre>
+				<li> <b>Pshuf:</b> Same as Prand, but selection without replacement.
+				<li> <b>Pbind:</b> Give names to values
+					<pre style="font-size: 32px;">
+Pbind(*[dur:	0.2/2
+	freq:	Pseq([220, 440, 880])
+	)</pre>
+				<li> <b>Pchain:</b> Feed the output of one pattern into the input of the next
+					<pre style="font-size: 32px;">
+Pchain(
+	Pbind( \degree, Pseq([1, 2, 3], inf) ),
+		(detune: [0, 4])
+	).trace.play;</pre>
+			</ul>
+		</div>
+		<aside class="notes">
+			<ul>
+				<li> All the parameters above can be omitted, which causes defaults to be used instead.
+				<li> Pkey: Copies sequence from a supplied key
+			</ul>
 		</aside>
 	</section>
 
