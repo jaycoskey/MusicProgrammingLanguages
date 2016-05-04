@@ -52,7 +52,7 @@
 		<h1>Music Programming Languages</h1>
 		<h3>Creating and Analyzing Tonal Music and Soundscapes</h3>
 		<p align="center">Jay Coskey</p>
-		<p align="center">jay&lt;dot>coskey{at}gmail&lt;dot>com</p>
+		<p align="center">jay&lt;dot>coskey&nbsp;{at}&nbsp;gmail&lt;dot>com</p>
 		<p align="center">2016-05-04</p>
 		<b>
 		<pre style="background-color: #d0ffd0; font-size: 40px;">
@@ -892,7 +892,6 @@ infixr 6 .+.
 infixr 7 .*.
 (.*.) n   bs  = concat $ replicate n bs
 (.+.) bs1 bs2 = bs1 ++ bs2
-
 beats2m :: PercussionSound -> Beats -> Music Pitch
 beats2m percInstr [] = rest 0
 beats2m percInstr (Beat { bDur=d, bHeard=h, bAcc=a } : beats)
@@ -2086,6 +2085,11 @@ end</pre>
 		<div style="text-align: left;">
 		<p><b>Music &amp; Music Theory</b></p>
 			<ul>
+				<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
+					Visualization of music by Bach and others
+					</a>
+				<li> <a href="http://blog.mymusictheory.com/2014/how-to-compose-a-canon-or-round-easy-composition/">How to Compose a Canon</a>
+					(video+text) 
 				<li> <a href="http://www.amazon.com/Jazz-Theory-Book-Mark-Levine/dp/1883217040">
 					The Jazz Theory Book</a> (1995),
 					by Mark Levine
@@ -2093,39 +2097,32 @@ end</pre>
 					Ragtimify</a> (2013): a PDF on converting scores to Ragtime
 				<li> <a href="https://mitpress.mit.edu/books/sweet-anticipation">
 					Sweet Anticipation: Music and the Psychology of Expectation</a> (2006)
-				<li> <a href="http://blog.mymusictheory.com/2014/how-to-compose-a-canon-or-round-easy-composition/">How to Compose a Canon</a> (video+text) 
+				<li> <a href="http://www.pdfhacks.com/eno/BE.pdf">Brian Eno: His Music and the Vertical Color of Sound</a> (1988)
 				<li> Song databases: 
-					<a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
-						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
-						| <a href="http://www.bandmusicpdf.org/">Band music</a>
+					<a href="http://www.bandmusicpdf.org/">Band music</a>
 						| <a href="http://imslp.org/wiki/">International Music Score Library Project</a>
-						| <a href="http://www.gutenberg.org/browse/categories/4">Project Gutenberg</a>
-				<li> <a href="http://bach.nau.edu/clavier/nature/fugues/Fugue02.html">
-					Visualization of music by Bach and others
-					</a>
+						| <a href="http://www.musedata.org/">MuseData</a>
+						| <a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
+						| <a href="http://www.gutenberg.org/browse/categories/4">Project Gutenberg Music</a>
+						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
 			</ul>
 		<p><b>Music Programming &amp; Analysis</b></p>
 			<ul>
 				<li> Cheatsheets:
 					<a href="http://wiki.western.edu/mcis/index.php/Euterpea_Cheat_Sheet">Euterpea</a>
-					| <a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
 					| <a href="https://puredata.info/docs/manuals/pdrefcards/pd-refcard/at_download/file">Pure Data</a>
+					| <a href="https://github.com/overtone/overtone/raw/master/docs/cheatsheet/overtone-cheat-sheet.pdf">Overtone</a>
+				<li> <a href="http://distractionandnonsense.com/sc/A_Practical_Guide_to_Patterns.pdf">A
+					Practical Guide to [SuperCollider] Patterns</a>
 				<li> <a href="http://soareschen.github.io/harmtrace-slides/#1">Functional
 					Modelling of Musical Harmony</a>
 				<li> <a href="http://theses.gla.ac.uk/2353/">Analysis
 					of musical structures using monadic parser combinators</a>
 				<li> <a hef="https://www.youtube.com/watch?v=Jmw6LLNQQfs">Composing (Music) in Haskell</a> [video]:
 					Use of Braid Theory in Music, starting at 21:00
-				<li> <a href="http://distractionandnonsense.com/sc/A_Practical_Guide_to_Patterns.pdf">A
-					Practical Guide to [SuperCollider] Patterns</a>
-				<li> <a href="https://www.crcpress.com/Music-Data-Mining/Li-Ogihara-Tzanetakis/9781439835524">Music Data Mining</a> (2011)
 				<li> <a href="https://www.youtube.com/watch?v=buXqNqBFd6E">Beethoven's Ode to Joy</a> in many styles by
-					<a href="http://www.flow-machines.com/overview/>Flow Machines</a>
-			</ul>
-		<p><b>Colophon</b></p>
-			<ul>
-				<li> <a href="https://github.com/hakimel/reveal.js">Documentation on reveal.js</a>,
-					used to create this deck.
+					<a href="http://www.flow-machines.com/overview/">Flow Machines</a>
+				<li> <a href="https://www.crcpress.com/Music-Data-Mining/Li-Ogihara-Tzanetakis/9781439835524">Music Data Mining</a> (2011)
 			</ul>
 		</div>
 		<aside class="notes">
@@ -2144,6 +2141,8 @@ end</pre>
 						<li> 32:10 - 36:00: Discusses a 60min, 5-piece musical composition called Pleonid 
 						<li> 36:00 - 43:45: More on with braid theory
 					</ul>
+				<li> <a href="https://github.com/hakimel/reveal.js">Documentation on reveal.js</a>,
+					used to create this deck.
 			</ul>
 		</aside>
 	</section>
