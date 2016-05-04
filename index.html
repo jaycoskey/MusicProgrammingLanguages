@@ -232,9 +232,8 @@ reveal.js tips:
 		<hr color="#ff0000"/>
 		<h3>Introduction &mdash; Programmer's Intro to Music</h3>
 		<hr color="#ff0000"/>
+		Every note in the output stream is the audio version of a debug print statement.
 		<div style="text-align: left;">
-			Every note is injected into the output stream &mdash; just like a debug print statement!
-			<br/>
 			<b>Notes</b>
 			<br/>
 			<ul>
@@ -1290,6 +1289,9 @@ filterByInstrument instrName mus = filterImpl instrName Nothing mus
 					Daniel Winograd-Cort's
 					<a href="https://github.com/dwincort/UISF/tree/master/FRP/UISF/Examples">UISF Examples</a>
 					on github.
+				<li> Specifically, this
+					<a href="https://github.com/dwincort/UISF/blob/master/FRP/UISF/Examples/fft.hs">example program</a>
+					(see Ch. 20 of HSoM) demonstrates FFTs in Euterpea.
 				<li> UISF is not as popular/mature as some other Haskell FRP systems.
 					such as Yampa, Netwire, Reflex, Sodium, and Reactive Banana.
 					A good discussion of these can be found
@@ -1312,11 +1314,6 @@ filterByInstrument instrName mus = filterImpl instrName Nothing mus
 				is a modular Euterpea-based music composition framework by Donya Quick.<br/>
 				It combines generative grammars, theories of harmony (chord spaces),<br/>
 				and available musical phrases to create a composition.
-			<li> Soundscape time-slices can be converted into frequency histograms
-				via FFTs (Fast Fourier Transforms).
-				The HSoM touches on this in Chapter 20, Spectrum Analysis.
-				A finished application might be a better reference,
-					to avoid a thicket of module dependencies.
 		</ul>
 		</div>
 		<aside class="notes">
