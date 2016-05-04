@@ -308,9 +308,7 @@ reveal.js tips:
 			<li> Deep sound code in SuperCollider can be found
 				<a href="http://www.earslap.com/article/recreating-the-thx-deep-note.html">here</a>.
 			<li> The Futurama Theme is based on a trippy 1967 song called
-				<a href="https://www.youtube.com/watch?v=AOqfWj0HqNE">
-				Psyché Rock
-				</a> by Pierre Henry.
+				<a href="https://www.youtube.com/watch?v=AOqfWj0HqNE">Psyché Rock</a> by Pierre Henry.
 			<li> Mention Backus-Naur form, Fourier transforms, FFTs, and Arrows.
 		</ul>
 		</aside>
@@ -377,7 +375,8 @@ reveal.js tips:
 		<aside class="notes">
 			<ul>
 			<li> Hugo Riemann should not be confused with the mathematician/geometer Bernhard Riemann.
-			<li> In Star Trek: The Next Generation, season 3, episode 9, Wesley Crusher was studying
+			<li> In Star Trek: The Next Generation, season 3, episode 9, (The Vengeance Factor)
+				Wesley Crusher was studying
 				"a locally Euclidian metrization of a k-fold contravariant Riemannian tensor field".
 				That's a different Riemann than Hugo Riemann.
 			<li> Mathematics has contributed immensely to some areas of music, such as acousitcs.
@@ -1386,8 +1385,10 @@ type Music = Score StandardNote</pre>
 					<li> k &amp; a variables use the k &amp; a rates.
 				</ul>
 				<br/><br/>
-				<a href="http://blue.kunstmusik.com/">Blue</a>
-					is a composition environment for Csound.
+				Csound has an IDE
+				(<a href="https://csoundqt.github.io/">CsoundQt</a>),
+				and a composition environment
+				(<a href="http://blue.kunstmusik.com/">Blue</a>).
 			  </td>
 			  <td>
 				<br/>
@@ -1477,6 +1478,10 @@ endin</pre>
 		<div style="text-align: left;">
 			<b>Brief:</b> ChucK is a strongly-, statically-typed OO language that
 				creates waveforms with strict timing.
+			<br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			It has an IDE called MiniAudicle.
 			<br/><br/>
 			Here is a script that plays a 220 Hz sine wave for 5 seconds.
 			<pre style="font-size: 32px;">
@@ -1598,17 +1603,17 @@ endin</pre>
 				<li> Named in 1993 after the cancelled Superconducting Super Collider project
 			</ul>
 			<pre style="font-size: 32px;">
-	15.squared           // Evaluates to 225.
-	[45, 13, 10].sort    // Evaluates to [10, 13, 45]
-	5 pow: 8             // Same as 5.pow(8) 
-	10.do({ "Hello world".postln })    // Writes to the "Post" pane.
-	
-	var factorial = { | n |
-		var result = 1;
-		n do: { | i | result = result * (i + 1) };
-		result;
-	};
-	factorial.(4).postln;       &lt;== Output: 24</pre>
+15.squared;           // Evaluates to 225.
+[45, 13, 10].sort;    // Evaluates to [10, 13, 45]
+5 pow: 8;             // Same as 5.pow(8) 
+10.do({ "Hello world".postln });    // Writes to the "Post" pane.
+
+var factorial = { | n |
+    var result = 1;
+    n do: { | i | result = result * (i + 1) };
+    result;
+};
+factorial.(4).postln;  // Output: 24</pre>
 			<b>Caution:</b> Binary operators are evaluated in left-to-right order,
 				so 1 + 3 * 5 yields 20, not 16.
 		</div>
@@ -2099,9 +2104,10 @@ end</pre>
 					<a href="http://www.bandmusicpdf.org/">Band music</a>
 						| <a href="http://imslp.org/wiki/">International Music Score Library Project</a>
 						| <a href="http://www.musedata.org/">MuseData</a>
-						| <a href="http://labrosa.ee.columbia.edu/millionsong/">The Million Song Dataset</a>
+						| <a href="http://labrosa.ee.columbia.edu/millionsong/">Million Song Dataset</a>
+						| <a href="https://www.naxosmusiclibrary.com/">Naxos</a>
 						| <a href="http://www.gutenberg.org/browse/categories/4">Project Gutenberg Music</a>
-						| <a href="https://www.hooktheory.com/theorytab/guide">The Theorytab database</a>
+						| <a href="https://www.hooktheory.com/theorytab/guide">Theorytab DB</a>
 			</ul>
 		<p><b>Music Programming &amp; Analysis</b></p>
 			<ul>
