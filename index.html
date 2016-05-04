@@ -32,7 +32,6 @@
 </head>
 
 <!--
-TODO:
   * Add comments in the aside sections.
   * Specifically, impact of language design decisions (esp. representation and layers)
     on supportable features and their difficulty of implementation.
@@ -148,6 +147,7 @@ reveal.js tips:
 					This is considered an interpretation of the song, not a rewrite.
 				<li> Colophon: Traditional Happy Birthday score taken from:
 					<a href="https://musescore.com/user/173585/scores/166951">here</a>.
+				<li> Out of scope: Chinese and Indian music (with its 12 swaras and 22 shrutis).
 			</ul>
 		</aside>
 	</section>
@@ -965,6 +965,8 @@ data Player a = MkPlayer { pName        :: PlayerName   -- ID for selection
 			 -- , notatePlayer :: NotateFun -- Removed.
 			 }</pre>
 		<aside class="notes">
+			One of the uses of NFData's rnf (reduce to normal form?) is to force evaluation of lazy IO.
+			<br/><br/>
 			<pre style="font-size: 32px; white-space: pre-line;">
 			type Performance = [ Event ]
 			data MEvent = MEvent { eTime, eInstr, ePitch, eDur, eVol, eParams :: [ Double ] }
@@ -1261,6 +1263,20 @@ mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
 				Longest repeated substring problem</a>
 		<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
 				Longest common substring problem</a>
+		<li> <pre style="font-size: 12px;">
+type InstrumentState = Maybe InstrumentName
+
+filterByInstrument :: InstrumentName -> Music a -> Music a
+filterByInstrument instrName mus = filterImpl instrName Nothing mus
+  where
+    filterImpl :: InstrumentName -> InstrumentState -> Music a -> Music a
+    filterImpl instrName instrState mus =
+      case mus of
+        Prim p -> if (instrState == Just instrName) then mus else (rest $ dur mus)
+        mus1 :+: mus2 -> line1  $ map (filterImpl instrName instrState) [mus1, mus2] 
+        mus1 :=: mus2 -> chord1 $ map (filterImpl instrName instrState) [mus1, mus2]
+        Modify (Tempo t) mus1 -> Modify (Tempo t) $ filterImpl instrName instrState mus1
+        Modify (Instrument newName) mus1 -> Modify (Instrument newName) $ filterImpl instrName (Just newName) mus1</pre>
 		</aside>
 	</section>
 
@@ -1286,8 +1302,8 @@ mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
 				Haskell Music Suite</a>:
 				a slick music DSL inspired by Euterpea and others.
 				<ul>
-					<li> Focused on score representation
-					<li> Does not support soundscapes
+					<li> Focused on score representation, not soundscapes
+					<li> Might be difficult to install
 					<li> Has a "back end" that supports printing tonal music via LilyPond
 					<li> Also has a type called Music, but it's far more complex than Euterpea's.
 				</ul>
@@ -1929,6 +1945,9 @@ Pchain( Pbind( \degree, Pseq([1, 2, 3], inf) )
 				<li> There are many categories of constraints (e.g., rhythmic, melodic, and harmonic).
 				<li> Constraints apply to user-definable "containers".
 				<li> Strasheela was Torsten Anders's dissertation project, developed through 2012.
+					<ul>
+						<li> Don't be surprised if you encounter installation difficulties.
+					</ul>
 				<li> Strasheela is implemented in the constraint-based language <b>Oz</b>
 					(similar to Prolog).
 					<ul>
@@ -2100,6 +2119,8 @@ end</pre>
 				<li> <a href="http://distractionandnonsense.com/sc/A_Practical_Guide_to_Patterns.pdf">A
 					Practical Guide to [SuperCollider] Patterns</a>
 				<li> <a href="https://www.crcpress.com/Music-Data-Mining/Li-Ogihara-Tzanetakis/9781439835524">Music Data Mining</a> (2011)
+				<li> <a href="https://www.youtube.com/watch?v=buXqNqBFd6E">Beethoven's Ode to Joy</a> in many styles by
+					<a href="http://www.flow-machines.com/overview/>Flow Machines</a>
 			</ul>
 		<p><b>Colophon</b></p>
 			<ul>
@@ -2156,6 +2177,13 @@ end</pre>
 					<td>M/P/L</td>
 					<td>DAW</td>
 					<td>VST (Virt. Studio Tech.) plugins</td>
+				</tr>
+				<tr>
+					<td><a href="http://www.audacityteam.org/">Audacity</a></td>
+					<td>M/P/L</td>
+					<td>App</td>
+					<td>Plugins are written in a Lispy lang called
+						<a href="http://www.audacityteam.org/help/nyquist/">Nyquist</a></td>
 				</tr>
 				<tr>
 					<td><a href="https://csounds.com">Csound</a></td>
