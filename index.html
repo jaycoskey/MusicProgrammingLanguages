@@ -32,15 +32,30 @@
 </head>
 
 <!--
-  * Add comments in the aside sections.
-  * Specifically, impact of language design decisions (esp. representation and layers)
-    on supportable features and their difficulty of implementation.
-  * Extract HTML styling into deck-specific CSS file.
-  Euterpea:
-	* Better description of Arrows & UISF and their use.
-	* Haskell Music Suite
-  PureData:
-	* Data flow controls, events, tables, idioms
+TODO:
+  * Overall:     Extract HTML styling into deck-specific CSS file.
+  * Euterpea:    Better description of Arrows & UISF and their use.
+  * More detail: Haskell Music Suite, Pd controls, events, tables, idioms.
+
+Some key takeaways:
+  * There's a vast body of knowledge surrounding what works and what doesn't in music,
+    but there's still more to be learned.
+  * MusicXML is the recognized standard format for exchange of musical scores.
+    It's a kitchen-sink standard, and extremely expensive to implement/support.
+    The only products that support it are commercial music notation software
+    (e.g., Finale, Sibelius, etc.) and their free versions, and MuseScore, an open
+    source music notation program.  There doesn't seem to be a music programming language
+    that I'm aware of that supports it.
+  * There's a trade-off (of course) between the simplicity of representation of music
+    and the effort needed to satisfy the use cases of working with that data.
+    (For example, the core representation of music in Euterpea doesn't have a notion
+    of chords, so manipulating chords within a finished piece of music takes effort.)
+  * Small choices made early on in the industry, often due to hardware limitations,
+    can have significant consequences many years down the road.
+    (For example, the MIDI format limits the number of instruments used to 15 or 16.)
+  * Working with soundscapes entails Digital Signal Processing (DSP), which gives
+    rise to some similarities throughout the MUSIC family of languages (including
+    Csound, SuperCollider, and Pure Data).
 -->
 
 <body>
@@ -606,14 +621,12 @@ song = \relative c' {
 }
 \score { \new Staff \song }</pre>
 			<ul>
-				<li> Notes can be specified with relative or absolute pitches.
-					<ul>
-						<li> (In chordmode, absolute pitches only)
-					</ul>
+				<li> Notes can be writting using relative or absolute pitches.  (In chordmode, absolute only)
 				<li> LilyPond supports contemporary, antique, and obscure formats.
-				<li> If you think something can't be done...
-					<br/>
-					you probably haven't read enough of the documentation.
+				<li> Many default parameters can be overridden through the \override and \tweak commands.
+				<li> <b>Scheme</b> is used for layout logic customization. 
+				<li> <b>Postscript</b> is used for layout graphics customization.
+				<li> Whatever you have in mind can be done ... you just need to learn how.
 			</ul>
 		</div>
 		<aside class="notes">
@@ -1039,9 +1052,7 @@ myPasHandler pa                    pf = defPasHandler pa pf</pre>
 			Instead, they're recorded as something like:
 			<pre style="font-size: 32px;">
 		(note1 :=: (note2 :=: (note3 :=: note4)))</pre>
-			So ... Simplicity of internal representation chosen
-			<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			&rArr; More costly extraction of structure from the piece later. 
+			<font color="#xff0000">Simplified internal representation can make later extraction of the real structure expensive.</font>
 		</div>
 		<aside class="notes">
 		</aside>
@@ -1241,27 +1252,12 @@ mMelodyDist :: MAspect -> [MDistanceCost] -> Music a -> Music a -> Float
 			</ul>
 		</div>
 		<aside class="notes">
-		<ul>
-		<li> MPL Design Considerations (Tonal Music Only)
 			<ul>
-				<li> <b>Big Picture.</b>
-					Core language + syntactic sugar + libs + tools.  Expressiveness and efficiency.
-				<li> <b>Interop.</b>
-					Consider communicating via API with Csound or the SC server.
-				<li> <b>Output.</b>
-					Printed scores are very helpful (via MusicXML or LilyPond).
-				<li> <b>Music representation.</b>
-					To flexibly represent single notes or polyphony, alg data type or dyn type.
-				<li> Break the language features into classes/modules/packages.
-				<li> <b>Representation.</b> Strike a bslance between
-					the simple core representation used by Euterpea
-					and the kitchen-sink approach of MusicXML.
-			</ul>
-		<li> <a href="https://en.wikipedia.org/wiki/Longest_repeated_substring_problem">
-				Longest repeated substring problem</a>
-		<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
-				Longest common substring problem</a>
-		<li> <pre style="font-size: 12px;">
+				<li> <a href="https://en.wikipedia.org/wiki/Longest_repeated_substring_problem">
+					Longest repeated substring problem</a>
+				<li> <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">
+					Longest common substring problem</a>
+				<li> <pre style="font-size: 12px;">
 type InstrumentState = Maybe InstrumentName
 
 filterByInstrument :: InstrumentName -> Music a -> Music a
@@ -1275,6 +1271,7 @@ filterByInstrument instrName mus = filterImpl instrName Nothing mus
         mus1 :=: mus2 -> chord1 $ map (filterImpl instrName instrState) [mus1, mus2]
         Modify (Tempo t) mus1 -> Modify (Tempo t) $ filterImpl instrName instrState mus1
         Modify (Instrument newName) mus1 -> Modify (Instrument newName) $ filterImpl instrName (Just newName) mus1</pre>
+			</ul>
 		</aside>
 	</section>
 
